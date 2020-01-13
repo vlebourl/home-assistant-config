@@ -12,12 +12,9 @@ cards:
     entity: light.lux_palier_2
     name: Lux 2
     toggle: true
-  - type: entity-button
+  - type: custom:slider-entity-row
     name: Velux
-    entity: switch.toggle_velux_palier
-  - type: entity-button
+    entity: cover.velux_palier
+  - type: custom:slider-entity-row
     name: Volet
-    entity: switch.toggle_volet_palier
-  - type: entity-button
-    name: Les deux
-    entity: switch.toggle_both_palier
+    entity: cover.volet_palier
