@@ -20,7 +20,8 @@
 .cloud
 .google.token
 */.DS_Store
-**/__pycache__
+custom_components/tahoma/__pycache__
+custom_components/tahoma/__pycache__/*
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
