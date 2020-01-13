@@ -6,10 +6,12 @@
 !*.yaml
 !.gitignore
 !*.md
+!custom_components
+!custom_components/**
 !includes
 !includes/**
 !www
-!custom_components
+!www/**
 !ui
 !ui/**
 
