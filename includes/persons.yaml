@@ -1,11 +1,9 @@
 - name: Vincent
   id: vincent
-  user_id: 1d7893fdb9aa410e884787b7f1d2428c
   device_trackers:
   - device_tracker.vincent_composite
 - name: Virginia
   id: virginia
-  user_id: 0a40bba9de0b4750be498d512ce1b77c
   device_trackers:
   - device_tracker.virginia_composite
       

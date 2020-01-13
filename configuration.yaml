@@ -31,7 +31,7 @@ lovelace:         !include includes/lovelace.yaml
 mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
 proximity:        !include includes/proximity.yaml
-person:           !include includes/persons.yaml
+#person:           !include includes/persons.yaml
 scene:            !include scenes.yaml
 script:           !include includes/scripts.yaml
 sensor:           !include_dir_list includes/sensors
