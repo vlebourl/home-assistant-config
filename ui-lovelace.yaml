@@ -1,4 +1,6 @@
 resources:
+- url: /local/community/lovelace-fold-entity-row/fold-entity-row.js
+  type: module
 - url: /local/community/mini-graph-card-bundle.js
   type: module
 - url: /local/community/custom-weather-card-chart.js
