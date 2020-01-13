@@ -1,0 +1,11 @@
+type: vertical-stack
+cards:
+- type: picture-entity
+  entity: camera.terrasse_last_seen_virginia
+  name: Virginia
+- type: picture-entity
+  entity: camera.terrasse_last_seen_vincent
+  name: Vincent
+- type: picture-entity
+  entity: camera.terrasse_last_unknown_face
+  name: Inconnu

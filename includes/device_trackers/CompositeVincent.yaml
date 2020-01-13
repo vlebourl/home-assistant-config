@@ -1,0 +1,7 @@
+platform: composite
+name: Vincent composite
+time_as: local
+entity_id:
+  - device_tracker.tile_84ff3b083add401d
+  - device_tracker.life360_vincent
+  - device_tracker.pixel_4

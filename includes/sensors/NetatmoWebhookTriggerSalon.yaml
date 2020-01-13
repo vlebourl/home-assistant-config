@@ -1,0 +1,5 @@
+platform: mqtt
+name: Netatmo webhook trigger salon
+state_topic: 'netatmo/update/salon'
+expire_after: 20
+value_template: '{{ value_json.push_type  }}'

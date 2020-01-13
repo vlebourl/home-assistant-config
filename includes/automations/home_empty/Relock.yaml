@@ -1,0 +1,10 @@
+alias: Referme la porte après ouverture
+trigger:
+- platform: state
+  entity_id: lock.ti_ar_kaerell
+  to: "unlocked"
+  for: 00:05:00
+action:
+- service: lock.lock
+  data:
+    entity_id: lock.ti_ar_kaerell

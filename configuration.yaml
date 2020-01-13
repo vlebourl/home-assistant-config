@@ -1,0 +1,43 @@
+homeassistant:
+  customize: !include includes/customize.yaml
+  whitelist_external_dirs:
+    - /config
+    - /config/www/
+
+cloud:
+default_config:
+map:
+stream:
+sun:
+
+#Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  server_port: 8124
+  base_url: https://tiarkaerell.duckdns.org
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+remote:           !include_dir_list includes/remotes
+automation:       !include automations.yaml
+automation old:   !include_dir_list includes/automations
+climate:          !include_dir_list includes/climates
+device_tracker:   !include_dir_list includes/device_trackers
+google:           !include includes/google.yaml
+google_assistant: !include includes/google_assistant.yaml
+group:            !include includes/groups.yaml
+hacs:             !include includes/hacs.yaml
+life360:          !include includes/life360.yaml
+lovelace:         !include includes/lovelace.yaml
+mqtt:             !include includes/mqtt.yaml
+netatmo:          !include includes/netatmo.yaml
+proximity:        !include includes/proximity.yaml
+person:           !include includes/persons.yaml
+scene:            !include scenes.yaml
+script:           !include includes/scripts.yaml
+sensor:           !include_dir_list includes/sensors
+switch:           !include includes/switches.yaml
+tahoma:           !include includes/tahoma.yaml
+tts:              !include includes/tts.yaml
+weather:          !include includes/weather.yaml
+zone:             !include includes/zones.yaml
+zwave:            !include includes/zwave.yaml

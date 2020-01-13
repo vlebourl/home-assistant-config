@@ -1,0 +1,44 @@
+- name: Home
+  latitude: 46.196896
+  longitude: 6.243225
+  radius: 35
+  icon: mdi:account-multiple
+
+- name: Home_large
+  latitude: 46.196896
+  longitude: 6.243225
+  radius: 1250
+  icon: mdi:account-multiple
+
+- name: StarQube
+  latitude: 46.206298
+  longitude: 6.141269
+  radius: 20
+  icon: mdi:network-outline
+  
+- name: NARIES
+  latitude: 46.195229
+  longitude: 6.197931
+  radius: 30
+  icon: mdi:leaf
+
+- name: Cirqule
+  latitude: 46.196485
+  longitude: 6.208911
+  radius: 70
+  icon: mdi:caravan
+  
+- name: Claudine
+  latitude: 46.1921075
+  longitude: 6.204979
+  radius: 35
+
+- name: Carrefour
+  latitude: 46.1961081
+  longitude: 6.2430267
+  radius: 35
+  
+- name: Martine
+  latitude: 46.1923373
+  longitude: 6.1952156
+  radius: 35

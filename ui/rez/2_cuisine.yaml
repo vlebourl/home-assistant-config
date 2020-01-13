@@ -1,0 +1,16 @@
+type: vertical-stack
+cards:
+- type: entities
+  title: Cuisine
+  show_header_toggle: false
+  entities:
+  - type: custom:slider-entity-row
+    entity: light.lux_cuisine_1
+    name: Lux Cuisine 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.lux_cuisine_2
+    name: Lux Cuisine 2
+    toggle: true
+  - entity: cover.rolling_shutter_3
+    name: Volet Cuisine

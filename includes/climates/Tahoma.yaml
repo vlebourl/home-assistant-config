@@ -1,0 +1,14 @@
+platform: tahoma
+sensors:
+- name: "Radiateur Parents"
+  entity_id: sensor.netatmo_ti_ar_kaerell_parents_temperature
+  away_temp: 16
+  eco_temp: 19
+  comfort_temp: 20
+  anti_freeze_temp: 8
+- name: "Radiateur Salon"
+  entity_id: sensor.tdeg_salon
+  away_temp: 16
+  eco_temp: 19
+  comfort_temp: 20
+  anti_freeze_temp: 8

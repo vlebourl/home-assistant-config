@@ -1,0 +1,5 @@
+platform: mqtt
+name: Netatmo webhook salon
+state_topic: 'netatmo/update/salon'
+value_template: '{{ value_json.snapshot_id  }}'
+json_attributes_topic: 'netatmo/update/salon'

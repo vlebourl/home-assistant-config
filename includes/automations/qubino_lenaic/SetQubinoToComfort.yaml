@@ -1,0 +1,10 @@
+alias: Set Qubino to Comfort
+trigger:
+  platform: state
+  entity_id: input_select.qubino_lenaic
+  to: 'Confort'
+action:
+  service: light.turn_on
+  entity_id: light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level_2
+  data:
+    brightness: 100

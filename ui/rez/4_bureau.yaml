@@ -1,0 +1,12 @@
+type: vertical-stack
+cards:
+- type: entities
+  title: Bureau
+  show_header_toggle: false
+  entities:
+  - entity: cover.rolling_shutter_4
+    name: Volet
+  - entity: climate.radiateur_bureau
+    name: Radiateur
+#- type: thermostat
+#  entity: climate.radiateur_bureau

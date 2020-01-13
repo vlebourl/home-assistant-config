@@ -1,0 +1,7 @@
+name: Qubino Modes
+options:
+- Eteint
+- "Hors Gel"
+- Eco
+- Confort
+initial: Eco

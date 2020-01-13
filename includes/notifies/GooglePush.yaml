@@ -1,0 +1,5 @@
+platform: html5
+name: google_push
+vapid_pub_key: !secret google-push-pubkey
+vapid_prv_key: !secret google-push-prvkey
+vapid_email: !secret email

@@ -1,0 +1,24 @@
+type: vertical-stack
+cards:
+- type: entities
+  title: Chambre Parentale
+  show_header_toggle: false
+  entities:
+  - type: custom:slider-entity-row
+    entity: light.lux_parents_1
+    name: Lux 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.lux_parents_2
+    name: Lux 2
+    toggle: true
+  - type: thermostat
+    entity: climate.radiateur_parents
+# - type: horizontal-stack
+#   cards:
+#   - type: light
+#     entity: light.lux_parents_1
+#     name: Parents 1
+#   - type: light
+#     entity: light.lux_parents_2
+#     name: Parents 2

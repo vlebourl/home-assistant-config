@@ -1,0 +1,9 @@
+type: conditional
+conditions:
+- entity: sensor.home
+  state_not: both
+card:
+  type: map
+  entities:
+  - person.vincent
+  - person.virginia

@@ -1,0 +1,7 @@
+name: Qubino Modes Lenaic
+options:
+- Eteint
+- "Hors Gel"
+- Eco
+- Confort
+initial: Eco

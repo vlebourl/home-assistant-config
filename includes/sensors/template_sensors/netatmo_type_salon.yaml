@@ -1,0 +1,20 @@
+platform: template
+sensors:
+  netatmo_type_salon:
+    friendly_name: Netatmo webhook type salon
+    value_template: >-
+      {%- if is_state_attr("sensor.netatmo_webhook_salon", "push_type", "NACamera-movement") %}
+          Mouvement
+      {%- elif is_state_attr("sensor.netatmo_webhook_salon", "push_type", "NACamera-person") %}
+          Personne
+       {%- elif is_state_attr("sensor.netatmo_webhook_salon", "push_type", "topology_changed") %}
+          Info
+      {% endif %}
+    icon_template: >-
+      {%- if is_state_attr("sensor.netatmo_webhook_salon", "push_type", "NACamera-movement") %}
+          mdi:run-fast
+      {%- elif is_state_attr("sensor.netatmo_webhook_salon", "push_type", "NACamera-person") %}
+          mdi:human-handsup
+       {%- elif is_state_attr("sensor.netatmo_webhook_salon", "push_type", "topology_changed") %}
+          mdi:information-variant
+      {% endif %}

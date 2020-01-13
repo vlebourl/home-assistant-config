@@ -1,0 +1,8 @@
+type: vertical-stack
+cards:
+- type: picture-entity
+  entity: camera.salon_personne
+  name: Personne
+- type: picture-entity
+  entity: camera.salon_mouvement
+  name: Mouvement

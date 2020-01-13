@@ -1,0 +1,28 @@
+platform: template
+sensors:
+  chauffage_bureau:
+    friendly_name: Chauffage
+    value_template: >
+      {% if states.light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level.state == "off" %}
+        Eteint
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 25 and
+        (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 35 %}
+        Hors Gel
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 55 and
+        (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 65 %}
+        Eco
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 95 %}
+        Confort
+      {% endif %}
+    icon_template: >
+      {% if states.light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level.state == "off" %}
+        mdi:radiator-off
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 25 and
+        (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 35 %}
+        mdi:snowflake
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 55 and
+        (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 65 %}
+        mdi:radiator-disabled
+      {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 95 %}
+        mdi:radiator
+      {% endif %}

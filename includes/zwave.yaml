@@ -1,0 +1,2 @@
+usb_path: /dev/ttyACM0
+polling_interval: 1800

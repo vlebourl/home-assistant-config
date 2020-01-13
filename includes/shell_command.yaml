@@ -1,0 +1,2 @@
+clean_knowndevices: /bin/bash /config/clean_knowndevices.sh
+gitupdate: /bin/bash /config/gitupdate.sh "automatic commit"

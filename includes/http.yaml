@@ -1,0 +1,4 @@
+server_port: 8124
+base_url: https://tiarkaerell.duckdns.org
+ssl_certificate: /ssl/fullchain.pem
+ssl_key: /ssl/privkey.pem

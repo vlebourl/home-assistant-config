@@ -1,0 +1,8 @@
+platform: deepstack_face
+ip_address: 192.168.0.13
+port: 5000
+scan_interval: 3600
+save_file_folder: www/deepstack/Salon
+source:
+- entity_id: camera.salon_personne
+  name: face_counter_salon_person

@@ -1,0 +1,14 @@
+person.virginia:
+  icon: mdi:pine-tree-box
+  entity_picture: mdi:pine-tree-box
+person.vincent:
+  icon: mdi:camera-iris
+  entity_picture: mdi:camera-iris
+sensor.tdeg_parents:
+  friendly_name: Temperature Parents
+zwave.sensative_strips_comfort:
+  node_name: Capteur Chambre Lenaic
+zwave.sensative_strips_comfort_2:
+  node_name: Capteur Bureau
+sensor.netatmo_pluie_jardin_rain:
+  unit_of_measurement: mm/h

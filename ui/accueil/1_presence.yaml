@@ -1,0 +1,109 @@
+type: vertical-stack
+cards:
+- type: custom:vertical-stack-in-card
+  cards:
+  - type: glance
+    entities:
+    - entity: device_tracker.vincent_composite
+      icon: mdi:camera
+      name: Vincent
+    - entity: device_tracker.virginia_composite
+      icon: mdi:pine-tree-box
+      name: Virginia
+  - type: glance
+    entities:
+    - entity: proximity.home_vincent
+      name: Distance
+    - entity: proximity.home_virginia
+      name: Distance
+
+# type: vertical-stack
+# cards:
+# - type: picture-entity
+#   entity: camera.camterrasse
+#   camera_view: live
+#   name: Terrasse live
+# - type: picture-entity
+#   entity: camera.camsalon
+#   camera_view: live
+#   name: Salon live
+# - type: horizontal-stack
+#   cards:
+#   - type: entities
+#     entities:
+#     - entity: sensor.netatmo_type_terrasse
+#       name: "Terrasse"
+#   - type: entities
+#     entities:
+#     - entity: sensor.netatmo_type_salon
+#       name: "Salon"
+
+# type: vertical-stack
+# cards:
+# - type: custom:mini-graph-card
+#   hours_to_show: 672
+#   points_per_hour: 0.041655
+#   entities:
+#   - entity: sensor.linky_yesterday
+#     name: Conso Journalière
+#   show:
+#     graph: bar
+#     points: hover
+#     labels: true
+#   color_thresholds:
+#   - value: 0
+#     color: "#00FAFF"
+#   - value: 2.5
+#     color: "#00FFA1"
+#   - value: 5
+#     color: "#00FF3B"
+#   - value: 7.5
+#     color: "#26FF00"
+#   - value: 10
+#     color: "#8CFF00"
+#   - value: 12.5
+#     color: "#FFC300"
+#   - value: 15
+#     color: "#FF7B00"
+#   - value: 17.5
+#     color: "#FF1500"
+# - type: horizontal-stack
+#   cards:
+#   - type: gauge
+#     entity: sensor.linky_last_month
+#     name: Mois dernier
+#     min: 0
+#     max: 1200
+#     severity:
+#       green: 300
+#       yellow: 600
+#       red: 900
+#   - type: gauge
+#     entity: sensor.linky_current_month
+#     name: Ce mois-ci
+#     min: 0
+#     max: 1200
+#     severity:
+#       green: 300
+#       yellow: 600
+#       red: 900
+# - type: horizontal-stack
+#   cards:
+#   - type: gauge
+#     entity: sensor.linky_last_year
+#     name: L'An dernier
+#     min: 0
+#     max: 7000
+#     severity:
+#       green: 2000
+#       yellow: 4000
+#       red: 6000
+#   - type: gauge
+#     entity: sensor.linky_current_year
+#     name: Cette Année
+#     min: 0
+#     max: 7000
+#     severity:
+#       green: 2000
+#       yellow: 4000
+#       red: 6000

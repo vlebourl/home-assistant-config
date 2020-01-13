@@ -1,0 +1,4 @@
+broker: 192.168.0.52
+username: ha
+password: !secret mqtt-ha
+discovery: true

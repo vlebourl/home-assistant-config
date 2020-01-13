@@ -1,0 +1,6 @@
+host: http://lw907.usbx.me
+port: 30675
+ssl: true
+verify_ssl: true
+media_player:
+  use_episode_art: true

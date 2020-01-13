@@ -1,0 +1,6 @@
+platform: generic_thermostat
+name: Température Chambre Lenaïc
+heater: input_boolean.fake_heater
+target_sensor: sensor.tdeg_lenaic
+initial_hvac_mode: "off"
+target_temp: 21

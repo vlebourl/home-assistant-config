@@ -1,0 +1,28 @@
+project_id: homeassistant-49a55
+api_key: !secret google-assistant-api-key
+exposed_domains:
+- cover
+- climate
+- lock
+- switch
+entity_config:
+  cover.velux_palier:
+    expose: false
+  cover.velux_lenaic:
+    expose: false
+  cover.volet_palier:
+    expose: false
+  cover.volet_lenaic:
+    expose: false
+  switch.toggle_both_lenaic:
+    expose: false
+  switch.toggle_velux_lenaic:
+    expose: false
+  switch.toggle_volet_lenaic:
+    expose: false
+  switch.toggle_both_palier:
+    expose: false
+  switch.toggle_velux_palier:
+    expose: false
+  switch.toggle_volet_palier:
+    expose: false

@@ -1,0 +1,2 @@
+client_id: !secret somfy-id
+client_secret: !secret somfy-secret

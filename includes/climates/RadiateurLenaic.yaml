@@ -1,0 +1,7 @@
+platform: generic_thermostat
+name: Radiateur Lenaic
+heater: switch.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_switch_2
+target_sensor: sensor.netatmo_ti_ar_kaerell_lenaic_temperature
+initial_hvac_mode: heat
+target_temp: 20
+away_temp: 16

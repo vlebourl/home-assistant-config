@@ -1,0 +1,7 @@
+platform: generic_thermostat
+name: Radiateur Bureau
+heater: switch.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_switch
+target_sensor: sensor.tdeg_bureau
+initial_hvac_mode: heat
+target_temp: 20
+away_temp: 16

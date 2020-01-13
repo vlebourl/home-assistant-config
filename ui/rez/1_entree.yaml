@@ -1,0 +1,12 @@
+type: vertical-stack
+cards:
+- type: entities
+  title: Entrée
+  show_header_toggle: false
+  entities:
+  - type: custom:slider-entity-row
+    entity: light.lux_entree
+    name: Lux Entrée
+    toggle: true
+  - entity: cover.rolling_shutter
+    name: Volet Entrée

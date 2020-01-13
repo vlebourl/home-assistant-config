@@ -1,0 +1,11 @@
+type: vertical-stack
+cards:
+- type: picture-entity
+  entity: camera.terrasse_vehicule
+  name: Véhicule
+- type: picture-entity
+  entity: camera.terrasse_humain
+  name: Personne
+- type: picture-entity
+  entity: camera.terrasse_mouvement
+  name: Mouvement

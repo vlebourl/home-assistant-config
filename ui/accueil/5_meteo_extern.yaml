@@ -1,0 +1,87 @@
+type: vertical-stack
+cards:
+# Terrasse
+- type: horizontal-stack
+  cards:
+  - type: custom:mini-graph-card
+    entities:
+    - entity: sensor.netatmo_ti_ar_kaerell_terrasse_temperature
+      name: "Terrasse"
+    hours_to_show: 24
+    points_per_hour: 1
+    show:
+      points: hover
+      labels: true
+    color_thresholds:
+    - value: 0
+      color: "#00FAFF"
+    - value: 5
+      color: "#00FFA1"
+    - value: 10
+      color: "#00FF3B"
+    - value: 15
+      color: "#26FF00"
+    - value: 20
+      color: "#8CFF00"
+    - value: 25
+      color: "#FFC300"
+    - value: 30
+      color: "#FF7B00"
+    - value: 35
+      color: "#FF1500"
+  - type: custom:mini-graph-card
+    hours_to_show: 24
+    color_thresholds:
+    - value: 35
+      color: "#00FAFF"
+    - value: 40
+      color: "#00FFA1"
+    - value: 45
+      color: "#00FF3B"
+    - value: 50
+      color: "#26FF00"
+    - value: 55
+      color: "#8CFF00"
+    - value: 60
+      color: "#FFC300"
+    - value: 65
+      color: "#FF7B00"
+    - value: 70
+      color: "#FF1500"
+    entities:
+    - entity: sensor.netatmo_ti_ar_kaerell_terrasse_humidity
+      name: " "
+  - type: custom:mini-graph-card
+    entities:
+    - entity: sensor.netatmo_ti_ar_kaerell_pluie_jardin_rain
+      name: " "
+    hours_to_show: 24
+    points_per_hour: 1
+    show:
+      graph: bar
+      points: hover
+      labels: true
+    color_thresholds:
+    - value: 0
+      color: "#007FFF"
+    - value: 0.3
+      color: "#800080"
+    - value: 1
+      color: "#DC143C"
+- type: horizontal-stack
+  cards:
+  - type: gauge
+    entity: sensor.netatmo_ti_ar_kaerell_pluie_jardin_rain
+    name: Précipitations
+    min: 0
+    max: 4
+  - type: gauge
+    entity: sensor.dark_sky_precip_probability_1h
+    name: 1h
+  - type: gauge
+    entity: sensor.dark_sky_precip_probability_2h
+    name: 2h
+- type: custom:weather-card-chart
+  title: Météo
+  weather: weather.dark_sky
+  mode: hourly

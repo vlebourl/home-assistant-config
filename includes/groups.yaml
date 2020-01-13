@@ -1,0 +1,49 @@
+virginia:
+  name: Virginia Presence
+  icon: mdi:pine-tree-box
+  entities:
+  - device_tracker.virginia_home_2
+  - device_tracker.192_168_0_33_64_a2_f9_be_d5_eb
+vincent:
+  name: Vincent Presence
+  icon: mdi:camera
+  entities:
+  - device_tracker.pixel4_home
+  - device_tracker.192_168_0_33_e5_4c_49_c4_30_7c
+    
+volets :
+  name: Volets
+  icon: mdi:window-closed
+  entities:
+  - cover.rolling_shutter
+  - cover.rolling_shutter_2
+  - cover.rolling_shutter_3
+  - cover.rolling_shutter_4
+    
+volets_etage:
+  name: Volets velux
+  icon: mdi:window-closed
+  entities:
+  - cover.volet_palier
+  - cover.volet_lenaic
+    
+velux_etage:
+  name: Velux
+  icon: mdi:window-closed
+  entities:
+  - cover.velux_palier
+  - cover.velux_lenaic
+    
+lux_cuisine:
+  name: Lumière Cuisine
+  entities:
+  - light.lux_cuisine_1
+  - light.lux_cuisine_2
+    
+lux_salon:
+  name: Lumière Salon
+  entities:
+  - light.lux_salon_1
+  - light.lux_salon_2
+  - light.lux_salon_3
+    

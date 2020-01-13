@@ -1,0 +1,31 @@
+type: custom:vertical-stack-in-card
+title: Automatismes (on/off)
+cards:
+  - type: entities
+    title: Velux Palier
+    show_header_toggle: false
+    entities:
+    - entity: automation.ouvre_le_velux_du_palier_s_il_fait_assez_frais_dehors
+      name: Ouvre le vélux s'il fait plus frais dehors
+    - entity: automation.ferme_le_velux_du_palier_en_cas_de_pluie
+      name: Ferme le vélux s'il pleut.
+    - entity: automation.ferme_le_velux_du_palier_la_nuit
+      name: Ferme le volet la nuit.
+    - entity: automation.ferme_tout_sur_le_palier_s_il_fait_trop_chaud_dehors
+      name: Ferme tout s'il fait trop chaud dehors
+    - entity: automation.ferme_le_velux_du_palier_s_il_fait_trop_froid_dehors
+      name: Ferme le vélux s'il fait trop froid dehors
+  - type: entities
+    title: Velux de Lenaïc
+    show_header_toggle: false
+    entities:
+    - entity: automation.ouvre_le_velux_de_lenaic_s_il_fait_assez_frais_dehors
+      name: Ouvre le vélux s'il fait plus frais dehors
+    - entity: automation.ferme_le_velux_de_lenaic_en_cas_de_pluie
+      name: Ferme le vélux s'il pleut.
+    - entity: automation.ferme_le_velux_de_lenaic_la_nuit
+      name: Ferme le volet la nuit.
+    - entity: automation.ferme_tout_chez_lenaic_s_il_fait_trop_chaud_dehors
+      name: Ferme tout s'il fait trop chaud dehors
+    - entity: automation.ferme_le_velux_de_lenaic_s_il_fait_trop_froid_dehors
+      name: Ferme le vélux s'il fait trop froid dehors
