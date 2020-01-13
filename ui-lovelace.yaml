@@ -33,7 +33,7 @@ views:
   badges:
   - entity: sensor.netatmo_ti_ar_kaerell_terrasse_temperature
     name: "Terrasse"
-  cards: !include_dir_list ui/rez
+  cards: !include ui/rez.yaml
 
 # Onglet Etage        
 - path: etage

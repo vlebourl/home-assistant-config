@@ -1,0 +1,71 @@
+- type: vertical-stack
+  cards:
+  - type: entities
+    title: Entrée
+    show_header_toggle: false
+    entities:
+    - type: custom:slider-entity-row
+      entity: light.lux_entree
+      name: Lux Entrée
+      toggle: true
+    - entity: cover.rolling_shutter
+      name: Volet Entrée
+
+- type: vertical-stack
+  cards:
+    - type: entities
+      title: Cuisine
+      show_header_toggle: false
+      entities:
+        - type: custom:slider-entity-row
+          entity: light.lux_cuisine_1
+          name: Lux Cuisine 1
+          toggle: true
+        - type: custom:slider-entity-row
+          entity: light.lux_cuisine_2
+          name: Lux Cuisine 2
+          toggle: true
+        - entity: cover.rolling_shutter_3
+          name: Volet Cuisine
+
+- type: vertical-stack
+  cards:
+    - type: entities
+      title: Salon
+      show_header_toggle: false
+      entities:
+        - type: custom:slider-entity-row
+          entity: light.lampe_peau
+          name: Lampe Peau
+          toggle: true
+        - type: custom:slider-entity-row
+          entity: light.lux_salon_1
+          name: Lux Salon 1
+          toggle: true
+        - type: custom:slider-entity-row
+          entity: light.lux_salon_2
+          name: Lux Salon 2
+          toggle: true
+        - type: custom:slider-entity-row
+          entity: light.lux_salon_3
+          name: Lux Salon 3
+          toggle: true
+        - entity: cover.rolling_shutter_2
+          name: Volet Porte Fenêtre
+        - entity: switch.ampli
+          name: "Spotify"
+        - entity: switch.television
+          name: "Télé"
+        - entity: climate.radiateur_salon
+          name: "Radiateur"
+
+- type: vertical-stack
+  cards:
+    - type: entities
+      title: Bureau
+      show_header_toggle: false
+      entities:
+        - entity: cover.rolling_shutter_4
+          name: Volet
+        - entity: climate.radiateur_bureau
+          name: Radiateur
