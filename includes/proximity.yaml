@@ -1,10 +1,10 @@
 home_vincent:
   devices:
-    - device_tracker.vincent_composite
+    - person.vincent
   tolerance: 10
   unit_of_measurement: m
 home_virginia:
   devices:
-    - device_tracker.virginia_composite
+    - person.virginia
   tolerance: 10
   unit_of_measurement: m

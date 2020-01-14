@@ -4,10 +4,10 @@ cards:
   cards:
   - type: glance
     entities:
-    - entity: device_tracker.vincent_composite
+    - entity: person.vincent
       icon: mdi:camera
       name: Vincent
-    - entity: device_tracker.virginia_composite
+    - entity: person.virginia
       icon: mdi:pine-tree-box
       name: Virginia
   - type: glance

@@ -1,3 +1,2 @@
 token: !secret hacs-token
 appdaemon: true
-theme: true
