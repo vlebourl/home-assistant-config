@@ -2,8 +2,8 @@
   alias: 0.1.0 Salon Reduit le chauffage quand la maison est vide
   trigger:
   - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and (states.proximity.home_virginia.state
-      | float) > 1250 }}'
+    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
+      (states.proximity.home_virginia.state | float) > 1250 }}'
   - at: '23:00:00'
     platform: time
   condition: []
@@ -16,8 +16,8 @@
   alias: 0.1.1 Bureau Reduit le chauffage quand la maison est vide
   trigger:
   - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and (states.proximity.home_virginia.state
-      | float) > 1250 }}'
+    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
+      (states.proximity.home_virginia.state | float) > 1250 }}'
   - at: '23:00:00'
     platform: time
   action:
@@ -29,8 +29,8 @@
   alias: 0.1.2 Chambre Parents Reduit le chauffage quand la maison est vide
   trigger:
   - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and (states.proximity.home_virginia.state
-      | float) > 1250 }}'
+    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
+      (states.proximity.home_virginia.state | float) > 1250 }}'
   - at: '23:00:00'
     platform: time
   condition:
@@ -47,8 +47,8 @@
   alias: 0.1.3 Lenaic Reduit le chauffage quand la maison est vide
   trigger:
   - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and (states.proximity.home_virginia.state
-      | float) > 1250 }}'
+    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
+      (states.proximity.home_virginia.state | float) > 1250 }}'
   action:
   - data:
       entity_id: climate.radiateur_lenaic
@@ -227,3 +227,18 @@
   - service: script.turn_on
     data:
       entity_id: script.secure_close_volet_lenaic
+- id: '1578933646759'
+  alias: log webhook
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
+  condition: []
+  action:
+  - data_template:
+      data:
+        photo:
+          url: '{{ trigger.json.snapshot_url }}'
+      title: "Camera Alert:"
+      message: '{{ trigger.json.message }}'
+    service: notify.notify
