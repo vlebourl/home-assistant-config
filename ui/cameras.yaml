@@ -1,0 +1,8 @@
+- type: picture-entity
+  entity: camera.camterrasse
+  camera_view: live
+  name: Terrasse live
+- type: picture-entity
+  entity: camera.camsalon
+  camera_view: live
+  name: Salon live

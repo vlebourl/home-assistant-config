@@ -54,3 +54,8 @@ views:
   title: Carte
   cards: !include_dir_list ui/map
 
+# Onglet Cameras
+- path: cameras
+  title: Caméras
+  cards: !include ui/cameras.yaml
+
