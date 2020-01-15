@@ -30,8 +30,13 @@
 
 - type: vertical-stack
   cards:
+    - type: custom:simple-thermostat
+      entity: climate.radiateur_salon
+      name: "Salon"
+      sensors:
+      - entity: sensor.humidite_salon_2
+        name: Humidité
     - type: entities
-      title: Salon
       show_header_toggle: false
       entities:
         - type: custom:slider-entity-row
@@ -56,16 +61,15 @@
           name: "Spotify"
         - entity: switch.television
           name: "Télé"
-        - entity: climate.radiateur_salon
-          name: "Radiateur"
 
 - type: vertical-stack
   cards:
+    - type: custom:simple-thermostat
+      entity: climate.radiateur_bureau
+      name: "Bureau"
     - type: entities
       title: Bureau
       show_header_toggle: false
       entities:
         - entity: cover.rolling_shutter_4
           name: Volet
-        - entity: climate.radiateur_bureau
-          name: Radiateur

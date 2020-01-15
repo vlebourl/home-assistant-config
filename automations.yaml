@@ -233,19 +233,22 @@
   trigger:
   - platform: webhook
     webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
-  condition: []
+  condition:
+  - condition: state
+    entity_id: sensor.home
+    state: empty
   action:
   - data_template:
       data:
         photo:
           url: https://tiarkaerell.duckdns.org/lovelace/cameras
-      title: "Camera Alert:"
       message: '{{ trigger.json.message }}'
+      title: 'Camera Alert:'
     service: notify.mobile_app_oneplus_a6013
   - data_template:
       data:
         photo:
           url: https://tiarkaerell.duckdns.org/lovelace/cameras
-      title: "Camera Alert:"
       message: '{{ trigger.json.message }}'
+      title: 'Camera Alert:'
     service: notify.mobile_app_pixel_4

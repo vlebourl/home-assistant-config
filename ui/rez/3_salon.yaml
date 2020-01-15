@@ -26,7 +26,8 @@ cards:
     name: "Spotify"
   - entity: switch.television
     name: "Télé"
-  - entity: climate.radiateur_salon
-    name: "Radiateur"
+- type: custom:simple-thermostat
+  entity: climate.radiateur_salon
+  name: "Radiateur"
 #- type: thermostat
 #  entity: climate.radiateur_salon

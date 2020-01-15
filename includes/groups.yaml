@@ -47,3 +47,10 @@ lux_salon:
   - light.lux_salon_2
   - light.lux_salon_3
     
+chauffage:
+  name: Chauffage
+  entities:
+  - climate.radiateur_salon
+  - climate.radiateur_bureau
+  - climate.radiateur_lenaic
+  - climate.radiateur_parents

@@ -1,4 +1,6 @@
 resources:
+- url: /local/community/simple-thermostat/simple-thermostat.js
+  type: module
 - url: /local/community/decluttering-card/decluttering-card.js
   type: module
 - url: /local/community/lovelace-multiple-entity-row/multiple-entity-row.js
