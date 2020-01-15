@@ -15,7 +15,7 @@ from homeassistant.components.climate.const import (
     PRESET_COMFORT,
     PRESET_NONE,
     CURRENT_HVAC_HEAT,
-    CURRENT_HVAC_OFF,
+    CURRENT_HVAC_IDLE,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_PRESET_MODE,
 )
@@ -138,7 +138,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         self._unit = TEMP_CELSIUS
         self.sensor_entity_id = sensor_entity_id
         self._support_flags = SUPPORT_FLAGS
-        self._current_hvac_mode = CURRENT_HVAC_OFF
+        self._current_hvac_mode = CURRENT_HVAC_IDLE
         self._hvac_list = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
         self._preset_mode = None
         self._somfy_modes = 0
@@ -182,7 +182,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if self._type == "io":
             state = self.tahoma_device.active_states["io:TargetHeatingLevelState"]
             if state == "off":
-                self._current_hvac_mode = CURRENT_HVAC_OFF
+                self._current_hvac_mode = CURRENT_HVAC_IDLE
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
         if self._type == "thermostat":
@@ -358,7 +358,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             self.apply_action("setHeatingLevel", "off")
         elif self._type == "thermostat":
             self._apply_action(self.target_temperature)
-        self._current_hvac_mode = CURRENT_HVAC_OFF
+        self._current_hvac_mode = CURRENT_HVAC_IDLE
         await self.async_update_ha_state()
         self._update_caller = "_async_heater_turn_off"
         self.update()

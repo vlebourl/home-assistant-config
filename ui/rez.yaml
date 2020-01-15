@@ -1,3 +1,7 @@
+#########################
+# Entrée
+#########################
+
 - type: vertical-stack
   cards:
   - type: entities
@@ -10,6 +14,10 @@
       toggle: true
     - entity: cover.rolling_shutter
       name: Volet Entrée
+
+#########################
+# Cuisine
+#########################
 
 - type: vertical-stack
   cards:
@@ -27,6 +35,10 @@
           toggle: true
         - entity: cover.rolling_shutter_3
           name: Volet Cuisine
+
+#########################
+# Salon
+#########################
 
 - type: vertical-stack
   cards:
@@ -61,6 +73,10 @@
           name: "Spotify"
         - entity: switch.television
           name: "Télé"
+
+#########################
+# Bureau
+#########################
 
 - type: vertical-stack
   cards:
