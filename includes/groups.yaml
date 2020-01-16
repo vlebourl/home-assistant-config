@@ -43,10 +43,30 @@ lux_cuisine:
 lux_salon:
   name: Lumière Salon
   entities:
+  - light.lampe_peau
   - light.lux_salon_1
   - light.lux_salon_2
   - light.lux_salon_3
-    
+   
+lux_lenaic:
+  name: Lumière Lenaïc
+  entities:
+  - light.lux_lenaic_1
+  - light.lux_lenaic_2
+  - light.lampadaire_lenaic
+
+lux_palier:
+  name: Lumière Palier
+  entities:
+  - light.lux_palier_1
+  - light.lux_palier_2
+
+lux_parents:
+  name: Lumière Parents
+  entities:
+  - light.lux_parents_1
+  - light.lux_parents_2
+
 chauffage:
   name: Chauffage
   entities:
