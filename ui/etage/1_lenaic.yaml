@@ -11,18 +11,21 @@ cards:
 - type: entities
   show_header_toggle: false
   entities:
-  - type: custom:slider-entity-row
-    entity: light.lux_lenaic_1
-    name: Lux 1
-    toggle: true
-  - type: custom:slider-entity-row
-    entity: light.lux_lenaic_2
-    name: Lux 2
-    toggle: true
-  - type: custom:slider-entity-row
-    entity: light.lampadaire_lenaic
-    name: Lampadaire
-    toggle: true
+  - type: custom:fold-entity-row
+    head: group.lux_lenaic
+    entities:
+    - type: custom:slider-entity-row
+      entity: light.lux_lenaic_1
+      name: Lux 1
+      toggle: true
+    - type: custom:slider-entity-row
+      entity: light.lux_lenaic_2
+      name: Lux 2
+      toggle: true
+    - type: custom:slider-entity-row
+      entity: light.lampadaire_lenaic
+      name: Lampadaire
+      toggle: true
   - type: custom:slider-entity-row
     name: Velux
     entity: cover.velux_lenaic

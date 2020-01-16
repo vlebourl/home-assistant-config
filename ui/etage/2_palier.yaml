@@ -4,14 +4,17 @@ cards:
   title: Palier
   show_header_toggle: false
   entities:
-  - type: custom:slider-entity-row
-    entity: light.lux_palier_1
-    name: Lux 1
-    toggle: true
-  - type: custom:slider-entity-row
-    entity: light.lux_palier_2
-    name: Lux 2
-    toggle: true
+  - type: custom:fold-entity-row
+    head: group.lux_palier
+    entities:
+    - type: custom:slider-entity-row
+      entity: light.lux_palier_1
+      name: Lux 1
+      toggle: true
+    - type: custom:slider-entity-row
+      entity: light.lux_palier_2
+      name: Lux 2
+      toggle: true
   - type: custom:slider-entity-row
     name: Velux
     entity: cover.velux_palier
