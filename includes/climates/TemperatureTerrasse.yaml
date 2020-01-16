@@ -1,6 +1,0 @@
-platform: generic_thermostat
-name: Température Terrasse
-heater: input_boolean.fake_heater
-target_sensor: sensor.netatmo_terrasse_temperature
-initial_hvac_mode: "off"
-target_temp: 21
