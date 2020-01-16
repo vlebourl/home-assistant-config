@@ -27,6 +27,7 @@ google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml
 hacs:             !include includes/hacs.yaml
 life360:          !include includes/life360.yaml
+logger:           !include includes/logger.yaml
 lovelace:         !include includes/lovelace.yaml
 mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
