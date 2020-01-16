@@ -1,6 +1,6 @@
 platform: waze_travel_time
 origin: person.virginia
 destination: zone.home
-region: 'EU'
+region: 'NA'
 units: metric    # 'metric' for Metric, 'imperial' for Imperial
 name: Waze Virginia
