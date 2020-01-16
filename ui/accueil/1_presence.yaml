@@ -10,12 +10,10 @@ cards:
     - entity: person.virginia
       icon: mdi:pine-tree-box
       name: Virginia
-  - type: glance
+  - type: 'custom:travel-time-card'
     entities:
-    - entity: proximity.home_vincent
-      name: Distance
-    - entity: proximity.home_virginia
-      name: Distance
+    - entity: sensor.vincent_to_home
+    - entity: sensor.virginia_to_home
 
 # type: vertical-stack
 # cards:
