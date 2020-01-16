@@ -1,5 +1,6 @@
 project_id: homeassistant-49a55
-api_key: !secret google-assistant-api-key
+service_account: !include SERVICE_ACCOUNT.JSON
+#api_key: !secret google-assistant-api-key
 exposed_domains:
 - cover
 - climate
