@@ -4,4 +4,4 @@ api_key: !secret google-assistant-api-key
 origin: device_tracker.oneplus_a6013
 destination: zone.home
 options:
-  - language: fr
+  language: fr

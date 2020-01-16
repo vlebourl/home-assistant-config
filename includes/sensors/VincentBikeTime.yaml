@@ -4,5 +4,5 @@ api_key: !secret google-assistant-api-key
 origin: device_tracker.pixel_4
 destination: zone.home
 options:
-  - mode: bicycling
-  - language: fr
+  mode: bicycling
+  language: fr
