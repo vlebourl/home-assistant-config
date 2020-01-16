@@ -1,6 +1,5 @@
-platform: waze_travel_time
-origin: person.virginia
+platform: google_travel_time
+name: Virginia To Home
+api_key: !secret google-assistant-api-key
+origin: device_tracker.oneplus_a6013
 destination: zone.home
-region: 'NA'
-units: metric    # 'metric' for Metric, 'imperial' for Imperial
-name: Waze Virginia
