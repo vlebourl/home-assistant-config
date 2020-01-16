@@ -29,3 +29,4 @@ secrets.yaml
 known_devices.yaml
 google_calendars.yaml
 
+includes/SERVICE_ACCOUNT.JSON
