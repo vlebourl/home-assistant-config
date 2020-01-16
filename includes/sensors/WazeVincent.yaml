@@ -3,4 +3,4 @@ origin: person.vincent
 destination: zone.home
 region: 'EU'
 units: metric    # 'metric' for Metric, 'imperial' for Imperial
-vehicle_type: motorcycle  # vehicle type used for routing
+name: Waze Vincent
