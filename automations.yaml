@@ -239,16 +239,18 @@
     state: empty
   action:
   - data_template:
-      data:
-        photo:
-          url: https://tiarkaerell.duckdns.org/lovelace/cameras
+      data: 
+        android:
+          notification:
+            image: '{{ trigger.json.snapshot_url }}'
       message: '{{ trigger.json.message }}'
       title: 'Camera Alert:'
     service: notify.mobile_app_oneplus_a6013
   - data_template:
-      data:
-        photo:
-          url: https://tiarkaerell.duckdns.org/lovelace/cameras
+      data: 
+        android:
+          notification:
+            image: '{{ trigger.json.snapshot_url }}'
       message: '{{ trigger.json.message }}'
       title: 'Camera Alert:'
     service: notify.mobile_app_pixel_4

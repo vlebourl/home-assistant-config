@@ -1,7 +1,0 @@
-platform: composite
-name: Virginia composite
-time_as: local
-entity_id:
-  - device_tracker.tile_dd661ca6aff34ef1
-  - device_tracker.life360_virginia
-  - device_tracker.oneplus_a6013

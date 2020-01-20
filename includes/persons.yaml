@@ -1,9 +1,0 @@
-- name: Vincent
-  id: vincent
-  device_trackers:
-  - device_tracker.vincent_composite
-- name: Virginia
-  id: virginia
-  device_trackers:
-  - device_tracker.virginia_composite
-      

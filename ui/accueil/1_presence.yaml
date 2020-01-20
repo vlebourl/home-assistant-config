@@ -12,14 +12,12 @@ cards:
       name: Virginia
   - type: 'custom:travel-time-card'
     title: Temps de trajet pour la maison
+    columns: ['name', 'duration', 'distance']
     entities:
     - entity: sensor.vincent_transport
-      name: Vincent Transport
     - entity: sensor.vincent_bike
-      name: Vincent Vélo
     - entity: sensor.virginia_voiture
-      name: Virignia Voiture
-
+    
 # type: vertical-stack
 # cards:
 # - type: picture-entity
