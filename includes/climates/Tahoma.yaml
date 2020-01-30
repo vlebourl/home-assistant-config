@@ -1,4 +1,4 @@
-platform: tahoma
+platform: tahoma_extended
 sensors:
 - name: "Radiateur Parents"
   entity_id: sensor.netatmo_ti_ar_kaerell_parents_temperature
