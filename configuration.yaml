@@ -39,6 +39,7 @@ script:           !include includes/scripts.yaml
 sensor:           !include_dir_list includes/sensors
 switch:           !include includes/switches.yaml
 tahoma:           !include includes/tahoma.yaml
+tahoma_extended:  !include includes/tahoma.yaml
 tts:              !include includes/tts.yaml
 weather:          !include includes/weather.yaml
 zone:             !include includes/zones.yaml

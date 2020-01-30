@@ -12,7 +12,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "tahoma"
+DOMAIN = "tahoma_extended"
 
 TAHOMA_ID_FORMAT = "{}_{}"
 
@@ -31,39 +31,11 @@ CONFIG_SCHEMA = vol.Schema(
     extra=vol.ALLOW_EXTRA,
 )
 
-TAHOMA_COMPONENTS = ["scene", "sensor", "cover", "switch", "binary_sensor"]
+TAHOMA_COMPONENTS = ["scene", "sensor", "cover", "switch", "binary_sensor", "lock"]
 
 TAHOMA_TYPES = {
     "io:AtlanticElectricalHeaterIOComponent": "climate",
-    "io:ExteriorVenetianBlindIOComponent": "cover",
-    "io:HorizontalAwningIOComponent": "cover",
-    "io:LightIOSystemSensor": "sensor",
-    "io:OnOffIOComponent": "switch",
-    "io:OnOffLightIOComponent": "switch",
-    "io:RollerShutterGenericIOComponent": "cover",
-    "io:RollerShutterUnoIOComponent": "cover",
-    "io:RollerShutterVeluxIOComponent": "cover",
-    "io:RollerShutterWithLowSpeedManagementIOComponent": "cover",
-    "io:SomfyBasicContactIOSystemSensor": "sensor",
-    "io:SomfyContactIOSystemSensor": "sensor",
-    "io:TemperatureIOSystemSensor": "sensor",
-    "io:VerticalExteriorAwningIOComponent": "cover",
-    "io:VerticalInteriorBlindVeluxIOComponent": "cover",
-    "io:WindowOpenerVeluxIOComponent": "cover",
-    "io:GarageOpenerIOComponent": "cover",
-    "io:DiscreteGarageOpenerIOComponent": "cover",
-    "rtds:RTDSContactSensor": "sensor",
-    "rtds:RTDSMotionSensor": "sensor",
-    "rtds:RTDSSmokeSensor": "smoke",
-    "rts:BlindRTSComponent": "cover",
-    "rts:CurtainRTSComponent": "cover",
-    "rts:DualCurtainRTSComponent": "cover",
-    "rts:ExteriorVenetianBlindRTSComponent": "cover",
-    "rts:GarageDoor4TRTSComponent": "switch",
-    "rts:RollerShutterRTSComponent": "cover",
-    "rts:OnOffRTSComponent": "switch",
-    "rts:VenetianBlindRTSComponent": "cover",
-    'rts:LightRTSComponent': 'switch',
+    "rts:LightRTSComponent": "switch",
     "somfythermostat:SomfyThermostatTemperatureSensor": "sensor",
     "somfythermostat:SomfyThermostatHumiditySensor": "sensor",
     "somfythermostat:SomfyThermostatThermostatComponent": "climate",
