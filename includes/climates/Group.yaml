@@ -1,0 +1,7 @@
+platform: climate_group
+name: 'Chauffage Général'
+entities:
+- climate.radiateur_salon
+- climate.radiateur_parents
+- climate.radiateur_bureau
+- climate.radiateur_lenaic

@@ -16,23 +16,24 @@ http:
   base_url: https://tiarkaerell.duckdns.org
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
-
-remote:           !include_dir_list includes/remotes
+    
 automation:       !include automations.yaml
 automation old:   !include_dir_list includes/automations
+binary_sensor:    !include_dir_list includes/binary_sensors
 climate:          !include_dir_list includes/climates
 device_tracker:   !include_dir_list includes/device_trackers
 google:           !include includes/google.yaml
 google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml
 hacs:             !include includes/hacs.yaml
+input_boolean:    !include_dir_named includes/input_booleans
 life360:          !include includes/life360.yaml
 logger:           !include includes/logger.yaml
 lovelace:         !include includes/lovelace.yaml
 mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
 proximity:        !include includes/proximity.yaml
-#person:           !include includes/persons.yaml
+remote:           !include_dir_list includes/remotes
 scene:            !include scenes.yaml
 script:           !include includes/scripts.yaml
 sensor:           !include_dir_list includes/sensors

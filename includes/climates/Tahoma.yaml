@@ -2,6 +2,7 @@ platform: tahoma
 sensors:
 - name: "Radiateur Parents"
   entity_id: sensor.netatmo_ti_ar_kaerell_parents_temperature
+#  entity_id: sensor.tdeg_parents
   away_temp: 16
   eco_temp: 19
   comfort_temp: 20

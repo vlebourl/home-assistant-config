@@ -1,5 +1,5 @@
 - id: ReduceHeatingForEmptyHome0
-  alias: 0.1.0 Salon Reduit le chauffage quand la maison est vide
+  alias: 0.1.0 Reduit le chauffage quand la maison est vide
   trigger:
   - platform: template
     value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
@@ -9,53 +9,11 @@
   condition: []
   action:
   - data:
-      entity_id: climate.radiateur_salon
-      temperature: 17
-    service: climate.set_temperature
-- id: ReduceHeatingForEmptyhome_vincent
-  alias: 0.1.1 Bureau Reduit le chauffage quand la maison est vide
-  trigger:
-  - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
-      (states.proximity.home_virginia.state | float) > 1250 }}'
-  - at: '23:00:00'
-    platform: time
-  action:
-  - data:
-      entity_id: climate.radiateur_bureau
-      temperature: 17
-    service: climate.set_temperature
-- id: ReduceHeatingForEmptyhome_virginia
-  alias: 0.1.2 Chambre Parents Reduit le chauffage quand la maison est vide
-  trigger:
-  - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
-      (states.proximity.home_virginia.state | float) > 1250 }}'
-  - at: '23:00:00'
-    platform: time
-  condition:
-  - condition: template
-    value_template: '{{states.climate.radiateur_parents.attributes.preset_mode ==
-      "none"}}'
-  action:
-  - data:
-      entity_id: climate.radiateur_parents
-      hvac_mode: heat
-      temperature: 17
-    service: climate.set_temperature
-- id: ReduceHeatingForEmptyhome_vincent
-  alias: 0.1.3 Lenaic Reduit le chauffage quand la maison est vide
-  trigger:
-  - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
-      (states.proximity.home_virginia.state | float) > 1250 }}'
-  action:
-  - data:
-      entity_id: climate.radiateur_lenaic
+      entity_id: group.chauffage
       temperature: 17
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome0
-  alias: 0.2.0 Salon Monte le chauffage quand la maison n'est pas vide
+  alias: 0.2.0 Monte le chauffage quand la maison n'est pas vide
   trigger:
   - for:
       minutes: 3
@@ -66,76 +24,14 @@
     platform: time
   - at: 06:00:00
     platform: time
-  condition:
-  - condition: template
-    value_template: '{{states.climate.radiateur_salon.attributes.preset_mode == "none"}}'
+  condition: []
   action:
   - data:
-      entity_id: climate.radiateur_salon
+      entity_id: group.chauffage
     service: climate.turn_on
   - data:
-      entity_id: climate.radiateur_salon
+      entity_id: group.chauffage
       temperature: 20
-    service: climate.set_temperature
-- id: AugmentHeatingOnOccupiedHome
-  alias: 0.2.1 Bureau Monte le chauffage quand la maison n'est pas vide
-  trigger:
-  - for:
-      minutes: 3
-    platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) < 1250 or (states.proximity.home_virginia.state
-      | float) < 1250 }}'
-  - at: '17:30:00'
-    platform: time
-  - at: 06:00:00
-    platform: time
-  action:
-  - data:
-      entity_id: climate.radiateur_bureau
-    service: climate.turn_on
-  - data:
-      entity_id: climate.radiateur_bureau
-      temperature: 19.5
-    service: climate.set_temperature
-- id: AugmentHeatingOnOccupiedHome
-  alias: 0.2.2 Chambre Parents Monte le chauffage quand la maison n'est pas vide
-  trigger:
-  - at: '17:30:00'
-    platform: time
-  - at: 06:00:00
-    platform: time
-  condition:
-  - condition: template
-    value_template: '{{states.climate.radiateur_parents.attributes.preset_mode ==
-      "none"}}'
-  action:
-  - data:
-      entity_id: climate.radiateur_parents
-    service: climate.turn_on
-  - data:
-      entity_id: climate.radiateur_parents
-      hvac_mode: heat
-      temperature: 20
-    service: climate.set_temperature
-- id: AugmentHeatingOnOccupiedHome
-  alias: 0.2.3 Lenaic Monte le chauffage quand la maison n'est pas vide
-  trigger:
-  - for:
-      minutes: 3
-    platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) < 1250 or (states.proximity.home_virginia.state
-      | float) < 1250 }}'
-  - at: '16:30:00'
-    platform: time
-  - at: 06:00:00
-    platform: time
-  action:
-  - data:
-      entity_id: climate.radiateur_lenaic
-    service: climate.turn_on
-  - data:
-      entity_id: climate.radiateur_lenaic
-      temperature: 19
     service: climate.set_temperature
 - id: FermeVeluxLenaic
   alias: 1.0 Ferme le velux de Lenaïc
@@ -239,7 +135,7 @@
     state: empty
   action:
   - data_template:
-      data: 
+      data:
         android:
           notification:
             image: '{{ trigger.json.snapshot_url }}'
@@ -247,7 +143,7 @@
       title: 'Camera Alert:'
     service: notify.mobile_app_oneplus_a6013
   - data_template:
-      data: 
+      data:
         android:
           notification:
             image: '{{ trigger.json.snapshot_url }}'

@@ -2,14 +2,27 @@ type: vertical-stack
 cards:
 - type: custom:vertical-stack-in-card
   cards:
-  - type: glance
-    entities:
-    - entity: person.vincent
-      icon: mdi:camera
-      name: Vincent
-    - entity: person.virginia
-      icon: mdi:pine-tree-box
-      name: Virginia
+  - type: horizontal-stack
+    cards:
+    - type: glance
+      entities:
+      - entity: person.vincent
+        icon: mdi:camera
+        name: Vincent
+    - type: glance
+      entities:
+      - entity: person.virginia
+        icon: mdi:pine-tree-box
+        name: Virginia
+    - type: glance
+      entities:
+      - entity: switch.guest
+        name: Visiteur
+        show_state: false
+        tap_action:
+          confirmation:
+            text: "Un visiteur est à la maison ?"
+          action: toggle
   - type: 'custom:travel-time-card'
     title: Temps de trajet pour la maison
     columns: ['name', 'duration', 'distance']

@@ -1,5 +1,28 @@
 - platform: template
   switches:
+    guest:
+      value_template: >-
+        {% if is_state('input_boolean.guest_at_home', 'on') %}
+          On
+        {% else %}
+          Off
+        {% endif %}
+      turn_on:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_at_home
+      - service: automation.turn_off
+        entity_id: automation.0_1_0_reduit_le_chauffage_quand_la_maison_est_vide
+      turn_off:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.guest_at_home
+      - service: automation.turn_on
+        entity_id: automation.0_1_0_reduit_le_chauffage_quand_la_maison_est_vide
+      icon_template: >-
+        {% if is_state('input_boolean.guest_at_home', 'on') %}
+          mdi:account-plus
+        {% else %}
+          mdi:account-off-outline
+        {% endif %}
     ampli:
       value_template: "{{ state_attr('remote.harmony_hub', 'current_activity') != 'PowerOff' }}"
       turn_on:
