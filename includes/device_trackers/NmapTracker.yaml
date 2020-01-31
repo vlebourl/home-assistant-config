@@ -1,5 +1,5 @@
 platform: nmap_tracker
 interval_seconds: 10
 consider_home: 60
-hosts:
-  - 192.168.1.0/24
+hosts: 192.168.0.0/24
+    

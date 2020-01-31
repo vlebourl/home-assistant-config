@@ -14,6 +14,8 @@
       toggle: true
     - entity: cover.rolling_shutter
       name: Volet Entrée
+#    - entity: lock.ti_ar_kaerell
+#      name: Porte d'entrée
 
 #########################
 # Cuisine

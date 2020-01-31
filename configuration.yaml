@@ -21,7 +21,7 @@ automation:       !include automations.yaml
 automation old:   !include_dir_list includes/automations
 binary_sensor:    !include_dir_list includes/binary_sensors
 climate:          !include_dir_list includes/climates
-device_tracker:   !include_dir_list includes/device_trackers
+#device_tracker:   !include_dir_list includes/device_trackers
 google:           !include includes/google.yaml
 google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml
@@ -30,6 +30,7 @@ input_boolean:    !include_dir_named includes/input_booleans
 life360:          !include includes/life360.yaml
 logger:           !include includes/logger.yaml
 lovelace:         !include includes/lovelace.yaml
+media_player:     !include_dir_list includes/media_players
 mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
 proximity:        !include includes/proximity.yaml
@@ -44,3 +45,13 @@ tts:              !include includes/tts.yaml
 weather:          !include includes/weather.yaml
 zone:             !include includes/zones.yaml
 zwave:            !include includes/zwave.yaml
+
+device_tracker:
+- platform: nmap_tracker
+  interval_seconds: 10
+  consider_home: 60
+  hosts:
+    - 192.168.0.1-255
+- platform: tile
+  username: !secret email
+  password: !secret tile
