@@ -1,4 +1,8 @@
 homeassistant:
+#  auth_providers:
+#    - type: trusted_networks
+#      trusted_networks:
+#        - 192.168.0.0/24
   customize: !include includes/customize.yaml
   whitelist_external_dirs:
     - /config
@@ -9,6 +13,7 @@ default_config:
 map:
 stream:
 sun:
+uilogs:
 
 #Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
