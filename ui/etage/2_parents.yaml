@@ -22,3 +22,6 @@ cards:
       entity: light.lux_parents_2
       name: Lux 2
       toggle: true
+  - entity: cover.volet_parents
+    name: Volet Parents
+

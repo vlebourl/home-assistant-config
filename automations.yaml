@@ -123,6 +123,19 @@
   - service: script.turn_on
     data:
       entity_id: script.secure_close_volet_lenaic
+- id: '000'
+  alias: ouvre le volet le matin en semaine
+  description: ''
+  trigger:
+  - at: 06:50:00
+    platform: time
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - entity_id: cover.volet_parents
+    service: cover.open_cover
 - id: '1578933646759'
   alias: log webhook
   description: ''
@@ -150,3 +163,49 @@
       message: '{{ trigger.json.message }}'
       title: 'Camera Alert:'
     service: notify.mobile_app_pixel_4
+- id: '1580818178420'
+  alias: ferme le volet quand la lumière s'éteint dans la chambre parentale
+  description: ''
+  trigger:
+  - entity_id: group.lux_parents
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition:
+  - after: '21:00:00'
+    condition: time
+  action:
+  - data: {}
+    entity_id: cover.volet_parents
+    service: cover.close_cover
+- id: '1580841955334'
+  alias: Referme le verrou
+  description: ''
+  trigger:
+  - entity_id: lock.ti_ar_kaerell
+    for: 0:03:00
+    platform: state
+    to: unlocked
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.lock
+- id: '1580853538230'
+  alias: verrouille la maison quand elle est vide
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.home_occupied
+    for: 00:01:00
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.lock
+  - entity_id: group.velux_etage
+    service: cover.close_cover
+  - entity_id: group.volets
+    service: cover.close_cover
+  - entity_id: group.volet_etage
+    service: cover.close_cover

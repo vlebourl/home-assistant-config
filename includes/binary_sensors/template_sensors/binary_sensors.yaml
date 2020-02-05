@@ -1,6 +1,6 @@
 platform: template
 sensors:
-  home_empty:
+  home_occupied:
     value_template: >-
       {{ is_state('person.vincent', 'home')
          or is_state('person.virginia', 'home')

@@ -15,10 +15,10 @@ volets :
   name: Volets
   icon: mdi:window-closed
   entities:
-  - cover.rolling_shutter
-  - cover.rolling_shutter_2
-  - cover.rolling_shutter_3
-  - cover.rolling_shutter_4
+  - cover.volet_cuisine
+  - cover.volet_entree
+  - cover.volet_salon
+  - cover.volet_bureau
     
 volets_etage:
   name: Volets velux
@@ -26,7 +26,8 @@ volets_etage:
   entities:
   - cover.volet_palier
   - cover.volet_lenaic
-    
+  - cover.volet_parents
+  
 velux_etage:
   name: Velux
   icon: mdi:window-closed
@@ -35,19 +36,26 @@ velux_etage:
   - cover.velux_lenaic
     
 lux_cuisine:
-  name: Lumière Cuisine
+  name: Cuisine
   entities:
   - light.lux_cuisine_1
   - light.lux_cuisine_2
     
 lux_salon:
-  name: Lumière Salon
+  name: Salon
   entities:
   - light.lampe_peau
   - light.lux_salon_1
   - light.lux_salon_2
   - light.lux_salon_3
    
+lux_rez:
+  name: Rez-de-Chaussée
+  entities:
+  - group.lux_cuisine
+  - group.lux_salon
+  - light.lux_entree
+
 lux_lenaic:
   name: Lumière Lenaïc
   entities:

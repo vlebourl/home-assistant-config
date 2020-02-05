@@ -1,61 +1,34 @@
-#########################
-# Entrée
-#########################
-
 - type: vertical-stack
   cards:
   - type: entities
-    title: Entrée
+    show_header_toggle: false
+    title: Rez-de-Chaussée
+    entities:
+    - entity: lock.ti_ar_kaerell
+      name: Porte d'entrée
+  - type: entities
+    title: Lumières
     show_header_toggle: false
     entities:
-    - type: custom:slider-entity-row
-      entity: light.lux_entree
-      name: Lux Entrée
-      toggle: true
-    - entity: cover.rolling_shutter
-      name: Volet Entrée
-#    - entity: lock.ti_ar_kaerell
-#      name: Porte d'entrée
-
-#########################
-# Cuisine
-#########################
-
-- type: vertical-stack
-  cards:
-    - type: entities
-      title: Cuisine
-      show_header_toggle: false
+    - type: custom:fold-entity-row
+      head: group.lux_rez
+      name: Rez de Chaussée
       entities:
-        - type: custom:fold-entity-row
-          head: group.lux_cuisine
-          entities:
-          - type: custom:slider-entity-row
-            entity: light.lux_cuisine_1
-            name: Lux Cuisine 1
-            toggle: true
-          - type: custom:slider-entity-row
-            entity: light.lux_cuisine_2
-            name: Lux Cuisine 2
-            toggle: true
-        - entity: cover.rolling_shutter_3
-          name: Volet Cuisine
-
-#########################
-# Salon
-#########################
-
-- type: vertical-stack
-  cards:
-    - type: custom:simple-thermostat
-      entity: climate.radiateur_salon
-      name: "Salon"
-      sensors:
-      - entity: sensor.humidite_salon_2
-        name: Humidité
-    - type: entities
-      show_header_toggle: false
-      entities:
+      - type: custom:slider-entity-row
+        entity: light.lux_entree
+        name: Entrée
+        toggle: true
+      - type: custom:fold-entity-row
+        head: group.lux_cuisine
+        entities:
+        - type: custom:slider-entity-row
+          entity: light.lux_cuisine_1
+          name: Cuisine 1
+          toggle: true
+        - type: custom:slider-entity-row
+          entity: light.lux_cuisine_2
+          name: Cuisine 2
+          toggle: true
       - type: custom:fold-entity-row
         head: group.lux_salon
         entities:
@@ -65,35 +38,147 @@
           toggle: true
         - type: custom:slider-entity-row
           entity: light.lux_salon_1
-          name: Lux Salon 1
+          name: Salon 1
           toggle: true
         - type: custom:slider-entity-row
           entity: light.lux_salon_2
-          name: Lux Salon 2
+          name: Salon 2
           toggle: true
         - type: custom:slider-entity-row
           entity: light.lux_salon_3
-          name: Lux Salon 3
+          name: Salon 3
           toggle: true
-      - entity: cover.rolling_shutter_2
-        name: Volet Porte Fenêtre
-      - entity: switch.ampli
-        name: "Spotify"
-      - entity: switch.television
-        name: "Télé"
-
-#########################
-# Bureau
-#########################
-
+  - type: entities
+    title: Volets
+    show_header_toggle: false
+    entities:
+    - type: custom:fold-entity-row
+      head: switch.volets
+      entities:
+      - entity: cover.volet_cuisine
+        name: Volet Cuisine
+      - entity: cover.volet_entree
+        name: Volet Entrée
+      - entity: cover.volet_salon
+        name: Volet Salon
+      - entity: cover.volet_bureau
+        name: Volet Bureau
+  - type: entities
+    title: Multimedia
+    entities:
+    - entity: switch.ampli
+      name: "Spotify"
+    - entity: switch.television
+      name: "Télé"
 - type: vertical-stack
   cards:
-    - type: custom:simple-thermostat
-      entity: climate.radiateur_bureau
-      name: "Bureau"
-    - type: entities
-      title: Bureau
-      show_header_toggle: false
-      entities:
-        - entity: cover.rolling_shutter_4
-          name: Volet
+  - type: custom:simple-thermostat
+    entity: climate.radiateur_salon
+    name: "Salon"
+    sensors:
+    - entity: sensor.humidite_salon_2
+      name: Humidité
+  - type: custom:simple-thermostat
+    entity: climate.radiateur_bureau
+    name: "Bureau"
+
+
+# #########################
+# # Entrée
+# #########################
+
+# - type: vertical-stack
+#   cards:
+#   - type: entities
+#     title: Entrée
+#     show_header_toggle: false
+#     entities:
+#     - type: custom:slider-entity-row
+#       entity: light.lux_entree
+#       name: Lux Entrée
+#       toggle: true
+#     - entity: cover.volet_entree
+#       name: Volet Entrée
+#     - entity: lock.ti_ar_kaerell
+#       name: Porte d'entrée
+
+# #########################
+# # Cuisine
+# #########################
+
+# - type: vertical-stack
+#   cards:
+#   - type: entities
+#     title: Cuisine
+#     show_header_toggle: false
+#     entities:
+#     - type: custom:fold-entity-row
+#       head: group.lux_cuisine
+#       entities:
+#       - type: custom:slider-entity-row
+#         entity: light.lux_cuisine_1
+#         name: Lux Cuisine 1
+#         toggle: true
+#       - type: custom:slider-entity-row
+#         entity: light.lux_cuisine_2
+#         name: Lux Cuisine 2
+#         toggle: true
+#     - entity: cover.volet_cuisine
+#       name: Volet Cuisine
+
+# #########################
+# # Salon
+# #########################
+
+# - type: vertical-stack
+#   cards:
+#   - type: custom:simple-thermostat
+#     entity: climate.radiateur_salon
+#     name: "Salon"
+#     sensors:
+#     - entity: sensor.humidite_salon_2
+#       name: Humidité
+#   - type: entities
+#     show_header_toggle: false
+#     entities:
+#     - type: custom:fold-entity-row
+#       head: group.lux_salon
+#       entities:
+#       - type: custom:slider-entity-row
+#         entity: light.lampe_peau
+#         name: Lampe Peau
+#         toggle: true
+#       - type: custom:slider-entity-row
+#         entity: light.lux_salon_1
+#         name: Lux Salon 1
+#         toggle: true
+#       - type: custom:slider-entity-row
+#         entity: light.lux_salon_2
+#         name: Lux Salon 2
+#         toggle: true
+#       - type: custom:slider-entity-row
+#         entity: light.lux_salon_3
+#         name: Lux Salon 3
+#         toggle: true
+#     - entity: cover.volet_salon
+#       name: Volet Porte Fenêtre
+#     - entity: switch.ampli
+#       name: "Spotify"
+#     - entity: switch.television
+#       name: "Télé"
+
+# #########################
+# # Bureau
+# #########################
+
+# - type: vertical-stack
+#   cards:
+#   - type: custom:simple-thermostat
+#     entity: climate.radiateur_bureau
+#     name: "Bureau"
+#   - type: entities
+#     title: Bureau
+#     show_header_toggle: false
+#     entities:
+#     - entity: cover.volet_bureau
+#       name: Volet
