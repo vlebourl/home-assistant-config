@@ -1,3 +1,0 @@
-platform: fitbit
-monitored_resources:
-- "body/weight"
