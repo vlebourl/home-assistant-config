@@ -1,7 +1,13 @@
 - name: Home
   latitude: 46.196896
   longitude: 6.243225
-  radius: 35
+  radius: 15
+  icon: mdi:account-multiple
+
+- name: Home_driveway
+  latitude: 46.197198
+  longitude: 6.242962
+  radius: 15
   icon: mdi:account-multiple
 
 - name: Home_large

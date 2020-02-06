@@ -209,3 +209,15 @@
     service: cover.close_cover
   - entity_id: group.volet_etage
     service: cover.close_cover
+- id: '1580970460296'
+  alias: verrouille la porte
+  description: ''
+  trigger:
+  - entity_id: remote.interrupteur_entree
+    platform: state
+    to: right_lower_release
+  condition: []
+  action:
+  - delay: 00:00:10
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.lock
