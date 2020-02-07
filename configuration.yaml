@@ -1,8 +1,4 @@
 homeassistant:
-#  auth_providers:
-#    - type: trusted_networks
-#      trusted_networks:
-#        - 192.168.0.0/24
   customize: !include includes/customize.yaml
   whitelist_external_dirs:
     - /config
@@ -15,7 +11,6 @@ stream:
 sun:
 uilogs:
 
-#Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   server_port: 8124
   base_url: https://tiarkaerell.duckdns.org
@@ -26,7 +21,6 @@ automation:       !include automations.yaml
 automation old:   !include_dir_list includes/automations
 binary_sensor:    !include_dir_list includes/binary_sensors
 climate:          !include_dir_list includes/climates
-#device_tracker:   !include_dir_list includes/device_trackers
 google:           !include includes/google.yaml
 google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml

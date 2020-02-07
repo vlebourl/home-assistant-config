@@ -7,7 +7,7 @@ sensors:
          or is_state('input_boolean.guest_at_home', 'true') }}
   lock_triggered:
     value_template: >-
-      {% if ((as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used.state,'%Y-%m-%d %H:%M:%S'))) | int < 10 ) and 
+      {% if ((as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used_date.state,'%Y-%m-%d %H:%M:%S'))) | int < 10 ) and
             state_attr('remote.interrupteur_entree','last_button_event')=="right_lower_release" %}
         On
       {% else %}
@@ -15,7 +15,7 @@ sensors:
       {% endif %}
   unlock_triggered:
     value_template: >-
-      {% if ((as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used.state,'%Y-%m-%d %H:%M:%S'))) | int < 10 ) and 
+      {% if ((as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used_date.state,'%Y-%m-%d %H:%M:%S'))) | int < 10 ) and
             state_attr('remote.interrupteur_entree','last_button_event')=="right_upper_release" %}
         On
       {% else %}
