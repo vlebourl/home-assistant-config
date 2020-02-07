@@ -1,0 +1,6 @@
+platform: template
+sensors:
+  button_lock_last_used:
+    friendly_name: Button Lock Last Used
+    value_template: >-
+      {{ state_attr('remote.interrupteur_entree','last_updated')[0] }} {{ state_attr('remote.interrupteur_entree','last_updated')[1] }}

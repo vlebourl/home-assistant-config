@@ -213,11 +213,49 @@
   alias: verrouille la porte
   description: ''
   trigger:
-  - entity_id: remote.interrupteur_entree
+  - entity_id: binary_sensor.lock_triggered
     platform: state
-    to: right_lower_release
+    to: 'On'
   condition: []
   action:
   - delay: 00:00:10
   - entity_id: lock.ti_ar_kaerell
     service: lock.lock
+- id: '1581007064090'
+  alias: Déverouille la porte
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.unlock_triggered
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.unlock
+- id: '1581007152058'
+  alias: Virginia arrive
+  description: ''
+  trigger:
+  - entity_id: person.virginia
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data:
+      message: Virginia arrive
+    service: notify.mobile_app_pixel_4
+- id: '1581007152057'
+  alias: Vincent arrive
+  description: ''
+  trigger:
+  - entity_id: person.vincent
+    event: enter
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data:
+      message: Vincent arrive
+    service: notify.mobile_app_pixel_4
