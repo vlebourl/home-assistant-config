@@ -15,4 +15,4 @@ sensors:
       {% endif %}
   button_lock_last_used_seconds:
     value_template: >-
-      {{ (as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used.state,'%Y-%m-%d %H:%M:%S'))) | int }}
+      {{ (as_timestamp(utcnow()) - as_timestamp(strptime(states.sensor.button_lock_last_used_date.state,"%Y-%m-%d %H:%M:%S"))) | int }}

@@ -213,23 +213,26 @@
   alias: verrouille la porte
   description: ''
   trigger:
-  - entity_id: binary_sensor.lock_triggered
+  - entity_id: remote.interrupteur_entree
     platform: state
-    to: 'On'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: sensor.button_lock_button_used
+    state: lock
   action:
-  - delay: 00:00:10
+  - delay: 00:00:05
   - entity_id: lock.ti_ar_kaerell
     service: lock.lock
 - id: '1581007064090'
   alias: Déverouille la porte
   description: ''
   trigger:
-  - entity_id: binary_sensor.unlock_triggered
-    from: 'off'
+  - entity_id: remote.interrupteur_entree
     platform: state
-    to: 'on'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: sensor.button_lock_button_used
+    state: unlock
   action:
   - entity_id: lock.ti_ar_kaerell
     service: lock.unlock
