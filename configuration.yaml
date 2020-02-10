@@ -38,6 +38,7 @@ remote:           !include_dir_list includes/remotes
 scene:            !include scenes.yaml
 script:           !include includes/scripts.yaml
 sensor:           !include_dir_list includes/sensors
+spotify:          !include includes/spotify.yaml
 switch:           !include includes/switches.yaml
 tahoma:           !include includes/tahoma.yaml
 tahoma_extended:  !include includes/tahoma.yaml

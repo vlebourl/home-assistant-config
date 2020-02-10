@@ -1,8 +1,8 @@
 - type: picture-entity
-  entity: camera.camterrasse
+  entity: camera.netatmo_camterrasse
   camera_view: live
   name: Terrasse live
 - type: picture-entity
-  entity: camera.camsalon
+  entity: camera.netatmo_camsalon
   camera_view: live
   name: Salon live

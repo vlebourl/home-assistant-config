@@ -142,6 +142,8 @@
   trigger:
   - platform: webhook
     webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
+  - platform: webhook
+    webhook_id: netatmo_webhook
   condition:
   - condition: state
     entity_id: sensor.home
@@ -155,7 +157,9 @@
       message: '{{ trigger.json.message }}'
       title: 'Camera Alert:'
     service: notify.mobile_app_oneplus_a6013
-  - data_template:
+  - data:
+      message: trigger.json
+    data_template:
       data:
         android:
           notification:
@@ -220,7 +224,7 @@
     entity_id: sensor.button_lock_button_used
     state: lock
   action:
-  - delay: 00:00:05
+  - delay: 00:00:03
   - entity_id: lock.ti_ar_kaerell
     service: lock.lock
 - id: '1581007064090'
@@ -261,4 +265,19 @@
   action:
   - data:
       message: Vincent arrive
+    service: notify.mobile_app_pixel_4
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.unlock
+- id: '1581144425280'
+  alias: test tag porte d'entrée
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.camsalon_porte_d_entree_tag_open
+    platform: state
+  - entity_id: binary_sensor.camsalon_porte_d_entree_tag_vibration
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: porte bouge
     service: notify.mobile_app_pixel_4

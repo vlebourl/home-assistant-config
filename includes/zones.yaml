@@ -1,7 +1,7 @@
 - name: Home
   latitude: 46.196896
   longitude: 6.243225
-  radius: 23
+  radius: 30
   icon: mdi:account-multiple
 
 - name: Home_driveway
