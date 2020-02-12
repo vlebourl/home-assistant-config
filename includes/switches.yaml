@@ -11,19 +11,19 @@
   switches:
     volets:
       value_template: >-
-        {% if is_state('group.volets', 'closed') %}
+        {% if is_state('group.volets_all', 'closed') %}
           Off
         {% else %}
           On
         {% endif %}
       turn_on:
       - service: cover.open_cover
-        entity_id: group.volets
+        entity_id: group.volets_all
       turn_off:
       - service: cover.close_cover
-        entity_id: group.volets
+        entity_id: group.volets_all
       icon_template: >-
-        {% if is_state('group.volets', 'closed') %}
+        {% if is_state('group.volets_all', 'closed') %}
           mdi:window-closed
         {% else %}
           mdi:window-open
