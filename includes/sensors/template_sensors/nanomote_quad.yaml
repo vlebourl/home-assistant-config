@@ -2,12 +2,12 @@ platform: template
 sensors:
   nanomote_quad:
     value_template: >
-      {% if states.input_boolean.nanomote_quad_button_1.state == "on" %}
+      {% if states.input_boolean.nanomote_quad_1.state == "on" %}
         Button 1
-      {% elif states.input_boolean.nanomote_quad_button_2.state == "on" %}
+      {% elif states.input_boolean.nanomote_quad_2.state == "on" %}
         Button 2
-      {% elif states.input_boolean.nanomote_quad_button_3.state == "on" %}
+      {% elif states.input_boolean.nanomote_quad_3.state == "on" %}
         Button 3
-      {% elif states.input_boolean.nanomote_quad_button_4.state == "on" %}
+      {% elif states.input_boolean.nanomote_quad_4.state == "on" %}
         Button 4
       {% endif %}

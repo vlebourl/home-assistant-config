@@ -7,9 +7,9 @@ trigger:
     scene_id: 1
 action:
 - data:
-    entity_id: input_boolean.nanomote_quad_button_1
+    entity_id: input_boolean.nanomote_quad_1
   service: input_boolean.turn_on
 - delay: '00:00:02'
 - data:
-    entity_id: input_boolean.nanomote_quad_button_1
+    entity_id: input_boolean.nanomote_quad_1
   service: input_boolean.turn_off
