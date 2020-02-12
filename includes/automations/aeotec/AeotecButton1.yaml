@@ -6,7 +6,10 @@ trigger:
     entity_id: zwave.aeotec_limited_zwa003_nanomote_quad
     scene_id: 1
 action:
-  data:
-    entity_id: lock.ti_ar_kaerell
-  service: lock.unlock
-  
+- data:
+    entity_id: input_boolean.nanomote_quad_button_1
+  service: input_boolean.turn_on
+- delay: '00:00:02'
+- data:
+    entity_id: input_boolean.nanomote_quad_button_1
+  service: input_boolean.turn_off

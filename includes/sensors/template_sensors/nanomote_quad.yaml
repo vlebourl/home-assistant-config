@@ -1,0 +1,3 @@
+platform: template
+sensors:
+  nanomote_quad:
