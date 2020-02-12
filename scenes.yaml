@@ -1,0 +1,35 @@
+- id: '1581496537071'
+  name: Aérer le palier
+  entities:
+    cover.velux_lenaic:
+      current_position: 100
+      device_class: window
+      friendly_name: Velux Lenaïc
+      rssi_level: 100
+      state: open
+      supported_features: 15
+      tahoma_device_id: io://1213-0174-1731/9191994
+    cover.velux_palier:
+      current_position: 100
+      device_class: window
+      friendly_name: Velux Palier
+      rssi_level: 94
+      state: open
+      supported_features: 15
+      tahoma_device_id: io://1213-0174-1731/14576937
+    cover.volet_lenaic:
+      current_position: 100
+      device_class: shutter
+      friendly_name: Volet Lenaïc
+      rssi_level: 82
+      state: open
+      supported_features: 15
+      tahoma_device_id: io://1213-0174-1731/10280900
+    cover.volet_palier:
+      current_position: 100
+      device_class: shutter
+      friendly_name: Volet Palier
+      rssi_level: 78
+      state: open
+      supported_features: 15
+      tahoma_device_id: io://1213-0174-1731/7464054

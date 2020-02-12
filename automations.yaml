@@ -6,7 +6,10 @@
       (states.proximity.home_virginia.state | float) > 1250 }}'
   - at: '23:00:00'
     platform: time
-  condition: []
+  condition:
+  - condition: state
+    entity_id: binary_sensor.home_occupied
+    state: 'off'
   action:
   - data:
       entity_id: group.chauffage
@@ -149,24 +152,11 @@
     entity_id: sensor.home
     state: empty
   action:
-  - data_template:
-      data:
-        android:
-          notification:
-            image: '{{ trigger.json.snapshot_url }}'
-      message: '{{ trigger.json.message }}'
-      title: 'Camera Alert:'
-    service: notify.mobile_app_oneplus_a6013
   - data:
-      message: trigger.json
-    data_template:
-      data:
-        android:
-          notification:
-            image: '{{ trigger.json.snapshot_url }}'
-      message: '{{ trigger.json.message }}'
-      title: 'Camera Alert:'
-    service: notify.mobile_app_pixel_4
+      level: info
+      logger: camera.netatmo_camsalon
+      message: '{{ trigger.json }}'
+    service: system_log.write
 - id: '1580818178420'
   alias: ferme le volet quand la lumière s'éteint dans la chambre parentale
   description: ''

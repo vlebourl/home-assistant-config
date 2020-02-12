@@ -1,0 +1,12 @@
+alias: 'Aeotec Button 1 Pressed'
+trigger:
+  platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeotec_limited_zwa003_nanomote_quad
+    scene_id: 1
+action:
+  data:
+    entity_id: lock.ti_ar_kaerell
+  service: lock.unlock
+  

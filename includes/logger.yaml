@@ -1,3 +1,2 @@
-default: error
-logs:
-  homeassistant.components.device_tracker.nmap_tracker: debug
+default: info
+

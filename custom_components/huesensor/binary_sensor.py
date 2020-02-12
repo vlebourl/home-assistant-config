@@ -1,8 +1,5 @@
 """
-Sensor for checking the status of Hue sensors.
-
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/sensor.hue/
+Binary sensor for Hue motion sensors.
 """
 import asyncio
 import async_timeout
@@ -15,6 +12,8 @@ from homeassistant.const import STATE_ON, STATE_OFF
 from homeassistant.components.binary_sensor import BinarySensorDevice
 from homeassistant.helpers.event import async_track_time_interval
 
+from . import get_bridges, update_api
+
 DEPENDENCIES = ["hue"]
 
 
@@ -22,7 +21,6 @@ _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=0.1)
 TYPE_GEOFENCE = "Geofence"
-ICONS = {"SML": "mdi:run", "RWL": "mdi:remote", "ZGP": "mdi:remote"}
 DEVICE_CLASSES = {"SML": "motion"}
 ATTRS = {
     "SML": [
@@ -36,10 +34,9 @@ ATTRS = {
         "on",
         "reachable",
         "sensitivity",
-        "threshold",
-    ],
-    "RWL": ["last_updated", "battery", "on", "reachable"],
-    "ZGP": ["last_updated"],
+        "threshold_dark",
+        "threshold_offset",
+    ]
 }
 
 
@@ -50,13 +47,12 @@ def parse_hue_api_response(sensors):
     # Loop over all keys (1,2 etc) to identify sensors and get data.
     for sensor in sensors:
         modelid = sensor["modelid"][0:3]
-        if modelid in ["RWL", "SML", "ZGP"]:
+        if modelid == "SML":
             _key = modelid + "_" + sensor["uniqueid"][:-5]
-            if modelid == "SML":
-                if _key not in data_dict:
-                    data_dict[_key] = parse_sml(sensor)
-                else:
-                    data_dict[_key].update(parse_sml(sensor))
+            if _key not in data_dict:
+                data_dict[_key] = parse_sml(sensor)
+            else:
+                data_dict[_key].update(parse_sml(sensor))
 
     return data_dict
 
@@ -64,8 +60,9 @@ def parse_hue_api_response(sensors):
 def parse_sml(response):
     """Parse the json for a SML Hue motion sensor and return the data."""
     if response["type"] == "ZLLLightLevel":
-        lightlevel = response["state"].get("lightlevel")
-        tholddark = response["config"].get("tholddark")
+        lightlevel = response["state"]["lightlevel"]
+        tholddark = response["config"]["tholddark"]
+        tholdoffset = response["config"]["tholdoffset"]
         if lightlevel is not None:
             lx = round(float(10 ** ((lightlevel - 1) / 10000)), 2)
             dark = response["state"]["dark"]
@@ -75,7 +72,8 @@ def parse_sml(response):
                 "lx": lx,
                 "dark": dark,
                 "daylight": daylight,
-                "threshold": tholddark,
+                "threshold_dark": tholddark,
+                "threshold_offset": tholdoffset,
             }
         else:
             data = {
@@ -83,7 +81,8 @@ def parse_sml(response):
                 "lx": None,
                 "dark": None,
                 "daylight": None,
-                "threshold": tholddark,
+                "threshold_dark": None,
+                "threshold_offset": None,
             }
 
     elif response["type"] == "ZLLTemperature":
@@ -114,29 +113,6 @@ def parse_sml(response):
             "last_updated": response["state"]["lastupdated"].split("T"),
         }
     return data
-
-
-def get_bridges(hass):
-    from homeassistant.components import hue
-    from homeassistant.components.hue.bridge import HueBridge
-
-    return [
-        entry
-        for entry in hass.data[hue.DOMAIN].values()
-        if isinstance(entry, HueBridge) and entry.api
-    ]
-
-
-async def update_api(api):
-    import aiohue
-
-    try:
-        with async_timeout.timeout(10):
-            await api.update()
-    except (asyncio.TimeoutError, aiohue.AiohueException) as err:
-        _LOGGER.debug("Failed to fetch sensors: %s", err)
-        return False
-    return True
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):

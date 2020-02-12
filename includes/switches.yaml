@@ -1,3 +1,12 @@
+- platform: wake_on_lan
+  mac: B8:85:84:9C:21:32
+  name: PC TaK
+  host: 192.168.0.13
+  turn_off:
+    service: hassio.addon_stdin
+    data:
+      addon: core_rpc_shutdown
+      input: pc_tak
 - platform: template
   switches:
     volets:

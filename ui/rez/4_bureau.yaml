@@ -8,5 +8,7 @@ cards:
     name: Volet
   - entity: climate.radiateur_bureau
     name: Radiateur
+  - entity: switch. pc_tak
+    name: Ordi
 #- type: thermostat
 #  entity: climate.radiateur_bureau

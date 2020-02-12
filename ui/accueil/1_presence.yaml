@@ -23,6 +23,33 @@ cards:
           confirmation:
             text: "Un visiteur est à la maison ?"
           action: toggle
+  - type: horizontal-stack
+    cards:
+    - type: conditional
+      conditions:
+      - entity: person.emilie
+        state: "home"
+      card:
+        type: glance
+        entities:
+        - entity: person.emilie
+    - type: conditional
+      conditions:
+      - entity: person.elie
+        state: "home"
+      card:
+        type: glance
+        entities:
+        - entity: person.elie
+    - type: conditional
+      conditions:
+      - entity: person.claudine
+        state: "home"
+      card:
+        type: glance
+        entities:
+        - entity: person.claudine
+    
   - type: 'custom:travel-time-card'
     title: Temps de trajet pour la maison
     columns: ['name', 'duration', 'distance']

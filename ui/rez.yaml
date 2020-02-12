@@ -70,6 +70,8 @@
       name: "Spotify"
     - entity: switch.television
       name: "Télé"
+    - entity: switch.pc_tak
+      name: Ordinateur
   - type: media-control
     entity: media_player.spotify_vincent_lb
 - type: vertical-stack

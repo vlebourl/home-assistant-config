@@ -4,4 +4,8 @@ sensors:
     value_template: >-
       {{ is_state('person.vincent', 'home')
          or is_state('person.virginia', 'home')
-         or is_state('input_boolean.guest_at_home', 'true') }}
+         or is_state('person.emilie', 'true') 
+         or is_state('person.elie', 'true') 
+         or is_state('person.claudine', 'true') 
+         or is_state('input_boolean.guest_at_home', 'true') 
+      }}

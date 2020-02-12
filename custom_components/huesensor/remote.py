@@ -1,8 +1,5 @@
 """
-Sensor for checking the status of Hue sensors.
-
-For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/sensor.hue/
+Hue remotes.
 """
 import asyncio
 import async_timeout
@@ -18,9 +15,10 @@ from homeassistant.helpers.entity import (
     Entity,
     ToggleEntity,
 )
-from homeassistant.const import STATE_OFF
 
 from homeassistant.helpers.event import async_track_time_interval
+
+from . import get_bridges, update_api
 
 DEPENDENCIES = ["hue"]
 
@@ -28,7 +26,7 @@ DEPENDENCIES = ["hue"]
 _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=0.1)
-TYPE_GEOFENCE = "Geofence"
+
 ICONS = {
     "RWL": "mdi:remote",
     "ROM": "mdi:remote",
@@ -36,7 +34,7 @@ ICONS = {
     "FOH": "mdi:light-switch",
     "Z3-": "mdi:light-switch",
 }
-DEVICE_CLASSES = {"SML": "motion"}
+
 ATTRS = {
     "RWL": ["last_updated", "last_button_event", "battery", "on", "reachable"],
     "ROM": ["last_updated", "last_button_event", "battery", "on", "reachable"],
@@ -76,17 +74,17 @@ def parse_hue_api_response(sensors):
 
         elif (
             modelid == "Z3-"
-        ):  #### Newest Model ID / Lutron Aurora / Hue Bridge treats it as two sensors, I wanted them combined
+        ):  # Newest Model ID / Lutron Aurora / Hue Bridge treats it as two sensors, I wanted them combined
             if sensor["type"] == "ZLLRelativeRotary":  # Rotary Dial
                 _key = (
                     modelid + "_" + sensor["uniqueid"][:-5]
                 )  # Rotary key is substring of button
                 key_value = parse_z3_rotary(sensor)
-            else:  # sensor["type"] == "ZLLSwitch"
+            else:
                 _key = modelid + "_" + sensor["uniqueid"]
                 key_value = parse_z3_switch(sensor)
 
-            ##Combine parsed data
+            # Combine parsed data
             if _key in data_dict:
                 data_dict[_key].update(key_value)
             else:
@@ -116,11 +114,6 @@ def parse_zgp(response):
 
 def parse_rwl(response):
     """Parse the json response for a RWL Hue remote."""
-
-    """
-        I know it should be _released not _up
-        but _hold_up is too good to miss isn't it
-    """
     responsecodes = {"0": "_click", "1": "_hold", "2": "_click_up", "3": "_hold_up"}
 
     button = None
@@ -195,7 +188,6 @@ def parse_z3_rotary(response):
         "battery": response["config"]["battery"],
         "on": response["config"]["on"],
         "reachable": response["config"]["reachable"],
-        "last_button_event": button,
         "last_updated": response["state"]["lastupdated"].split("T"),
     }
     return data
@@ -217,34 +209,8 @@ def parse_z3_switch(response):
     else:
         button = Z3_BUTTON[press]
 
-    data = {
-        "last_button_event": button,
-        "state": button
-    }
+    data = {"last_button_event": button, "state": button}
     return data
-
-
-def get_bridges(hass):
-    from homeassistant.components import hue
-    from homeassistant.components.hue.bridge import HueBridge
-
-    return [
-        entry
-        for entry in hass.data[hue.DOMAIN].values()
-        if isinstance(entry, HueBridge) and entry.api
-    ]
-
-
-async def update_api(api):
-    import aiohue
-
-    try:
-        with async_timeout.timeout(10):
-            await api.update()
-    except (asyncio.TimeoutError, aiohue.AiohueException) as err:
-        _LOGGER.debug("Failed to fetch sensors: %s", err)
-        return False
-    return True
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
@@ -271,24 +237,21 @@ class HueRemoteData(object):
             return
 
         data = parse_hue_api_response(
-            sensor.raw
-            for sensor in bridge.api.sensors.values()
-            if sensor.type != TYPE_GEOFENCE
+            sensor.raw for sensor in bridge.api.sensors.values()
         )
 
         new_sensors = data.keys() - self.data.keys()
         updated_sensors = []
         for key, new in data.items():
-            new["changed"] = True
             old = self.data.get(key)
             if not old or old == new:
                 continue
-            updated_sensors.append(key)
             if (
                 old["last_updated"] == new["last_updated"]
                 and old["state"] == new["state"]
             ):
-                new["changed"] = False
+                continue
+            updated_sensors.append(key)
         self.data.update(data)
 
         new_entities = {
@@ -323,8 +286,6 @@ class HueRemoteData(object):
 class HueRemote(RemoteDevice):
     """Class to hold Hue Remote basic info."""
 
-    ICON = "mdi:remote"
-
     def __init__(self, hue_id, data):
         """Initialize the remote object."""
         self._hue_id = hue_id
@@ -337,19 +298,19 @@ class HueRemote(RemoteDevice):
 
     @property
     def name(self):
-        """Return the name of the sensor."""
+        """Return the name of the remote."""
         data = self._data.get(self._hue_id)
         if data:
             return data["name"]
 
     @property
     def unique_id(self):
-        """Return the ID of this Hue sensor."""
+        """Return the ID of this Hue remote."""
         return self._hue_id
 
     @property
     def state(self):
-        """Return the state of the sensor."""
+        """Return the state of the remote."""
         data = self._data.get(self._hue_id)
         return data["state"]
 
@@ -364,15 +325,6 @@ class HueRemote(RemoteDevice):
         return self.ICON
 
     @property
-    def device_class(self):
-        """Return the class of this device, from component DEVICE_CLASSES."""
-        data = self._data.get(self._hue_id)
-        if data:
-            device_class = DEVICE_CLASSES.get(data["model"])
-            if device_class:
-                return device_class
-
-    @property
     def device_state_attributes(self):
         """Attributes."""
         data = self._data.get(self._hue_id)
@@ -382,7 +334,7 @@ class HueRemote(RemoteDevice):
     @property
     def force_update(self):
         """Force update."""
-        return False
+        return True
 
     def turn_on(self, **kwargs):
         """Do nothing."""
