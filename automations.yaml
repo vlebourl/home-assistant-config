@@ -152,11 +152,9 @@
     entity_id: sensor.home
     state: empty
   action:
-  - data:
-      level: info
-      logger: camera.netatmo_camsalon
+  - data_template:
       message: '{{ trigger.json }}'
-    service: system_log.write
+    service: notify.custom_log_file
 - id: '1580818178420'
   alias: ferme le volet quand la lumière s'éteint dans la chambre parentale
   description: ''
