@@ -33,6 +33,7 @@ lovelace:         !include includes/lovelace.yaml
 media_player:     !include_dir_list includes/media_players
 mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
+notify:           !include_dir_list includes/notifies
 proximity:        !include includes/proximity.yaml
 remote:           !include_dir_list includes/remotes
 scene:            !include scenes.yaml

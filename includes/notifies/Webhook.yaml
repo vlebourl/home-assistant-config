@@ -1,3 +1,4 @@
 platform: file
-name: webhook
-filename: webhook.log
+name: custom_log_file
+filename: custom.log
+timestamp: true
