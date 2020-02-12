@@ -269,3 +269,25 @@
   - data:
       message: porte bouge
     service: notify.mobile_app_pixel_4
+- id: '1581504234550'
+  alias: 3.0 Verrouille la maison
+  description: ''
+  trigger:
+  - entity_id: input_boolean.nanomote_quad_1
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.lock
+- id: '1581504290253'
+  alias: '3.1 Déverrouille la maison '
+  description: ''
+  trigger:
+  - entity_id: input_boolean.nanomote_quad_4
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.unlock
