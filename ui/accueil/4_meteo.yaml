@@ -46,7 +46,7 @@ cards:
     - value: 70
       color: "#FF1500"
     entities:
-    - entity: sensor.humidite_salon_2
+    - entity: sensor.humidite_salon
       name: " "
   - type: custom:mini-graph-card
     hours_to_show: 24
