@@ -1,7 +1,0 @@
-platform: template
-sensors:
-  humidite_salon:
-    friendly_name: Humidité Salon
-    unit_of_measurement: '%'
-    value_template: >
-      {{state_attr('climate.radiateur_salon', 'current_humidity')}}

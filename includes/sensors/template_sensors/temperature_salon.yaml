@@ -1,7 +1,0 @@
-platform: template
-sensors:
-  temperature_salon:
-    friendly_name: Température Salon
-    unit_of_measurement: '°C'
-    value_template: >
-      {{state_attr('climate.radiateur_salon', 'current_temperature')}}

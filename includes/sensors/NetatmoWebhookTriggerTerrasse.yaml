@@ -1,5 +1,0 @@
-platform: mqtt
-name: Netatmo webhook trigger terrasse
-state_topic: 'netatmo/update/terrasse'
-expire_after: 20
-value_template: '{{ value_json.push_type  }}'

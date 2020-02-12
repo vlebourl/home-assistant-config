@@ -1,5 +1,0 @@
-platform: mqtt
-name: Netatmo webhook terrasse
-state_topic: 'netatmo/update/terrasse'
-value_template: '{{ value_json.snapshot_id  }}'
-json_attributes_topic: 'netatmo/update/terrasse'
