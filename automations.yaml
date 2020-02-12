@@ -170,18 +170,6 @@
   - data: {}
     entity_id: cover.volet_parents
     service: cover.close_cover
-- id: '1580841955334'
-  alias: Referme le verrou
-  description: ''
-  trigger:
-  - entity_id: lock.ti_ar_kaerell
-    for: 0:03:00
-    platform: state
-    to: unlocked
-  condition: []
-  action:
-  - entity_id: lock.ti_ar_kaerell
-    service: lock.lock
 - id: '1580853538230'
   alias: verrouille la maison quand elle est vide
   description: ''
@@ -201,33 +189,6 @@
     service: cover.close_cover
   - entity_id: group.volet_etage
     service: cover.close_cover
-- id: '1580970460296'
-  alias: verrouille la porte
-  description: ''
-  trigger:
-  - entity_id: remote.interrupteur_entree
-    platform: state
-  condition:
-  - condition: state
-    entity_id: sensor.button_lock_button_used
-    state: lock
-  action:
-  - delay: 00:00:03
-  - entity_id: lock.ti_ar_kaerell
-    service: lock.lock
-- id: '1581007064090'
-  alias: Déverouille la porte
-  description: ''
-  trigger:
-  - entity_id: remote.interrupteur_entree
-    platform: state
-  condition:
-  - condition: state
-    entity_id: sensor.button_lock_button_used
-    state: unlock
-  action:
-  - entity_id: lock.ti_ar_kaerell
-    service: lock.unlock
 - id: '1581007152058'
   alias: Virginia arrive
   description: ''
@@ -270,7 +231,7 @@
       message: porte bouge
     service: notify.mobile_app_pixel_4
 - id: '1581504234550'
-  alias: 3.0 Verrouille la maison
+  alias: 3.1 Verrouille la maison
   description: ''
   trigger:
   - entity_id: input_boolean.nanomote_quad_1
@@ -281,7 +242,7 @@
   - entity_id: lock.ti_ar_kaerell
     service: lock.lock
 - id: '1581504290253'
-  alias: '3.1 Déverrouille la maison '
+  alias: '3.4 Déverrouille la maison '
   description: ''
   trigger:
   - entity_id: input_boolean.nanomote_quad_4

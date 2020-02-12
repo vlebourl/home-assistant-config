@@ -1,18 +1,5 @@
-virginia:
-  name: Virginia Presence
-  icon: mdi:pine-tree-box
-  entities:
-  - device_tracker.virginia_home_2
-  - device_tracker.192_168_0_33_64_a2_f9_be_d5_eb
-vincent:
-  name: Vincent Presence
-  icon: mdi:camera
-  entities:
-  - device_tracker.pixel4_home
-  - device_tracker.192_168_0_33_e5_4c_49_c4_30_7c
-    
-volets :
-  name: Volets
+volets_rez :
+  name: Volets Rez-de-Chaussée
   icon: mdi:window-closed
   entities:
   - cover.volet_cuisine
@@ -27,7 +14,13 @@ volets_etage:
   - cover.volet_palier
   - cover.volet_lenaic
   - cover.volet_parents
-  
+
+volets_all:
+  name: Volets Ti Ar Kaerell
+  entities:
+  - group.volets_rez
+  - group.volets_etage
+
 velux_etage:
   name: Velux
   icon: mdi:window-closed
@@ -50,7 +43,7 @@ lux_salon:
   - light.lux_salon_3
    
 lux_rez:
-  name: Rez-de-Chaussée
+  name: Lumières Rez-de-Chaussée
   entities:
   - group.lux_cuisine
   - group.lux_salon
@@ -74,6 +67,19 @@ lux_parents:
   entities:
   - light.lux_parents_1
   - light.lux_parents_2
+
+lux_etage:
+  name: Lumières Etage
+  entities:
+  - group.lux_lenaic
+  - group.lux_palier
+  - group.lux_parents
+  
+lux_all:
+  name: Lumières Ti Ar Kaerell
+  entities:
+  - group.lux_etage
+  - group.lux_rez
 
 chauffage:
   name: Chauffage
