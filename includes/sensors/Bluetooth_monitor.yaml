@@ -1,5 +1,5 @@
 platform: mqtt
-state_topic: 'monitor/raspberrypi/pixel_4'
+state_topic: "presence/hassio/pixel_4"
 value_template: '{{ value_json.confidence }}'
 unit_of_measurement: '%'
 name: 'rPi_zero_pixel_4'

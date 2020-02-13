@@ -252,3 +252,26 @@
   action:
   - entity_id: lock.ti_ar_kaerell
     service: lock.unlock
+- id: '1581506999426'
+  alias: 3.2 Ferme tout et verrouille
+  description: ''
+  trigger:
+  - entity_id: input_boolean.nanomote_quad_2
+    platform: state
+    to: 'on'
+  - entity_id: input_boolean.nanomote_quad_3
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.lock
+  - entity_id: group.velux_etage
+    service: cover.close_cover
+  - entity_id: group.volets_rez
+    service: cover.close_cover
+  - entity_id: group.lux_all
+    service: light.turn_off
+  - delay: 00:00:30
+  - entity_id: group.volets_etage
+    service: cover.close_cover
