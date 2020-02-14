@@ -1,8 +1,9 @@
 platform: google_travel_time
 name: Vincent Bike
 api_key: !secret google-assistant-api-key
-origin: device_tracker.pixel_4
+origin: person.vincent
 destination: zone.home
+scan_interval: 300
 options:
   mode: bicycling
   language: fr

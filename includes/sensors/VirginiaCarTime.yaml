@@ -1,7 +1,8 @@
 platform: google_travel_time
 name: Virginia Voiture
 api_key: !secret google-assistant-api-key
-origin: device_tracker.oneplus_a6013
+origin: person.virginia
 destination: zone.home
+scan_interval: 300
 options:
   language: fr
