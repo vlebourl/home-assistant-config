@@ -275,3 +275,15 @@
   - delay: 00:00:30
   - entity_id: group.volets_etage
     service: cover.close_cover
+- id: '1581683202081'
+  alias: Update available
+  description: ''
+  trigger:
+  - entity_id: sensor.home_assistant_latest_release
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      message: 'une mise à jour est disponible: {{ states.sensor.home_assistant_latest_release.state
+        }}'
+    service: notify.mobile_app_pixel_4

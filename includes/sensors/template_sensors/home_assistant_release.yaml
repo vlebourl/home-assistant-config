@@ -1,0 +1,5 @@
+platform: template
+sensors:
+  home_assistant_latest_release:
+    value_template: >
+      {{ state_attr("sensor.home_assistant","latest_release_url").split("/")[7] }}
