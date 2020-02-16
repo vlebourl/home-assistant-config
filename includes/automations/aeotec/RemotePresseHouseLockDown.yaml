@@ -1,0 +1,42 @@
+alias: 'Remote Press Lock Down'
+trigger:
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeotec_limited_zwa003_nanomote_quad
+    scene_id: 2
+    scene_data: 7680
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeotec_limited_zwa003_nanomote_quad
+    scene_id: 3
+    scene_data: 7680
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
+    scene_id: 5
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
+    scene_id: 7
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
+    scene_id: 5
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
+    scene_id: 7
+action:
+- data:
+    entity_id: input_boolean.house_lock_down
+  service: input_boolean.turn_on
+- delay: '00:00:02'
+- data:
+    entity_id: input_boolean.house_lock_down
+  service: input_boolean.turn_off

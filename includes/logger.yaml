@@ -1,5 +1,6 @@
-default: info
+default: warning
 logs:
-  homeassistant.components.sensor.google_travel_time: debug
+  homeassistant.components.netatmo.sensor: debug
+  homeassistant.components.device_tracker: error
   homeassistant.components.nmap_tracker.device_tracker: error
   

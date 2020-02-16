@@ -34,7 +34,7 @@
     service: climate.turn_on
   - data:
       entity_id: group.chauffage
-      temperature: 20
+      temperature: 19
     service: climate.set_temperature
 - id: FermeVeluxLenaic
   alias: 1.0 Ferme le velux de Lenaïc
@@ -175,7 +175,7 @@
   description: ''
   trigger:
   - entity_id: binary_sensor.home_occupied
-    for: 00:01:00
+    for: 00:05:00
     from: 'on'
     platform: state
     to: 'off'
@@ -221,20 +221,20 @@
   alias: test tag porte d'entrée
   description: ''
   trigger:
-  - entity_id: binary_sensor.camsalon_porte_d_entree_tag_open
+  - entity_id: binary_sensor.netatmo_camsalon_porte_d_entree_tag_open
     platform: state
-  - entity_id: binary_sensor.camsalon_porte_d_entree_tag_vibration
+  - entity_id: binary_sensor.netatmo_camsalon_porte_d_entree_tag_vibration
     platform: state
   condition: []
   action:
-  - data:
-      message: porte bouge
+  - data_template:
+      message: 'porte bouge: {{ trigger.json }}'
     service: notify.mobile_app_pixel_4
 - id: '1581504234550'
   alias: 3.1 Verrouille la maison
   description: ''
   trigger:
-  - entity_id: input_boolean.nanomote_quad_1
+  - entity_id: input_boolean.lock_door
     platform: state
     to: 'on'
   condition: []
@@ -245,7 +245,7 @@
   alias: '3.4 Déverrouille la maison '
   description: ''
   trigger:
-  - entity_id: input_boolean.nanomote_quad_4
+  - entity_id: input_boolean.open_door
     platform: state
     to: 'on'
   condition: []
@@ -256,7 +256,7 @@
   alias: 3.2 Ferme tout et verrouille
   description: ''
   trigger:
-  - entity_id: input_boolean.nanomote_quad_2
+  - entity_id: input_boolean.house_lock_down
     platform: state
     to: 'on'
   - entity_id: input_boolean.nanomote_quad_3

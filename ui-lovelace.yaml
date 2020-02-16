@@ -63,3 +63,13 @@ views:
   title: Caméras
   cards: !include ui/cameras.yaml
 
+# Onglet Cast
+- path: cast
+  title: Cast
+  cards:
+  - type: entities
+    title: Cast
+    show_header_toggle: false
+    entities:
+      - type: cast
+        view: rez

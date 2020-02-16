@@ -1,0 +1,6 @@
+platform: min_max
+name: "Latest Lenaic Telperature"
+type: last
+entity_ids:
+- sensor.tdeg_lenaic
+- sebsor.netatmo_ti_ar_kaerell_lenaic_temperature
