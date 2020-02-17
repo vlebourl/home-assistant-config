@@ -9,6 +9,25 @@
       input: pc_tak
 - platform: template
   switches:
+    aeration_etage:
+      value_template: >-
+        {% if is_state('group.velux_etage', 'open') %}
+          On
+        {% else %}
+          Off
+        {% endif %}
+      turn_on:
+      - service: script.open_both_lenaic
+      - service: script.open_both_palier
+      turn_off:
+      - service: script.close_both_lenaic
+      - service: script.close_both_palier
+      icon_template: >-
+        {% if is_state('group.velux_palier','open') %}
+          mdi:lock-open
+        {% else %}
+          mdi:lock
+        {% endif %}
     volets:
       value_template: >-
         {% if is_state('group.volets_all', 'closed') %}

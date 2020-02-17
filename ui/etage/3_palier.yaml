@@ -21,3 +21,9 @@ cards:
   - type: custom:slider-entity-row
     name: Volet
     entity: cover.volet_palier
+- type: entities
+  title: " "
+  show_header_toggle: false
+  entities:
+  - entity: switch.aeration_etage
+    name: Aeration Etage

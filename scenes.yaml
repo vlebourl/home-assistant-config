@@ -1,35 +1,31 @@
 - id: '1581496537071'
   name: Aérer le palier
   entities:
-    cover.velux_lenaic:
-      current_position: 100
-      device_class: window
-      friendly_name: Velux Lenaïc
-      rssi_level: 100
-      state: open
-      supported_features: 15
-      tahoma_device_id: io://1213-0174-1731/9191994
-    cover.velux_palier:
-      current_position: 100
-      device_class: window
-      friendly_name: Velux Palier
-      rssi_level: 94
-      state: open
-      supported_features: 15
-      tahoma_device_id: io://1213-0174-1731/14576937
-    cover.volet_lenaic:
-      current_position: 100
-      device_class: shutter
-      friendly_name: Volet Lenaïc
-      rssi_level: 82
-      state: open
-      supported_features: 15
-      tahoma_device_id: io://1213-0174-1731/10280900
-    cover.volet_palier:
-      current_position: 100
-      device_class: shutter
-      friendly_name: Volet Palier
-      rssi_level: 78
-      state: open
-      supported_features: 15
-      tahoma_device_id: io://1213-0174-1731/7464054
+    group.chauffage:
+      entity_id:
+      - climate.radiateur_salon
+      - climate.radiateur_bureau
+      - climate.radiateur_lenaic
+      - climate.radiateur_parents
+      friendly_name: Chauffage
+      order: 12
+      state: unknown
+    script.secure_open_volet_lenaic:
+      friendly_name: Ouvre volet Lenaïc
+      last_triggered: '2020-02-17T09:13:48.282788+00:00'
+      state: 'off'
+    script.secure_open_volet_palier:
+      friendly_name: Ouvre volet palier
+      last_triggered: '2020-02-17T09:14:12.830456+00:00'
+      state: 'off'
+- id: '1581930026816'
+  name: Arrêter l'aération du pallier
+  entities:
+    script.secure_close_volet_lenaic:
+      friendly_name: Ferme proprement volet Lenaïc
+      last_triggered: '2020-02-17T09:00:10.592599+00:00'
+      state: 'off'
+    script.secure_close_volet_palier:
+      friendly_name: Ferme proprement volet palier
+      last_triggered: '2020-02-17T09:00:21.749329+00:00'
+      state: 'off'
