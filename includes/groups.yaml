@@ -41,6 +41,7 @@ lux_salon:
   - light.lux_salon_1
   - light.lux_salon_2
   - light.lux_salon_3
+  - light.guirlande
    
 lux_rez:
   name: Lumières Rez-de-Chaussée

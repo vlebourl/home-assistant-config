@@ -1,9 +1,10 @@
 - id: ReduceHeatingForEmptyHome0
   alias: 0.1.0 Reduit le chauffage quand la maison est vide
   trigger:
-  - platform: template
-    value_template: ' {{ (states.proximity.home_vincent.state | float) > 1250 and
-      (states.proximity.home_virginia.state | float) > 1250 }}'
+  - entity_id: binary_sensor.home_occupied
+    for: 00:05:00
+    platform: state
+    to: 'off'
   - at: '23:00:00'
     platform: time
   condition:
