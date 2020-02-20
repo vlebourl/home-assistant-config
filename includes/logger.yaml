@@ -1,6 +1,6 @@
 default: warning
 logs:
-  homeassistant.components.netatmo.sensor: debug
+  custom_components.tahoma_extended: info
   homeassistant.components.device_tracker: error
   homeassistant.components.nmap_tracker.device_tracker: error
   
