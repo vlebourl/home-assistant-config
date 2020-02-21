@@ -10,22 +10,22 @@ trigger:
   event_type: zwave.scene_activated
   event_data:
     entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
-    scene_id: 1
+    scene_id: 2
 - platform: event
   event_type: zwave.scene_activated
   event_data:
     entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
-    scene_id: 3
+    scene_id: 4
 - platform: event
   event_type: zwave.scene_activated
   event_data:
     entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
-    scene_id: 1
+    scene_id: 2
 - platform: event
   event_type: zwave.scene_activated
   event_data:
     entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
-    scene_id: 3
+    scene_id: 4
 action:
 - data:
     entity_id: input_boolean.open_door

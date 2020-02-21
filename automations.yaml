@@ -288,3 +288,18 @@
       message: 'une mise à jour est disponible: {{ states.sensor.home_assistant_latest_release.state
         }}'
     service: notify.mobile_app_pixel_4
+- id: '1582223368390'
+  alias: 3.3 Déverrouille et ouvre les volets
+  description: ''
+  trigger:
+  - entity_id: input_boolean.open_door_and_covers
+    platform: state
+    to: 'On'
+  condition: []
+  action:
+  - entity_id: lock.ti_ar_kaerell
+    service: lock.unlock
+  - entity_id: group.volets_rez
+    service: cover.open_cover
+  - entity_id: group.lux_rez
+    service: light.turn_on
