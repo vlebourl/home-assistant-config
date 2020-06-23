@@ -1,0 +1,10 @@
+platform: template
+sensors:
+  velux_lenaic:
+    friendly_name: Ouverture Velux Lenaic
+    value_template: >
+      {{ state_attr("cover.velux_lenaic","current_position") }}
+  velux_palier:
+    friendly_name: Ouverture Velux Palier
+    value_template: >
+      {{ state_attr("cover.velux_palier","current_position") }}

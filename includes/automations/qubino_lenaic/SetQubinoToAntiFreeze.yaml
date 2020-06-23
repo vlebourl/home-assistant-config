@@ -5,6 +5,6 @@ trigger:
   to: 'Hors Gel'
 action:
   service: light.turn_on
-  entity_id: light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level_2
+  entity_id: light.qubino_radiateur_lenaic_level
   data:
     brightness: 30

@@ -5,5 +5,17 @@ hourly_forecast:
 - 1
 - 2
 monitored_conditions:
-- precip_probability
+- summary
+- icon
+- precip_type
 - precip_intensity
+- precip_probability
+- temperature
+- apparent_temperature
+- wind_speed
+- wind_bearing
+- cloud_cover
+- humidity
+- pressure
+- visibility
+- uv_index

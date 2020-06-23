@@ -1,0 +1,6 @@
+{
+  "domain": "custom_generic_thermostat",
+  "name": "Custom Generic Thermostat",
+  "dependencies": ["sensor", "switch"],
+  "codeowners": []
+}

@@ -1,5 +1,5 @@
 platform: template
 sensors:
-  home_assistant_latest_release:
+  home_assistant_update_available:
     value_template: >
-      {{ state_attr("sensor.home_assistant","latest_release_url").split("/")[7] }}
+      {{ state_attr("sensor.homeassistant","latest_release_tag") == states("sensor.current_version") }}

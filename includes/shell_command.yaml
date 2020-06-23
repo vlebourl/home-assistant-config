@@ -1,2 +1,11 @@
 clean_knowndevices: /bin/bash /config/clean_knowndevices.sh
 gitupdate: /bin/bash /config/gitupdate.sh "automatic commit"
+floodlight_auto: python3 /config/pyatmo_cli.py --cameraid terrasse --floodlight auto
+floodlight_on: python3 /config/pyatmo_cli.py --cameraid terrasse --floodlight on
+floodlight_off: python3 /config/pyatmo_cli.py --cameraid terrasse --floodlight off
+get_email_attachment: python3 /config/bin/get_email_attachment.py {{key}} {{name}}
+get_image_and_resize: python3 /config/bin/get_image_and_resize.py {{url}} {{name}}
+snap_lenaic: /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /config/.ssh/id_rsa vlb@192.168.1.159 '/Users/vlb/bin/snapLenaic.sh'
+snap_jardin: /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /config/.ssh/id_rsa vlb@192.168.1.159 '/Users/vlb/bin/snapJardin.sh'
+snap_terrasse: /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /config/.ssh/id_rsa vlb@192.168.1.159 '/Users/vlb/bin/snapTerrasse.sh'
+backup_logs: cp -r --backup=t /config/home-assistant.log /config/home-assistant-bu.log

@@ -1,6 +1,0 @@
-accounts:
-- username: !secret email
-  password: !secret tile
-show_as_state:
-- driving
-- moving

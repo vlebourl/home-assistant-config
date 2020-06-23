@@ -5,7 +5,7 @@ trigger:
   to: 'Eco'
 action:
   service: light.turn_on
-  entity_id: light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level
+  entity_id: light.qubino_radiateur_bureau_level
   data:
     brightness: 60
 

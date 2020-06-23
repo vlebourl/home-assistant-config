@@ -1,0 +1,11 @@
+- platform: local_file
+  name: Terrasse
+  file_path: /config/www/snapshots/terrasse.png
+  
+- platform: local_file
+  name: Jardin
+  file_path: /config/www/snapshots/jardin.png
+  
+- platform: local_file
+  name: Interieur
+  file_path: /config/www/snapshots/interieur.png

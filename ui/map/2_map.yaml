@@ -7,3 +7,4 @@ card:
   entities:
   - person.vincent
   - person.virginia
+  hours_to_show: 12

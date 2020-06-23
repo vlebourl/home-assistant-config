@@ -1,0 +1,13 @@
+person.virginia:
+  entity_picture: /local/pictures/Virginia.png
+person.vincent:
+  entity_picture: /local/pictures/Vincent.jpg
+zone.home:
+  radius: 20
+cover.volet_bureau:
+  templates:
+    icon: "{% if is_state('cover.volet_bureau','open') %}\n  hass:window-shutter-open\n\
+      {% else %}\n  hass:window-shutter\n{% endif %}\n"
+light.lux_terrasse_tahoma:
+  assumed_state: false
+switch.prise_tahoma: {}

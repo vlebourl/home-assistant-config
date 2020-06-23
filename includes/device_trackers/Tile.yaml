@@ -1,3 +1,0 @@
-platform: tile
-username: !secret email
-password: !secret tile

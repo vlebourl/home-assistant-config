@@ -1,5 +1,0 @@
-platform: average
-name: 'Average Parent Temperature'
-entities:
-  - sensor.tdeg_parents
-  - sensor.netatmo_ti_ar_kaerell_parents_temperature

@@ -1,6 +1,6 @@
-default: warning
-logs:
-  custom_components.tahoma_extended: info
-  homeassistant.components.device_tracker: error
-  homeassistant.components.nmap_tracker.device_tracker: error
+default: error 
+logs: {}
+#  pyatmo: debug
+#  homeassistant.components.sabnzbd: debug
+#  custom_components.tahoma: debug
   

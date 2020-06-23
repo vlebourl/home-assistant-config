@@ -1,40 +1,30 @@
 {
-  "config": {
-    "title": "Orange Livebox",
-    "step": {
-      "user": {
-        "title": "Check your livebox",
-        "data": {
-          "host": "IP Address",
-          "port": "Port",
-          "username": "Username",
-          "password": "Password"
+    "config": {
+        "step": {
+            "user": {
+                "title": "Register your Livebox",
+                "data": {
+                    "host": "IP Address",
+                    "port": "Port",
+                    "username": "Username",
+                    "password": "Password"
+                }
+            }
+        },
+        "error": {
+            "login_inccorect": "User or password incorrect",
+            "insufficient_permission": "Insufficient permission.",
+            "unknown": "Unknown error occurred",
+            "cannot_connect": "Unable to connect to the Livebox"
         }
-      },
-      "register": {
-          "title": "Orange Livebox",
-	  "description":"Register livebox "
-      }
     },
-    "error": {
-      "register_failed": "Failed to register, Serial number not found",
-      "login_inccorect": "User or password inccorect",
-      "linking": "Unknown linking error occurred."
-    },
-    "abort": {
-      "unknown": "Unknown error occurred",
-      "cannot_connect": "Unable to connect to the livebox"
-    }
-  },
-  "options": {
-    "step": {
-        "user": {
-            "title": "Device Tracking - Track devices on lan",
-            "description": "you want tracking  yours wired devices in addition to wireless devices",
-            "data": {
-                "lan_tracking": "Wired tracking"
+    "options": {
+        "step": {
+            "user": {
+                "title": "Device Tracking - Track devices on lan",
+                "description": "Tracking  yours wired devices in addition to wireless devices",
+                "data": {"lan_tracking": "Wired tracking"}
             }
         }
     }
-  }
 }

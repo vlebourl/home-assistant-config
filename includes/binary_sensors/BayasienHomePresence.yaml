@@ -1,0 +1,26 @@
+platform: bayesian
+prior: 0.5
+name: 'Bayesien Vincent'
+device_class: "presence"
+probability_threshold: 0.9
+observations:
+- entity_id: 'device_tracker.tel_vincent'
+  prob_given_true: 0.99
+  prob_given_false: 0.3
+  platform: 'state'
+  to_state: 'home'
+- entity_id: 'device_tracker.life360_vincent'
+  prob_given_true: 0.95
+  prob_given_false: 0.1
+  platform: 'state'
+  to_state: 'home'
+- entity_id: 'device_tracker.tile_84ff3b083add401d'
+  prob_given_true: 0.95
+  prob_given_false: 0.3
+  platform: 'state'
+  to_state: 'home'
+- entity_id: 'device_tracker.pixel_4'
+  prob_given_true: 0.99
+  prob_given_false: 0.01
+  platform: 'state'
+  to_state: 'home'

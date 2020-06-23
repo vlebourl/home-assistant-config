@@ -1,2 +1,4 @@
 - platform: darksky
   api_key: !secret darksky-api-key
+- platform: openweathermap
+  api_key: 580839523908f77aa30e3cce6ad3e078

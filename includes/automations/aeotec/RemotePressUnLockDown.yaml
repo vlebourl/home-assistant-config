@@ -1,0 +1,36 @@
+alias: 'Remote pressed open door and covers'
+trigger:
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeotec_limited_zwa003_nanomote_quad
+    scene_id: 4
+    scene_data: 7680
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
+    scene_id: 6
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_3
+    scene_id: 8
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
+    scene_id: 6
+- platform: event
+  event_type: zwave.scene_activated
+  event_data:
+    entity_id: zwave.aeon_labs_zw088_key_fob_gen5_4
+    scene_id: 8
+action:
+- data:
+    entity_id: input_boolean.open_door_and_cover
+  service: input_boolean.turn_on
+- delay: '00:00:02'
+- data:
+    entity_id: input_boolean.open_door_and_cover
+  service: input_boolean.turn_off

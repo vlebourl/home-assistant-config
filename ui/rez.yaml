@@ -1,11 +1,64 @@
 - type: vertical-stack
   cards:
-  - type: entities
-    show_header_toggle: false
-    title: Rez-de-Chaussée
-    entities:
-    - entity: lock.ti_ar_kaerell
-      name: Porte d'entrée
+  - type: horizontal-stack
+    title: Rez de Chaussée
+    cards:
+    - type: button
+      name: Verrouille
+      icon: mdi:lock
+      tap_action:
+        action: call-service
+        service: lock.lock
+        service_data:
+          entity_id: lock.porte_dentree
+    - type: button
+      name: Déverrouille
+      icon: mdi:lock-open
+      tap_action:
+        action: call-service
+        service: lock.unlock
+        service_data:
+          entity_id: lock.porte_dentree
+  - type: horizontal-stack
+    title: Lumiere d'Entrée
+    cards:
+    - type: button
+      name: Rouge
+      icon: mdi:lightbulb
+      entity: light.porte_d_entree
+      tap_action:
+        action: call-service
+        service: light.turn_on
+        service_data:
+          entity_id: light.porte_d_entree
+          rgb_color:
+          - 255
+          - 0
+          - 0
+          brightness: 255
+    - type: button
+      name: Blanc
+      icon: mdi:lightbulb-outline
+      entity: light.porte_d_entree
+      tap_action:
+        action: call-service
+        service: light.turn_on
+        service_data:
+          entity_id: light.porte_d_entree
+          rgb_color:
+            - 255
+            - 255
+            - 255
+          brightness: 255
+    - type: button
+      name: "Off"
+      entity: light.porte_d_entree
+      icon: mdi:lightbulb-off
+      tap_action:
+        action: call-service
+        service: light.turn_off
+        service_data:
+          entity_id: light.porte_d_entree
   - type: entities
     title: Lumières
     show_header_toggle: false
@@ -65,123 +118,65 @@
         name: Volet Bureau
   - type: entities
     title: Multimedia
+    show_header_toggle: false
     entities:
     - entity: switch.ampli
       name: "Spotify"
     - entity: switch.television
       name: "Télé"
+    - entity: switch.tele_plex
+      name: Plex
+    - entity: switch.tele_molotov
+      name: Molotov
     - entity: switch.pc_tak
       name: Ordinateur
-  - type: media-control
+  - type: custom:mini-media-player
+    entity: media_player.salon
+    name: "Google Home"
+  - type: custom:mini-media-player
     entity: media_player.spotify_vincent_lb
+  - type: custom:spotify-playlist-card
+    sensor: sensor.spotifyplaylist
+    playback_method: spotcast
+    speaker_entity: media_player.salon
+    show_playlist_titles: true
+    shuffle: true
+    columns: 3
+  - type: custom:mini-media-player
+    entity: media_player.android_tv_salon
+    name: Télé
+    icon: mdi:television
+    artwork: none
+    hide:
+      source: true
+      power_state: false
+    shortcuts:
+      columns: 5 # Max buttons per row
+      buttons:
+      - icon: mdi:plex
+        type: source
+        id: Plex
+      - icon: mdi:netflix
+        type: source
+        id: Netflix
+      - icon: mdi:twitch
+        type: source
+        id: tv.twitch.android.app
+      - icon: mdi:spotify
+        type: source
+        id: Spotify
+      - icon: mdi:television
+        type: source
+        id: tv.molotov.app
+
 - type: vertical-stack
   cards:
   - type: custom:simple-thermostat
     entity: climate.radiateur_salon
     name: "Salon"
     sensors:
-    - entity: sensor.humidite_salon_2
+    - entity: sensor.humidite_salon
       name: Humidité
   - type: custom:simple-thermostat
     entity: climate.radiateur_bureau
     name: "Bureau"
-
-# #########################
-# # Entrée
-# #########################
-
-# - type: vertical-stack
-#   cards:
-#   - type: entities
-#     title: Entrée
-#     show_header_toggle: false
-#     entities:
-#     - type: custom:slider-entity-row
-#       entity: light.lux_entree
-#       name: Lux Entrée
-#       toggle: true
-#     - entity: cover.volet_entree
-#       name: Volet Entrée
-#     - entity: lock.ti_ar_kaerell
-#       name: Porte d'entrée
-
-# #########################
-# # Cuisine
-# #########################
-
-# - type: vertical-stack
-#   cards:
-#   - type: entities
-#     title: Cuisine
-#     show_header_toggle: false
-#     entities:
-#     - type: custom:fold-entity-row
-#       head: group.lux_cuisine
-#       entities:
-#       - type: custom:slider-entity-row
-#         entity: light.lux_cuisine_1
-#         name: Lux Cuisine 1
-#         toggle: true
-#       - type: custom:slider-entity-row
-#         entity: light.lux_cuisine_2
-#         name: Lux Cuisine 2
-#         toggle: true
-#     - entity: cover.volet_cuisine
-#       name: Volet Cuisine
-
-# #########################
-# # Salon
-# #########################
-
-# - type: vertical-stack
-#   cards:
-#   - type: custom:simple-thermostat
-#     entity: climate.radiateur_salon
-#     name: "Salon"
-#     sensors:
-#     - entity: sensor.humidite_salon_2
-#       name: Humidité
-#   - type: entities
-#     show_header_toggle: false
-#     entities:
-#     - type: custom:fold-entity-row
-#       head: group.lux_salon
-#       entities:
-#       - type: custom:slider-entity-row
-#         entity: light.lampe_peau
-#         name: Lampe Peau
-#         toggle: true
-#       - type: custom:slider-entity-row
-#         entity: light.lux_salon_1
-#         name: Lux Salon 1
-#         toggle: true
-#       - type: custom:slider-entity-row
-#         entity: light.lux_salon_2
-#         name: Lux Salon 2
-#         toggle: true
-#       - type: custom:slider-entity-row
-#         entity: light.lux_salon_3
-#         name: Lux Salon 3
-#         toggle: true
-#     - entity: cover.volet_salon
-#       name: Volet Porte Fenêtre
-#     - entity: switch.ampli
-#       name: "Spotify"
-#     - entity: switch.television
-#       name: "Télé"
-
-# #########################
-# # Bureau
-# #########################
-
-# - type: vertical-stack
-#   cards:
-#   - type: custom:simple-thermostat
-#     entity: climate.radiateur_bureau
-#     name: "Bureau"
-#   - type: entities
-#     title: Bureau
-#     show_header_toggle: false
-#     entities:
-#     - entity: cover.volet_bureau
-#       name: Volet

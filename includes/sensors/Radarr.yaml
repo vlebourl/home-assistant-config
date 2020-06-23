@@ -1,0 +1,12 @@
+platform: radarr
+api_key: !secret radarr
+host: 192.168.1.159
+monitored_conditions:
+- movies
+- upcoming
+- status
+- commands
+- diskspace
+days: 365
+include_paths:
+- /Volumes/Media/

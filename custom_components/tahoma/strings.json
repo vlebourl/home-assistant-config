@@ -1,0 +1,39 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Enter your TaHoma credentials for the TaHoma App or the tahomalink.com platform.",
+        "data": {
+          "username": "[%key:common::config_flow::data::username%]",
+          "password": "[%key:common::config_flow::data::password%]"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "description": "Select temperature sensors for thermostats and preset temperatures.\nNote: reset temperatures do not apply to the Smart Thermostat.",
+        "data": {
+          "_": "entity",
+          "no_climate": "No climate device, you can close this window",
+          "freeze": "Anti-Freeze preset temperature",
+          "eco": "Eco preset temperature",
+          "away": "Away preset temperature",
+          "comfort": "Comfort preset temperature"
+        }
+      }
+    },
+    "error": {
+      "invalid_sensor": "Please select a valid sensor from the list"
+    }
+  }
+}

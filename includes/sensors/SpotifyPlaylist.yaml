@@ -1,0 +1,4 @@
+platform: spotify-playlist-sensor
+client_id: !secret spotify-client-id2
+client_secret: !secret  spotify-client-secret2
+number_of_playlists: 9

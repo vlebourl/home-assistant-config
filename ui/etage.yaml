@@ -1,0 +1,161 @@
+- type: vertical-stack
+  cards:
+  - type: custom:simple-thermostat
+    entity: climate.radiateur_lenaic
+    name: "Chambre de Lenaïc"
+    sensors:
+    - entity: sensor.netatmo_ti_ar_kaerell_lenaic_humidity
+      name: Humidité
+    - entity: sensor.netatmo_ti_ar_kaerell_lenaic_co2
+      name: CO2
+  - type: entities
+    show_header_toggle: false
+    entities:
+    - type: custom:fold-entity-row
+      head: group.lux_lenaic
+      entities:
+      - type: custom:slider-entity-row
+        entity: light.lux_lenaic_1
+        name: Lux 1
+        toggle: true
+      - type: custom:slider-entity-row
+        entity: light.lux_lenaic_2
+        name: Lux 2
+        toggle: true
+      - type: custom:slider-entity-row
+        entity: light.lampadaire_lenaic
+        name: Lampadaire
+        toggle: true
+    - type: custom:slider-entity-row
+      name: Velux
+      entity: cover.velux_lenaic
+    - type: custom:slider-entity-row
+      name: Volet
+      entity: cover.volet_lenaic
+  - type: horizontal-stack
+    cards:
+    - type: button
+      name: Ouvre Velux
+      icon: mdi:window-open
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.velux_lenaic
+          position: 100
+    - type: button
+      name: Ferme Velux
+      icon: mdi:window-closed
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.velux_lenaic
+          position: 13
+    - type: button
+      name: Ouvre Volet
+      icon: mdi:window-shutter-open
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.volet_lenaic
+          position: 100
+    - type: button
+      name: Ferme Volet
+      icon: mdi:window-shutter
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.volet_lenaic
+          position: 0
+- type: vertical-stack
+  cards:
+  - type: custom:simple-thermostat
+    entity: climate.radiateur_parents
+    name: "Chambre Parentale"
+    sensors:
+    - entity: sensor.netatmo_ti_ar_kaerell_parents_humidity
+      name: Humidité
+    - entity: sensor.netatmo_ti_ar_kaerell_parents_co2
+      name: CO2
+  - type: entities
+    show_header_toggle: false
+    entities:
+    - type: custom:fold-entity-row
+      head: group.lux_parents
+      entities:
+      - type: custom:slider-entity-row
+        entity: light.lux_parents_1
+        name: Lux 1
+        toggle: true
+      - type: custom:slider-entity-row
+        entity: light.lux_parents_2
+        name: Lux 2
+        toggle: true
+    - entity: cover.volet_parents
+      name: Volet Parents
+- type: vertical-stack
+  cards:
+  - type: entities
+    title: Palier
+    show_header_toggle: false
+    entities:
+    - type: custom:fold-entity-row
+      head: group.lux_palier
+      entities:
+      - type: custom:slider-entity-row
+        entity: light.lux_palier_1
+        name: Lux 1
+        toggle: true
+      - type: custom:slider-entity-row
+        entity: light.lux_palier_2
+        name: Lux 2
+        toggle: true
+    - type: custom:slider-entity-row
+      name: Velux
+      entity: cover.velux_palier
+    - type: custom:slider-entity-row
+      name: Volet
+      entity: cover.volet_palier
+    - entity: switch.aeration_etage
+      name: Aeration
+  - type: horizontal-stack
+    cards:
+    - type: button
+      name: Ouvre Velux
+      icon: mdi:window-open
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.velux_palier
+          position: 100
+    - type: button
+      name: Ferme Velux
+      icon: mdi:window-closed
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.velux_palier
+          position: 13
+    - type: button
+      name: Ouvre Volet
+      icon: mdi:window-shutter-open
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.volet_palier
+          position: 100
+    - type: button
+      name: Ferme Volet
+      icon: mdi:window-shutter
+      tap_action:
+        action: call-service
+        service: cover.set_cover_position
+        service_data:
+          entity_id: cover.volet_palier
+          position: 0  

@@ -1,0 +1,220 @@
+- type: vertical-stack
+  cards:
+    - type: custom:vertical-stack-in-card
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: glance
+              entities:
+                - entity: person.vincent
+                  icon: mdi:camera
+                  name: Vincent
+            - type: glance
+              entities:
+                - entity: person.virginia
+                  icon: mdi:pine-tree-box
+                  name: Virginia
+            - type: glance
+              entities:
+                - entity: switch.guest
+                  name: Visiteur
+                  show_state: false
+                  tap_action:
+                    confirmation:
+                      text: "Un visiteur est à la maison ?"
+                    action: toggle
+        - type: horizontal-stack
+          cards:
+            - type: conditional
+              conditions:
+                - entity: person.emilie
+                  state: "home"
+              card:
+                type: glance
+                entities:
+                  - entity: person.emilie
+            - type: conditional
+              conditions:
+                - entity: person.elie
+                  state: "home"
+              card:
+                type: glance
+                entities:
+                  - entity: person.elie
+            - type: conditional
+              conditions:
+                - entity: person.claudine
+                  state: "home"
+              card:
+                type: glance
+                entities:
+                  - entity: person.claudine
+        - type: 'custom:travel-time-card'
+          title: Temps de trajet pour la maison
+          columns: ['name', 'duration', 'distance']
+          entities:
+            - entity: sensor.vincent_transport
+            - entity: sensor.vincent_bike
+            - entity: sensor.virginia_voiture
+- type: vertical-stack
+  cards:
+    # Rez
+    - type: horizontal-stack
+      cards:
+        - type: sensor
+          entity: sensor.tdeg_salon
+          name: "Salon"
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.humidite_salon
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+          icon: mdi:water-percent
+        - type: sensor
+          entity: sensor.tdeg_bureau
+          name: "Bureau"
+          hours_to_show: 24
+          graph: "line"
+    # Lenaïc
+    - type: horizontal-stack
+      cards:
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_lenaic_temperature
+          name: "Lenaïc"
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_lenaic_humidity
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_lenaic_co2
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+    # Palier
+    - type: horizontal-stack
+      cards:
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_palier_temperature
+          name: "Palier"
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_palier_humidity
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_palier_co2
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+    # Parents
+    - type: horizontal-stack
+      cards:
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_parents_temperature
+          name: "Parents"
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_parents_humidity
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_parents_co2
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+- type: vertical-stack
+  cards:
+    # Chauffage central
+    - type: custom:simple-thermostat
+      entity: climate.chauffage_general
+      step_layout: row
+      name: "Général"
+      sensors:
+        - entity: sensor.average_humidity
+          name: Humidité
+    # Terrasse
+    - type: horizontal-stack
+      cards:
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_terrasse_temperature
+          name: "Terrasse"
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_terrasse_humidity
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+        - type: sensor
+          entity: sensor.netatmo_ti_ar_kaerell_pluie_jardin_rain
+          name: " "
+          hours_to_show: 24
+          graph: "line"
+    - type: horizontal-stack
+      cards:
+        - type: gauge
+          entity: sensor.netatmo_ti_ar_kaerell_pluie_jardin_rain
+          name: Précipitations
+          min: 0
+          max: 4
+        - type: gauge
+          entity: sensor.dark_sky_precip_probability_1h
+          name: 1h
+        - type: gauge
+          entity: sensor.dark_sky_precip_probability_2h
+          name: 2h
+    - type: custom:weather-card-chart
+      title: Météo
+      weather: weather.dark_sky
+      mode: hourly
+- type: "custom:atomic-calendar-revive"
+  title: "Calendrier"
+  maxDaysToShow: 14
+  showNoEventsForToday: true
+  fullDayEventText: "Toute la journée"
+  untilText: "Jusqu'au"
+  noEventsForNextDaysText: "Pas d'événements les prochains jours"
+  noEventsForTodayText: "Pas d'événement aujourd'hui"
+  showLocation: true
+  dateFormat: "dd Do MMM"
+  entities:
+    - entity: calendar.ti_ar_kaerell
+      color: red
+    - entity: calendar.vincent
+    - entity: calendar.virginia
+    - entity: calendar.tajum_s
+    - entity: calendar.naries
+- type: horizontal-stack
+  cards:
+  - type: button
+    entity: input_text.say_salon
+    name: Dis
+  - type: button
+    name: Virginia
+    icon: mdi:phone-in-talk
+    tap_action:
+      action: call-service
+      service: tts.google_translate_say
+      service_data:
+        entity_id: media_player.salon
+        language: fr
+        message: "Virginia, quelqu'un veut te joindre, regarde ton téléphone."
+  - type: button
+    name: Vincent
+    icon: mdi:phone-in-talk
+    tap_action:
+      action: call-service
+      service: tts.google_translate_say
+      service_data:
+        entity_id: media_player.salon
+        language: fr
+        message: "Vincent, quelqu'un veut te joindre, regarde ton téléphone."

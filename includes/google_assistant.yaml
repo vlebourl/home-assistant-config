@@ -1,6 +1,7 @@
-project_id: homeassistant-49a55
+project_id: lien-ha-ti-ar-kaerell
 service_account: !include SERVICE_ACCOUNT.JSON
-#api_key: !secret google-assistant-api-key
+secure_devices_pin: "1807"
+report_state: true
 exposed_domains:
 - cover
 - climate

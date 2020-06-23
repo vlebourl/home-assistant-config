@@ -63,11 +63,11 @@ lux_palier:
   - light.lux_palier_1
   - light.lux_palier_2
 
-lux_parents:
-  name: Lumière Parents
-  entities:
-  - light.lux_parents_1
-  - light.lux_parents_2
+# lux_parents:
+#   name: Lumière Parents
+#   entities:
+#   - light.lux_parents_1
+#   - light.lux_parents_2
 
 lux_etage:
   name: Lumières Etage
@@ -76,6 +76,12 @@ lux_etage:
   - group.lux_palier
   - group.lux_parents
   
+lux_terrasse:
+  name: Lumière Extérieures
+  entities:
+  - light.porte_d_entree
+  - light.presence_floodlight
+
 lux_all:
   name: Lumières Ti Ar Kaerell
   entities:

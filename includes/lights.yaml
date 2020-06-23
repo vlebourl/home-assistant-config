@@ -1,0 +1,69 @@
+# platform: template
+# lights:
+#   presence_floodlight:
+#     friendly_name: "Netatmo Presence Floodlight"
+#     turn_on:
+#       service: shell_command.floodlight_on
+#     turn_off:
+#       service: shell_command.floodlight_auto
+#     value_template: "{{ states('input_boolean.presence_floodlight') }}"
+
+- platform: group
+  name: lux_parents
+  entities:
+  - light.lux_parents_1
+  - light.lux_parents_2
+
+- platform: group
+  name: lux_cuisine
+  entities:
+  - light.lux_cuisine_1
+  - light.lux_cuisine_2
+    
+- platform: group
+  name: lux_salon
+  entities:
+  - light.lampe_peau
+  - light.lux_salon_1
+  - light.lux_salon_2
+  - light.lux_salon_3
+
+- platform: group
+  name: lux_rez
+  entities:
+  - light.lux_cuisine
+  - light.lux_salon
+  - light.lux_entree
+
+- platform: group
+  name: lux_lenaic
+  entities:
+  - light.lux_lenaic_1
+  - light.lux_lenaic_2
+  - light.lampadaire_lenaic
+
+- platform: group
+  name: lux_palier
+  entities:
+  - light.lux_palier_1
+  - light.lux_palier_2
+
+- platform: group
+  name: lux_etage
+  entities:
+  - light.lux_lenaic
+  - light.lux_palier
+  - light.lux_parents
+  
+- platform: group
+  name: lux_terrasse
+  entities:
+  - light.porte_d_entree
+  - light.lux_terrasse_tahoma
+  - light.netatmo_camterrasse
+  
+- platform: group
+  name: lux_all
+  entities:
+  - light.lux_etage
+  - light.lux_rez

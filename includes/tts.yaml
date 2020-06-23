@@ -1,3 +1,4 @@
 - platform: google_translate
-  base_url: http://192.168.0.52:8123
-  service_name: google_say
+  base_url: http://192.168.1.107:8124
+  cache: true
+  cache_dir: /tmp/tts

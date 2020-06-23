@@ -6,3 +6,34 @@
   entity: camera.netatmo_camsalon
   camera_view: live
   name: Salon live
+- type: picture-entity
+  entity: camera.terrasse
+  name: Terrasse
+- type: picture-entity
+  entity: camera.jardin
+  name: Jardin
+- type: picture-entity
+  entity: camera.interieur
+  name: Lenaïc
+- type: vertical-stack
+  cards:
+    - type: horizontal-stack
+      cards:
+      - type: button
+        name: Lenaïc
+        icon: mdi:camera
+        tap_action:
+          action: call-service
+          service: script.snap_lenaic
+      - type: button
+        name: Jardin
+        icon: mdi:camera
+        tap_action:
+          action: call-service
+          service: script.snap_jardin
+      - type: button
+        name: Terrasse
+        icon: mdi:camera
+        tap_action: 
+          action: call-service
+          service: script.snap_terrasse

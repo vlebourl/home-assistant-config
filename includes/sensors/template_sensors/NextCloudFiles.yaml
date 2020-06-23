@@ -1,0 +1,10 @@
+platform: template
+sensors:
+  nextcloud_files:
+    friendly_name: "NextCloud Files"
+    value_template: >
+      {% if states.sensor.nextcloud_storage_num_files.state == "Inconnu" %}
+        0
+      {% else %}
+        {{ states("sensor.nextcloud_storage_num_files") | int }}
+      {% endif %}
