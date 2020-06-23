@@ -1,8 +1,6 @@
 platform: min_max
-name: "Average Humidity"
+name: "Average Humidity Lenaïc"
 type: mean
 entity_ids:
 - sensor.netatmo_ti_ar_kaerell_lenaic_humidity
-- sensor.netatmo_ti_ar_kaerell_palier_humidity
-- sensor.netatmo_ti_ar_kaerell_parents_humidity
-- sensor.humidite_salon
+- sensor.climatisation_humidity

@@ -25,8 +25,6 @@ http:
   server_port: 8124
   use_x_forwarded_for: true
   trusted_proxies: 192.168.1.159
-#   ssl_certificate: /ssl/fullchain.pem
-#   ssl_key: /ssl/privkey.pem
 
 recorder:
   db_url: mysql://homeassistant:tndDKrGacrmQRty3@core-mariadb/homeassistant?charset=utf8
@@ -55,17 +53,12 @@ binary_sensor:    !include_dir_list includes/binary_sensors
 camera:           !include includes/cameras.yaml
 climate:          !include_dir_list includes/climates
 google:           !include includes/google.yaml
-#google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml
 hacs:             !include includes/hacs.yaml
-#influxdb:         !include includes/influxdb.yaml
 input_boolean:    !include_dir_named includes/input_booleans
 input_datetime:   !include includes/input_datetime.yaml
 light:            !include includes/lights.yaml
-#logger:           !include includes/logger.yaml
-#lovelace:         !include includes/lovelace.yaml
 media_player:     !include_dir_list includes/media_players
-#mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
 notify:           !include_dir_list includes/notifies
 proximity:        !include includes/proximity.yaml
@@ -77,8 +70,6 @@ shell_command:    !include includes/shell_command.yaml
 speedtestdotnet:
 spotify:          !include includes/spotify.yaml
 switch:           !include includes/switches.yaml
-#tahoma:           !include includes/tahoma.yaml
-#tahoma_extended:  !include includes/tahoma.yaml
 tts:              !include includes/tts.yaml
 weather:          !include includes/weather.yaml
 zwave:            !include includes/zwave.yaml
@@ -108,20 +99,3 @@ input_text:
     name: "OK Google, dis"
     initial: ""
 
-# sabnzbd:
-#   api_key: !secret sab
-#   host: 192.168.1.159
-#   port: 8080
-#   name: sab
-#   sensors:
-#     - current_status
-#     - speed
-#     - queue_size
-#     - queue_remaining
-#     - disk_size
-#     - disk_free
-#     - queue_count
-#     - day_size
-#     - week_size
-#     - month_size
-#     - total_size
