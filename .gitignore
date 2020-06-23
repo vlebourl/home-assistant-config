@@ -23,7 +23,7 @@
 .google.token
 */.DS_Store
 
-*/__pycache__/
+**/__pycache__/
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
