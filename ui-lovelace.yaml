@@ -1,41 +1,10 @@
-resources:
-- url: /local/community/simple-thermostat/simple-thermostat.js
-  type: module
-- url: /local/community/decluttering-card/decluttering-card.js
-  type: module
-- url: /local/community/lovelace-multiple-entity-row/multiple-entity-row.js
-  type: module
-- url: /local/community/button-entity-row/button-entity-row.js
-  type: module
-- url: /local/community/lovelace-fold-entity-row/fold-entity-row.js
-  type: module
-- url: /local/community/travel-time-card/travel-time-card.js
-  type: js
-- url: /local/community/mini-graph-card-bundle.js
-  type: module
-- url: /local/community/custom-weather-card-chart.js
-  type: module
-- url: /local/community/vertical-stack-in-card-0.2.1/vertical-stack-in-card.js
-  type: js
-- url: /local/community/lovelace-home-feed-card/home-feed-card.js
-  type: js
-- url: /local/community/atomic_calendar/atomic_calendar.js
-  type: module
-- url: /local/community/lovelace-card-tools/card-tools.js
-  type: js
-- url: /local/community/lovelace-layout-card/layout-card.js
-  type: js
-- url: /local/community/banner-card/banner-card.js
-  type: module
-- url: /local/community/lovelace-slider-entity-row/slider-entity-row.js
-  type: module
-  
 title: Ti Ar Kaerell
+
 views:
 # Onglet principal
 - path: home
   title: Accueil
-  cards: !include_dir_list ui/accueil
+  cards: !include ui/accueil.yaml
 
 # Onglet Salon
 - title: Rez de Chaussée
@@ -51,25 +20,143 @@ views:
   badges:
   - entity: sensor.netatmo_ti_ar_kaerell_terrasse_temperature
     name: "Terrasse"
-  cards: !include_dir_list ui/etage
+  cards: !include ui/etage.yaml
 
 # Onglet Map
 - path: map
   title: Carte
   cards: !include_dir_list ui/map
 
+# Onglet Shopping List
+- path: shopping
+  title: Liste de Course
+  cards:
+  - type: shopping-list
+
 # Onglet Cameras
 - path: cameras
   title: Caméras
   cards: !include ui/cameras.yaml
 
-# Onglet Cast
-- path: cast
-  title: Cast
+# Onglet Plex
+- path: plex
+  title: Plex
   cards:
-  - type: entities
-    title: Cast
-    show_header_toggle: false
+  - type: custom:mini-media-player
+    entity: media_player.plex_plex_for_android_tv_bravia_4k_gb_atv3
+  - type: custom:mini-media-player
+    entity: media_player.plex_plex_web_opera_osx
+    
+# Onglet Livebox
+- path: livebox
+  title: Livebox
+  type: vertical-stack
+  cards:
+  - entities: []
+    show_icon: true
+    show_name: true
+    show_state: true
+    title: Orange Livebox 4
+    type: glance
+  - cards:
+    - entity: binary_sensor.orange_livebox_wan_status
+      hold_action:
+        action: none
+      icon_height: 25px
+      name: Reboot Livebox
+      show_icon: true
+      show_name: true
+      tap_action:
+        action: call-service
+        confirmation:
+          text: >-
+            Are you sure you want to restart?  The network connection will
+            temporarily be lost.
+        service: livebox.reboot
+      type: button
+    - entity: binary_sensor.orange_livebox_wan_status
+      hold_action:
+        action: none
+      icon_height: 25px
+      name: Toggle WIFI
+      show_icon: true
+      show_name: true
+      tap_action:
+        action: call-service
+        confirmation:
+          text: Are you sure?
+        service: switch.toggle
+        service_data:
+          entity_id: switch.wifi_switch
+      type: button
+    type: horizontal-stack
+  - type: glance
+    title: "Speedtest"
     entities:
-      - type: cast
-        view: rez
+    - entity: sensor.speedtest_ping
+      name: Ping
+    - entity: sensor.speedtest_download
+      name: Down
+    - entity: sensor.speedtest_upload
+      name: Up
+  - type: history-graph
+    hours_to_show: 48
+    title: "Traffic"
+    entities:
+    - entity: sensor.tiarkaerell_kib_s_received
+      name: "Download"
+    - entity: sensor.tiarkaerell_kib_s_sent
+      name: "Upload"
+  - type: vertical-stack
+    cards:
+    - entities: []
+      show_icon: true
+      show_name: true
+      show_state: true
+      title: Ti Ar Kaerell Services
+      type: glance
+    - type: horizontal-stack
+      cards:
+      - type: glance
+        entities:
+        - binary_sensor.caddy
+      - type: glance
+        entities:
+        - binary_sensor.ssh_caddy
+      - type: glance
+        entities:
+        - binary_sensor.adguard
+      - type: glance
+        entities:
+        - entity: binary_sensor.ssh_home_assistant
+          name: SSH HA
+    - type: horizontal-stack
+      cards:
+      - type: glance
+        entities:
+        - binary_sensor.radarr
+      - type: glance
+        entities:
+        - binary_sensor.sonarr
+      - type: glance
+        entities:
+        - binary_sensor.sab
+  - type: history-graph
+    hours_to_show: 48
+    title: "NextCloud Files"
+    entities:
+    - entity: sensor.nextcloud_files
+      name: "Number of files"
+# Onglet Cast
+- path: clim
+  title: Clim
+  panel: true
+  cards:
+  - type: history-graph
+    title: Clim
+    entities:
+    - sensor.netatmo_ti_ar_kaerell_lenaic_temperature
+    - sensor.tdeg_grenier
+    - sensor.netatmo_ti_ar_kaerell_terrasse_temperature
+    - sensor.netatmo_ti_ar_kaerell_palier_temperature
+    hours_to_show: 36

@@ -1,0 +1,340 @@
+close_open_open_lenaic:
+  alias: Ferme velux ferme volet ouvre velux Lenaic
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_lenaic
+  - wait_template: '{{ is_state(''cover.velux_lenaic'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.open_cover
+    entity_id: cover.volet_lenaic
+  - wait_template: '{{ is_state(''cover.volet_lenaic'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
+close_open_open_palier:
+  alias: Ferme velux ferme volet ouvre velux palier
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_palier
+  - wait_template: '{{ is_state(''cover.velux_palier'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.open_cover
+    entity_id: cover.volet_palier
+  - wait_template: '{{ is_state(''cover.volet_palier'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_palier
+      position: 100
+close_close_open_lenaic:
+  alias: Ferme velux ferme volet ouvre velux Lenaic
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_lenaic
+  - wait_template: '{{ is_state(''cover.velux_lenaic'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.close_cover
+    entity_id: cover.volet_lenaic
+  - wait_template: '{{ is_state(''cover.volet_lenaic'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
+close_close_open_palier:
+  alias: Ferme velux ferme volet ouvre velux palier
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_palier
+  - wait_template: '{{ is_state(''cover.velux_palier'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.close_cover
+    entity_id: cover.volet_palier
+  - wait_template: '{{ is_state(''cover.volet_palier'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_palier
+      position: 100
+open_velux_palier:
+  alias: Ouvre velux palier
+  sequence:
+  - condition: template
+    value_template: '{{ states.cover.velux_palier.attributes.current_position < 50}}'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_palier
+      position: 100
+close_velux_palier:
+  alias: Ferme velux palier
+  sequence:
+  - condition: state
+    entity_id: cover.velux_palier
+    state: open
+  - service: cover.close_cover
+    entity_id: cover.velux_palier
+open_volet_palier:
+  alias: Ouvre volet palier
+  sequence:
+  - service: cover.open_cover
+    entity_id: cover.volet_palier
+close_volet_palier:
+  alias: Ferme volet palier
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.volet_palier
+open_both_palier:
+  alias: Ouvre le volet et le velux du palier
+  sequence:
+  - service: cover.open_cover
+    entity_id: cover.volet_palier
+  - wait_template: '{{ is_state(''cover.volet_palier'',''open'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_palier
+      position: 100
+close_both_palier:
+  alias: Ferme le volet et le velux du palier
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_palier
+  - wait_template: '{{ is_state(''cover.velux_palier'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.close_cover
+    entity_id: cover.volet_palier
+secure_open_volet_palier:
+  alias: Ouvre volet palier
+  sequence:
+  - condition: state
+    entity_id: cover.volet_palier
+    state: closed
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if is_state('cover.velux_palier','open') %}\n  script.close_open_open_palier\n\
+        {% else %}\n  script.open_volet_palier\n{% endif %}\n"
+secure_close_volet_palier:
+  alias: Ferme proprement volet palier
+  sequence:
+  - condition: state
+    entity_id: cover.volet_palier
+    state: open
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if is_state('cover.velux_palier','open') %}\n  script.close_close_open_palier\n\
+        {% else %}\n  script.close_volet_palier\n{% endif %}\n"
+open_velux_lenaic:
+  alias: Ouvre velux Lenaïc
+  sequence:
+  - condition: template
+    value_template: '{{ states.cover.velux_lenaic.attributes.current_position < 50}}'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
+close_velux_lenaic:
+  alias: Ferme velux lenaic
+  sequence:
+  - condition: state
+    entity_id: cover.velux_lenaic
+    state: open
+  - service: cover.close_cover
+    entity_id: cover.velux_lenaic
+open_volet_lenaic:
+  alias: Ferme volet palier
+  sequence:
+  - service: cover.open_cover
+    entity_id: cover.volet_lenaic
+close_volet_lenaic:
+  alias: Ferme volet palier
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.volet_lenaic
+open_both_lenaic:
+  alias: Ouvre le volet et le velux de Lenaïc
+  sequence:
+  - service: cover.open_cover
+    entity_id: cover.volet_lenaic
+  - wait_template: '{{ is_state(''cover.volet_lenaic'',''open'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
+close_both_lenaic:
+  alias: Ferme le volet et le velux de Lenaïc
+  sequence:
+  - service: cover.close_cover
+    entity_id: cover.velux_lenaic
+  - wait_template: '{{ is_state(''cover.velux_lenaic'',''closed'')  }}'
+    timeout: 00:01:00
+    continue_on_timeout: 'false'
+  - service: cover.close_cover
+    entity_id: cover.volet_lenaic
+secure_open_volet_lenaic:
+  alias: Ouvre volet Lenaïc
+  sequence:
+  - condition: state
+    entity_id: cover.volet_lenaic
+    state: closed
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if is_state('cover.velux_palier','open') %}\n  script.close_open_open_lenaic\n\
+        {% else %}\n  script.open_volet_lenaic\n{% endif %}\n"
+secure_close_volet_lenaic:
+  alias: Ferme proprement volet Lenaïc
+  sequence:
+  - condition: state
+    entity_id: cover.volet_lenaic
+    state: open
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if is_state('cover.velux_lenaic','open') %}\n  script.close_close_open_lenaic\n\
+        {% else %}\n  script.close_volet_lenaic\n{% endif %}\n"
+spotify_script_select_by_condition:
+  alias: Spotify Script Select by Condition
+  sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if is_state('media_player.spotify', 'playing') and not is_state_attr('media_player.spotify',\
+        \ 'source', source_requesting) %}\n  script.spotify_changing_source_while_playing\n\
+        {% elif not is_state_attr('media_player.spotify', 'source', source_requesting)\
+        \ %}\n  script.spotify_changing_source\n{% else %}\n  script.spotify_play_pause\n\
+        {% endif %}\n"
+      variables:
+        source_requesting: '{{ source_requesting }}'
+spotify_changing_source_while_playing:
+  alias: Spotify Changing Source While Playing
+  sequence:
+  - service: media_player.select_source
+    data_template:
+      entity_id: media_player.spotify
+      source: '{{ source_requesting }}'
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: true
+spotify_changing_source:
+  alias: Spotify Changing Source
+  sequence:
+  - service: media_player.select_source
+    data_template:
+      entity_id: media_player.spotify
+      source: '{{ source_requesting }}'
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: true
+  - service_template: media_player.media_play_pause
+    entity_id: media_player.spotify
+spotify_play_pause:
+  alias: Spotify Play Pause
+  sequence:
+  - service: media_player.media_play_pause
+    entity_id: media_player.spotify
+  - service: media_player.shuffle_set
+    data:
+      entity_id: media_player.spotify
+      shuffle: true
+spotify_salon:
+  sequence:
+  - service: remote.turn_on
+    entity_id: remote.harmony
+    data:
+      activity: Ecouter de la musique
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.spotify
+      source: CXN
+  - service: script.turn_on
+    entity_id: script.spotify_script_select_by_condition
+    data:
+      variables:
+        source_requesting: CXN
+aerer_etage:
+  alias: Aerer etage
+  sequence:
+  - data: {}
+    entity_id: script.open_both_lenaic
+    service: script.turn_on
+  - data: {}
+    entity_id: script.open_both_palier
+    service: script.turn_on
+  - delay: 00:30:00
+  - data: {}
+    entity_id: script.close_both_lenaic
+    service: script.turn_on
+  - data: {}
+    entity_id: script.close_both_palier
+    service: script.turn_on
+allumer_plex:
+  alias: Allumer Plex
+  sequence:
+  - data:
+      activity: Regarder la TV
+    entity_id: remote.harmony
+    service: remote.turn_on
+  - entity_id: media_player.android_tv_salon
+    service: media_player.turn_on
+  - data:
+      source: Plex
+    entity_id: media_player.android_tv_salon
+    service: media_player.select_source
+allumer_molotov:
+  alias: Allumer Molotov
+  sequence:
+  - data:
+      activity: Regarder la TV
+    entity_id: remote.harmony
+    service: remote.turn_on
+  - entity_id: media_player.android_tv_salon
+    service: media_player.turn_on
+  - data:
+      source: tv.molotov.app
+    entity_id: media_player.android_tv_salon
+    service: media_player.select_source
+snap_lenaic:
+  alias: Snapshot Lenaic
+  sequence:
+  - service: shell_command.snap_lenaic
+  - service: local_file.update_file_path
+    data:
+      entity_id: camera.interieur
+      file_path: /config/www/snapshots/interieur.png
+snap_jardin:
+  alias: Snapshot Jardin
+  sequence:
+  - service: shell_command.snap_jardin
+  - service: local_file.update_file_path
+    data:
+      entity_id: camera.jardin
+      file_path: /config/www/snapshots/jardin.png
+snap_terrasse:
+  alias: Snapshot Terrasse
+  sequence:
+  - service: shell_command.snap_terrasse
+  - service: local_file.update_file_path
+    data:
+      entity_id: camera.terrasse
+      file_path: /config/www/snapshots/terrasse.png
+'1590482771416':
+  alias: Say Telephone Virginia
+  sequence:
+  - data:
+      entity_id: media_player.salon
+      language: fr
+      message: Virginia, quelqu'un essaie de te joindre. Regarde ton téléphone
+    service: tts.google_translate_say

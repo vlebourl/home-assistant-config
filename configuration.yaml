@@ -1,8 +1,14 @@
 homeassistant:
-  customize: !include includes/customize.yaml
+  customize: !include customize.yaml
   whitelist_external_dirs:
     - /config
     - /config/www/
+  auth_providers:
+  - type: homeassistant
+  - type: trusted_networks
+    trusted_networks:
+    - 192.168.0.0/24
+    - 192.168.1.0/24
 
 cloud:
 default_config:
@@ -12,48 +18,110 @@ stream:
 sun:
 uilogs:
 
+frontend:
+  themes: !include_dir_merge_named themes
+  
 http:
   server_port: 8124
-  base_url: https://tiarkaerell.duckdns.org
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
-    
+  use_x_forwarded_for: true
+  trusted_proxies: 192.168.1.159
+#   ssl_certificate: /ssl/fullchain.pem
+#   ssl_key: /ssl/privkey.pem
+
+recorder:
+  db_url: mysql://homeassistant:tndDKrGacrmQRty3@core-mariadb/homeassistant?charset=utf8
+
+history:
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: homeassistant
+  max_retries: 3
+  default_measurement: state
+
+panel_iframe:
+  adguard:
+    require_admin: true
+    title: AdGuard
+    icon: mdi:shield-check
+    url: https://adguard.tiarkaerell.com
+
 automation:       !include automations.yaml
 automation old:   !include_dir_list includes/automations
 binary_sensor:    !include_dir_list includes/binary_sensors
+camera:           !include includes/cameras.yaml
 climate:          !include_dir_list includes/climates
 google:           !include includes/google.yaml
-google_assistant: !include includes/google_assistant.yaml
+#google_assistant: !include includes/google_assistant.yaml
 group:            !include includes/groups.yaml
 hacs:             !include includes/hacs.yaml
+#influxdb:         !include includes/influxdb.yaml
 input_boolean:    !include_dir_named includes/input_booleans
 input_datetime:   !include includes/input_datetime.yaml
-life360:          !include includes/life360.yaml
-logger:           !include includes/logger.yaml
-lovelace:         !include includes/lovelace.yaml
+light:            !include includes/lights.yaml
+#logger:           !include includes/logger.yaml
+#lovelace:         !include includes/lovelace.yaml
 media_player:     !include_dir_list includes/media_players
-mqtt:             !include includes/mqtt.yaml
+#mqtt:             !include includes/mqtt.yaml
 netatmo:          !include includes/netatmo.yaml
 notify:           !include_dir_list includes/notifies
 proximity:        !include includes/proximity.yaml
 remote:           !include_dir_list includes/remotes
 scene:            !include scenes.yaml
-script:           !include includes/scripts.yaml
+script:           !include scripts.yaml
 sensor:           !include_dir_list includes/sensors
+shell_command:    !include includes/shell_command.yaml
+speedtestdotnet:
 spotify:          !include includes/spotify.yaml
 switch:           !include includes/switches.yaml
-tahoma:           !include includes/tahoma.yaml
-tahoma_extended:  !include includes/tahoma.yaml
+#tahoma:           !include includes/tahoma.yaml
+#tahoma_extended:  !include includes/tahoma.yaml
 tts:              !include includes/tts.yaml
 weather:          !include includes/weather.yaml
 zwave:            !include includes/zwave.yaml
 
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+
 device_tracker:
+- platform: linksys_smart
+  host: 192.168.1.1
 - platform: nmap_tracker
-  interval_seconds: 10
-  consider_home: 60
   hosts:
-    - 192.168.0.1-255
+  - 192.168.1.179
+  - 192.168.1.118
 - platform: tile
   username: !secret email
   password: !secret tile
+
+nextcloud:
+  url: https://cloud.tiarkaerell.com
+  username: vlb
+  password: !secret nextcloud
+
+input_text:
+  say_salon:
+    name: "OK Google, dis"
+    initial: ""
+
+# sabnzbd:
+#   api_key: !secret sab
+#   host: 192.168.1.159
+#   port: 8080
+#   name: sab
+#   sensors:
+#     - current_status
+#     - speed
+#     - queue_size
+#     - queue_remaining
+#     - disk_size
+#     - disk_free
+#     - queue_count
+#     - day_size
+#     - week_size
+#     - month_size
+#     - total_size

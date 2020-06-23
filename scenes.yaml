@@ -1,31 +1,24 @@
-- id: '1581496537071'
-  name: Aérer le palier
+- id: '1586640095763'
+  name: Lumière extérieure en rouge
   entities:
-    group.chauffage:
-      entity_id:
-      - climate.radiateur_salon
-      - climate.radiateur_bureau
-      - climate.radiateur_lenaic
-      - climate.radiateur_parents
-      friendly_name: Chauffage
-      order: 12
-      state: unknown
-    script.secure_open_volet_lenaic:
-      friendly_name: Ouvre volet Lenaïc
-      last_triggered: '2020-02-17T09:13:48.282788+00:00'
-      state: 'off'
-    script.secure_open_volet_palier:
-      friendly_name: Ouvre volet palier
-      last_triggered: '2020-02-17T09:14:12.830456+00:00'
-      state: 'off'
-- id: '1581930026816'
-  name: Arrêter l'aération du pallier
-  entities:
-    script.secure_close_volet_lenaic:
-      friendly_name: Ferme proprement volet Lenaïc
-      last_triggered: '2020-02-17T09:00:10.592599+00:00'
-      state: 'off'
-    script.secure_close_volet_palier:
-      friendly_name: Ferme proprement volet palier
-      last_triggered: '2020-02-17T09:00:21.749329+00:00'
-      state: 'off'
+    light.hue_outdoor_wall_1:
+      brightness: 254
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Porte d'entrée
+      hs_color:
+      - 10.118
+      - 100
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 43
+      - 0
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.689
+      - 0.309

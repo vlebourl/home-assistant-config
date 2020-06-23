@@ -1,3 +1,45 @@
+- id: personathome
+  alias: Netatmo Person At Home
+  description: Update person at home when seen by Netatmo
+  trigger:
+  - platform: event
+    event_type: netatmo_event
+    event_data:
+      data:
+        type: person
+  condition:
+  action:
+  - service: homeassistant.update_entity
+    data_template:
+      entity_id: "{% if trigger.event.data.data.name == \"Vincent\" %}\n  person.vincent\n\
+        {% elif trigger.event.data.data.name == \"Virginia\" %}\n  person.virginia\n\
+        {% else %}\n  binary_sensor.home_occupied\n{% endif %}\n"
+- id: dooropenormovement
+  alias: Netatmo Event
+  description: door or window is open or was moved
+  trigger:
+  - event_data: {}
+    event_type: netatmo_event
+    platform: event
+  condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.data.snap != "topology_changed" }}'
+  action:
+  - data_template:
+      name: '"{{ trigger.event.data.data.snapshot_id }}"'
+      url: '{{ trigger.event.data.data.snapshot_url }}'
+    service: shell_command.get_image_and_resize
+  - data_template:
+      message: "{{ trigger.event.data.data.message }}\n{% if trigger.event.data.data.snapshot_url\
+        \ %}\n  ![image](/local/snapshots/{{trigger.event.data.data.snapshot_id}}.png)\n\
+        {% endif %}\n"
+      notification_id: '{{ trigger.event.data.data.message }}'
+      title: "Netatmo event:  {% if trigger.event.data[\"type\"] == \"tag_big_move\"\
+        \ %}\n  Big Move\n{% elif  trigger.event.data[\"type\"] == \"tag_small_move\"\
+        \ %}\n  Small Move\n{% elif  trigger.event.data[\"type\"] == \"tag_open\"\
+        \ %}\n  Still Open\n{% else %}\n  {{trigger.event.data[\"type\"]}}\n{% endif\
+        \ %}\n"
+    service: persistent_notification.create
 - id: ReduceHeatingForEmptyHome0
   alias: 0.1.0 Reduit le chauffage quand la maison est vide
   trigger:
@@ -13,8 +55,8 @@
     state: 'off'
   action:
   - data:
-      entity_id: group.chauffage
       temperature: 17
+    entity_id: climate.chauffage_general
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome0
   alias: 0.2.0 Monte le chauffage quand la maison n'est pas vide
@@ -28,13 +70,28 @@
     platform: time
   - at: 06:00:00
     platform: time
+  - entity_id: binary_sensor.home_occupied
+    platform: state
+    to: 'on'
   condition: []
   action:
   - data:
-      entity_id: group.chauffage
+      entity_id:
+      - climate.radiateur_bureau
+      - climate.radiateur_salon
+      - climate.radiateur_lenaic
+      - climate.radiateur_parents
     service: climate.turn_on
   - data:
-      entity_id: group.chauffage
+      entity_id:
+      - climate.radiateur_bureau
+      - climate.radiateur_salon
+      - climate.radiateur_parents
+      temperature: 19
+    service: climate.set_temperature
+  - data:
+      entity_id:
+      - climate.radiateur_lenaic
       temperature: 19
     service: climate.set_temperature
 - id: FermeVeluxLenaic
@@ -127,35 +184,19 @@
   - service: script.turn_on
     data:
       entity_id: script.secure_close_volet_lenaic
-- id: '000'
-  alias: ouvre le volet le matin en semaine
-  description: ''
-  trigger:
-  - at: 06:50:00
-    platform: time
-  condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  action:
-  - entity_id: cover.volet_parents
-    service: cover.open_cover
 - id: '1578933646759'
-  alias: log webhook
+  alias: Netatmo log event
   description: ''
   trigger:
-  - platform: webhook
-    webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
-  - platform: webhook
-    webhook_id: netatmo_webhook
-  condition:
-  - condition: state
-    entity_id: sensor.home
-    state: empty
+  - event_data: {}
+    event_type: netatmo_event
+    platform: event
+  condition: []
   action:
   - data_template:
-      message: '{{ trigger.json }}'
-    service: notify.custom_log_file
+      message: '{{ trigger.event.data }}'
+      title: 'Netatmo event: {{ trigger.event.data["data"]["push_type"] }}'
+    service: persistent_notification.create
 - id: '1580818178420'
   alias: ferme le volet quand la lumière s'éteint dans la chambre parentale
   description: ''
@@ -171,6 +212,9 @@
   - data: {}
     entity_id: cover.volet_parents
     service: cover.close_cover
+  - data: {}
+    entity_id: lock.porte_dentree
+    service: lock.lock
 - id: '1580853538230'
   alias: verrouille la maison quand elle est vide
   description: ''
@@ -182,7 +226,7 @@
     to: 'off'
   condition: []
   action:
-  - entity_id: lock.ti_ar_kaerell
+  - entity_id: lock.porte_dentree
     service: lock.lock
   - entity_id: group.velux_etage
     service: cover.close_cover
@@ -190,47 +234,6 @@
     service: cover.close_cover
   - entity_id: group.volet_etage
     service: cover.close_cover
-- id: '1581007152058'
-  alias: Virginia arrive
-  description: ''
-  trigger:
-  - entity_id: person.virginia
-    event: enter
-    platform: zone
-    zone: zone.home
-  condition: []
-  action:
-  - data:
-      message: Virginia arrive
-    service: notify.mobile_app_pixel_4
-- id: '1581007152057'
-  alias: Vincent arrive
-  description: ''
-  trigger:
-  - entity_id: person.vincent
-    event: enter
-    platform: zone
-    zone: zone.home
-  condition: []
-  action:
-  - data:
-      message: Vincent arrive
-    service: notify.mobile_app_pixel_4
-  - entity_id: lock.ti_ar_kaerell
-    service: lock.unlock
-- id: '1581144425280'
-  alias: test tag porte d'entrée
-  description: ''
-  trigger:
-  - entity_id: binary_sensor.netatmo_camsalon_porte_d_entree_tag_open
-    platform: state
-  - entity_id: binary_sensor.netatmo_camsalon_porte_d_entree_tag_vibration
-    platform: state
-  condition: []
-  action:
-  - data_template:
-      message: 'porte bouge: {{ trigger.json }}'
-    service: notify.mobile_app_pixel_4
 - id: '1581504234550'
   alias: 3.1 Verrouille la maison
   description: ''
@@ -240,7 +243,7 @@
     to: 'on'
   condition: []
   action:
-  - entity_id: lock.ti_ar_kaerell
+  - entity_id: lock.porte_dentree
     service: lock.lock
 - id: '1581504290253'
   alias: '3.4 Déverrouille la maison '
@@ -251,7 +254,7 @@
     to: 'on'
   condition: []
   action:
-  - entity_id: lock.ti_ar_kaerell
+  - entity_id: lock.porte_dentree
     service: lock.unlock
 - id: '1581506999426'
   alias: 3.2 Ferme tout et verrouille
@@ -260,12 +263,9 @@
   - entity_id: input_boolean.house_lock_down
     platform: state
     to: 'on'
-  - entity_id: input_boolean.nanomote_quad_3
-    platform: state
-    to: 'on'
   condition: []
   action:
-  - entity_id: lock.ti_ar_kaerell
+  - entity_id: lock.porte_dentree
     service: lock.lock
   - entity_id: group.velux_etage
     service: cover.close_cover
@@ -276,30 +276,308 @@
   - delay: 00:00:30
   - entity_id: group.volets_etage
     service: cover.close_cover
-- id: '1581683202081'
-  alias: Update available
-  description: ''
-  trigger:
-  - entity_id: sensor.home_assistant_latest_release
-    platform: state
-  condition: []
-  action:
-  - data_template:
-      message: 'une mise à jour est disponible: {{ states.sensor.home_assistant_latest_release.state
-        }}'
-    service: notify.mobile_app_pixel_4
 - id: '1582223368390'
   alias: 3.3 Déverrouille et ouvre les volets
   description: ''
   trigger:
-  - entity_id: input_boolean.open_door_and_covers
+  - entity_id: input_boolean.open_door_and_cover
     platform: state
-    to: 'On'
+    to: 'on'
   condition: []
   action:
-  - entity_id: lock.ti_ar_kaerell
+  - entity_id: lock.porte_dentree
     service: lock.unlock
   - entity_id: group.volets_rez
     service: cover.open_cover
   - entity_id: group.lux_rez
     service: light.turn_on
+- id: '1585328047276'
+  alias: Switch floodlight state to auto
+  description: ''
+  trigger:
+  - event_data:
+      data:
+        sub_type: auto
+        type: light_mode
+    event_type: netatmo_event
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.presence_floodlight
+    service: input_boolean.turn_off
+- id: '1585328058365'
+  alias: Switch floodlight state to on
+  description: ''
+  trigger:
+  - event_data:
+      data:
+        sub_type: 'on'
+        type: light_mode
+    event_type: netatmo_event
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.presence_floodlight
+    service: input_boolean.turn_on
+- id: '1585571424281'
+  alias: Reolink Notify and Fire on event
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: mailgun
+  condition: []
+  action:
+  - event: reolink_event
+    event_data_template:
+      location: "{% if \"Jardin\" in trigger.json[\"event-data\"].message.headers.subject\
+        \ %}\n  Jardin\n{% elif \"Terrasse\" in trigger.json[\"event-data\"].message.headers.subject\
+        \ %}\n  Terrasse\n{% elif \"Interieur\" in trigger.json[\"event-data\"].message.headers.subject\
+        \ %}\n  Lenaic\n{% else %}\n  Test\n{% endif %}\n"
+      name: reolink_event
+  - data_template:
+      key: '{{ trigger.json["event-data"].storage.key }}'
+      name: '"{{trigger.json["event-data"].message.headers.subject}}"'
+    service: shell_command.get_email_attachment
+  - data_template:
+      message: '![image](/local/snapshots/{{trigger.json["event-data"].storage.key}}.png)'
+      notification_id: '{{trigger.json["event-data"].message.headers.subject}}'
+      title: '{{trigger.json["event-data"].message.headers.subject}}'
+    service: persistent_notification.create
+  - data_template:
+      data:
+        image: /local/snapshots/{{trigger.json["event-data"].storage.key}}.png
+      message: '{{trigger.json["event-data"].message.headers.subject}}'
+      title: Reolink Alert
+    service: notify.mobile_app_pixel_4
+  - data:
+      entity_id: camera.jardin
+      file_path: /config/www/snapshots/jardin.png
+    service: local_file.update_file_path
+  - data:
+      entity_id: camera.interieur
+      file_path: /config/www/snapshots/interieur.png
+    service: local_file.update_file_path
+  - data:
+      entity_id: camera.terrasse
+      file_path: /config/www/snapshots/terrasse.png
+    service: local_file.update_file_path
+- id: '1586639244287'
+  alias: Ferme chez Lenaïc si trop froid ou trop tard
+  description: ''
+  trigger:
+  - at: 04:45
+    platform: time
+  - below: '20'
+    entity_id: sensor.netatmo_ti_ar_kaerell_lenaic_temperature
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      position: 12
+    entity_id: cover.velux_lenaic
+    service: cover.set_cover_position
+- id: '1586641302709'
+  alias: 'Allume en jardin rouge '
+  description: ''
+  trigger:
+  - event_data:
+      location: Jardin
+    event_type: reolink_event
+    platform: event
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - brightness_pct: 100
+    device_id: 2d141622e4eb447d8fd865986ed60b8d
+    domain: light
+    entity_id: light.porte_d_entree
+    type: turn_on
+  - delay: 00:02:00
+  - device_id: 2d141622e4eb447d8fd865986ed60b8d
+    domain: light
+    entity_id: light.porte_d_entree
+    type: turn_off
+- id: '1586704574125'
+  alias: fire event on netatmo webhook
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: netatmo_webhook
+  condition: []
+  action: []
+- id: '1588759061942'
+  alias: Say on reolink  event
+  description: ''
+  trigger:
+  - event_data:
+      location: Terrasse
+    event_type: reolink_event
+    platform: event
+  - event_data:
+      location: Jardin
+    event_type: reolink_event
+    platform: event
+  - event_data:
+      data:
+        data:
+          push_type: NOC-human
+    event_type: netatmo_event
+    platform: event
+  - event_data:
+      data:
+        data:
+          push_type: NOC-vehicule
+    event_type: netatmo_event
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      entity_id: media_player.salon
+      language: fr
+      message: "{% if trigger.event\t== \"reolink_event\"  %}\n  \"La caméra réo {{trigger.event.data.location}}\
+        \ a vu quelque chose\"\n{% else %}\n  {{trigger.event.data.data.message}}\n\
+        {% endif %}\n"
+    service: tts.google_translate_say
+- id: '1589184495027'
+  alias: Maintenance Restart HA at Night
+  description: ''
+  trigger:
+  - at: 02:00:00
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    service: homeassistant.restart
+- id: '1589525472716'
+  alias: Test Plex Webhook
+  description: ''
+  trigger:
+  - platform: webhook
+    webhook_id: plex
+  condition: []
+  action:
+  - data_template:
+      payload_template: '{{ (trigger.data[''payload''] | string)[12:][:-2] | replace
+        ("\\\\", "\\") | replace ("\\\''", "''") | replace ("\\x","?") }}
+
+        '
+      topic: plex/update
+    service: mqtt.publish
+- id: '1589526619374'
+  alias: Test Plex Webhook 2
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: plex/update
+  condition: []
+  action:
+  - event: plex_event
+    event_data_template:
+      event: '{{ trigger.payload_json.event }}'
+      media: '{{ trigger.payload_json.Metadata.librarySectionType }}'
+      player: '{{ trigger.payload_json.Player.title }}'
+      server: '{{ trigger.payload_json.Server.title }}'
+      title: "{%if trigger.payload_json.Metadata.librarySectionType==\"show\" %}\n\
+        \  {{ trigger.payload_json.Metadata.grandparentTitle }} S{{\n  trigger.payload_json.Metadata.parentIndex\
+        \ }}E{{\n  trigger.payload_json.Metadata.index }} {{\n  trigger.payload_json.Metadata.title\
+        \ }}\n{%elif trigger.payload_json.Metadata.librarySectionType==\"movie\" %}\n\
+        \  {{ trigger.payload_json.Metadata.title }}\n{%endif%}"
+      user: '{{trigger.payload_json.Account.title}}'
+      year: '{{ trigger.payload_json.Metadata.year }}'
+- id: '1589652677265'
+  alias: Lux salon 1 éteint avec tv
+  description: ''
+  trigger:
+  - entity_id: media_player.sony_bravia_tv
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.lux_salon_1
+    service: light.turn_off
+- id: '1590063761653'
+  alias: run shell command on homeassistant shutdown
+  description: ''
+  trigger:
+  - event: shutdown
+    platform: homeassistant
+  condition: []
+  action:
+  - service: shell_command.backup_logs
+- id: '1590482284961'
+  alias: Say on Salon
+  description: ''
+  trigger:
+  - entity_id: input_text.say_salon
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      entity_id: media_player.salon
+      language: fr
+      message: '{{ states.input_text.say_salon.state }}'
+    service: tts.google_translate_say
+- id: '1591698488231'
+  alias: turn of coffee after 5 minutes
+  description: ''
+  trigger:
+  - device_id: 0e88d9d59a0b43159308bfc0236d7170
+    domain: light
+    entity_id: light.machine_a_cafe
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    platform: device
+    type: turned_on
+  condition: []
+  action:
+  - device_id: 0e88d9d59a0b43159308bfc0236d7170
+    domain: light
+    entity_id: light.machine_a_cafe
+    type: turn_off
+- id: '1591791146833'
+  alias: Set Person Away Virginia
+  description: ''
+  trigger:
+  - entity_id: person.virginia
+    event: leave
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data:
+      entity_id: camera.netatmo_camsalon
+      person: Virginia
+    service: netatmo.set_person_away
+- id: '1591791214969'
+  alias: Set Person Away Vincent
+  description: ''
+  trigger:
+  - entity_id: person.vincent
+    event: leave
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - data:
+      entity_id: camera.netatmo_camsalon
+      person: Vincent
+    service: netatmo.set_person_away
+- id: updaternotif
+  alias: update available notification
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.updater
+    from: 'off'
+    to: 'on'
+  action:
+  - service: notify.notify
+    data_template:
+      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
+        }} is available.
