@@ -16,13 +16,17 @@
 !ui/**
 !python_scripts
 !python_scripts/**
+!appdaemon
+!appdaemon/**
+!themes
+!themes/**
 
 # Ignore folders.
 .storage
 .cloud
 .google.token
-*/.DS_Store
-
+.ssh
+**/.DS_Store
 **/__pycache__/
 www/snapshots/
 

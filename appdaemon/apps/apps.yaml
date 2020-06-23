@@ -1,0 +1,41 @@
+---
+hello_world:
+  module: hello
+  class: HelloWorld
+
+google_sheets:
+  module: gsheets
+  class: GSheets
+  SpreadSheetName: "HAsensors"
+  shelveFile: /config/appdaemon/apps/ShelveState.dat
+  RunEverySec: 600
+  #RunEverySec: 3600 # every 60 mins
+  #RunEverySec: 900 # every 15 mins
+  upload: [
+    {
+      sheetName: "Temperature_Lenaic",
+      nameInSheet: 'Temp_Lenaic',
+      entity: "sensor.netatmo_ti_ar_kaerell_lenaic_temperature"
+    },
+    {
+      sheetName: "Temperature_Grenier",
+      nameInSheet: 'Temp_Grenier',
+      entity: "sensor.tdeg_parents"
+    },
+    {
+      sheetName: "Temperature_Exterieure",
+      nameInSheet: 'Temp_Ext',
+      entity: "sensor.netatmo_ti_ar_kaerell_terrasse_temperature"
+    },
+    {
+      sheetName: "Cloudiness",
+      nameInSheet: 'Cloudiness',
+      entity: "sensor.dark_sky_cloud_coverage_0h"
+    },
+    {
+      sheetName: "Velux_Lenaic",
+      nameInSheet: 'Velux_Lenaic',
+      entity: "sensor.velux_lenaic"
+    },
+     # <....>
+    ]  
