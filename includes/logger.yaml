@@ -1,6 +1,4 @@
 default: error 
-logs: {}
-#  pyatmo: debug
-#  homeassistant.components.sabnzbd: debug
-#  custom_components.tahoma: debug
-  
+logs: 
+  homeassistant.components.device_tracker: debug
+

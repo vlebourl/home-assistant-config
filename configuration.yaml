@@ -67,7 +67,6 @@ scene:            !include scenes.yaml
 script:           !include scripts.yaml
 sensor:           !include_dir_list includes/sensors
 shell_command:    !include includes/shell_command.yaml
-speedtestdotnet:
 spotify:          !include includes/spotify.yaml
 switch:           !include includes/switches.yaml
 tts:              !include includes/tts.yaml
@@ -83,16 +82,13 @@ device_tracker:
   host: 192.168.1.1
 - platform: nmap_tracker
   hosts:
-  - 192.168.1.179
-  - 192.168.1.118
+  - 192.168.1.0/24
+  track_new_devices: yes
+  interval_seconds: 15
+  consider_home: 180
 - platform: tile
   username: !secret email
   password: !secret tile
-
-nextcloud:
-  url: https://cloud.tiarkaerell.com
-  username: vlb
-  password: !secret nextcloud
 
 input_text:
   say_salon:
