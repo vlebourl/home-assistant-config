@@ -152,9 +152,11 @@ async def hacs_startup():
 
     # Check HACS Constrains
     if not await hacs.hass.async_add_executor_job(check_constrains):
-        if hacs.configuration.config_type == "flow":
-            if hacs.configuration.config_entry is not None:
-                await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
+        if (
+            hacs.configuration.config_type == "flow"
+            and hacs.configuration.config_entry is not None
+        ):
+            await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
         return False
 
     # Set up frontend
@@ -166,18 +168,22 @@ async def hacs_startup():
 
     # Load HACS
     if not await load_hacs_repository():
-        if hacs.configuration.config_type == "flow":
-            if hacs.configuration.config_entry is not None:
-                await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
+        if (
+            hacs.configuration.config_type == "flow"
+            and hacs.configuration.config_entry is not None
+        ):
+            await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
         return False
 
     # Restore from storefiles
     if not await hacs.data.restore():
         hacs_repo = hacs.get_by_name("hacs/integration")
         hacs_repo.pending_restart = True
-        if hacs.configuration.config_type == "flow":
-            if hacs.configuration.config_entry is not None:
-                await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
+        if (
+            hacs.configuration.config_type == "flow"
+            and hacs.configuration.config_entry is not None
+        ):
+            await async_remove_entry(hacs.hass, hacs.configuration.config_entry)
         return False
 
     # Add aditional categories

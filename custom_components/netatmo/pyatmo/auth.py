@@ -13,10 +13,10 @@ from pyatmo.helpers import _BASE_URL, ERRORS
 LOG = logging.getLogger(__name__)
 
 # Common definitions
-AUTH_REQ = _BASE_URL + "oauth2/token"
-AUTH_URL = _BASE_URL + "oauth2/authorize"
-WEBHOOK_URL_ADD = _BASE_URL + "api/addwebhook"
-WEBHOOK_URL_DROP = _BASE_URL + "api/dropwebhook"
+AUTH_REQ = f'{_BASE_URL}oauth2/token'
+AUTH_URL = f'{_BASE_URL}oauth2/authorize'
+WEBHOOK_URL_ADD = f'{_BASE_URL}api/addwebhook'
+WEBHOOK_URL_DROP = f'{_BASE_URL}api/dropwebhook'
 
 
 # Possible scops
@@ -79,7 +79,7 @@ class NetatmoOAuth2:
             self.scope = " ".join(token["scope"])
 
         else:
-            self.scope = " ".join(ALL_SCOPES) if not scope else scope
+            self.scope = scope or " ".join(ALL_SCOPES)
 
         self.extra = {"client_id": self.client_id, "client_secret": self.client_secret}
 
@@ -132,15 +132,12 @@ class NetatmoOAuth2:
                     return
 
                 try:
-                    if json_params:
-                        rsp = self._oauth.post(
-                            url=url, json=json_params, timeout=timeout
-                        )
+                    return (
+                        self._oauth.post(url=url, json=json_params, timeout=timeout)
+                        if json_params
+                        else self._oauth.post(url=url, data=params, timeout=timeout)
+                    )
 
-                    else:
-                        rsp = self._oauth.post(url=url, data=params, timeout=timeout)
-
-                    return rsp
 
                 except (
                     TokenExpiredError,

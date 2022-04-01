@@ -8,12 +8,12 @@ from .auth import NetatmoOAuth2
 from .exceptions import ApiError, NoDevice
 from .helpers import _BASE_URL, LOG
 
-_GETHOMEDATA_REQ = _BASE_URL + "api/gethomedata"
-_GETCAMERAPICTURE_REQ = _BASE_URL + "api/getcamerapicture"
-_GETEVENTSUNTIL_REQ = _BASE_URL + "api/geteventsuntil"
-_SETPERSONSAWAY_REQ = _BASE_URL + "api/setpersonsaway"
-_SETPERSONSHOME_REQ = _BASE_URL + "api/setpersonshome"
-_SETSTATE_REQ = _BASE_URL + "api/setstate"
+_GETHOMEDATA_REQ = f'{_BASE_URL}api/gethomedata'
+_GETCAMERAPICTURE_REQ = f'{_BASE_URL}api/getcamerapicture'
+_GETEVENTSUNTIL_REQ = f'{_BASE_URL}api/geteventsuntil'
+_SETPERSONSAWAY_REQ = f'{_BASE_URL}api/setpersonsaway'
+_SETPERSONSHOME_REQ = f'{_BASE_URL}api/setpersonshome'
+_SETSTATE_REQ = f'{_BASE_URL}api/setstate'
 
 
 class CameraData:
@@ -123,11 +123,14 @@ class CameraData:
 
     def get_camera(self, camera_id: str) -> Dict[str, str]:
         """Get camera data."""
-        for home_id, _ in self.cameras.items():
-            if camera_id in self.cameras[home_id]:
-                return self.cameras[home_id][camera_id]
-
-        return {}
+        return next(
+            (
+                self.cameras[home_id][camera_id]
+                for home_id, _ in self.cameras.items()
+                if camera_id in self.cameras[home_id]
+            ),
+            {},
+        )
 
     def get_module(self, module_id: str) -> Optional[dict]:
         """Get module data."""
@@ -135,11 +138,14 @@ class CameraData:
 
     def get_smokedetector(self, smoke_id: str) -> Optional[dict]:
         """Get smoke detector."""
-        for home_id, _ in self.smokedetectors.items():
-            if smoke_id in self.smokedetectors[home_id]:
-                return self.smokedetectors[home_id][smoke_id]
-
-        return None
+        return next(
+            (
+                self.smokedetectors[home_id][smoke_id]
+                for home_id, _ in self.smokedetectors.items()
+                if smoke_id in self.smokedetectors[home_id]
+            ),
+            None,
+        )
 
     def camera_urls(self, camera_id: str) -> Tuple[Optional[str], Optional[str]]:
         """
@@ -232,11 +238,14 @@ class CameraData:
         Returns:
             str -- ID of a person
         """
-        for pid, data in self.persons.items():
-            if "pseudo" in data and name == data["pseudo"]:
-                return pid
-
-        return None
+        return next(
+            (
+                pid
+                for pid, data in self.persons.items()
+                if "pseudo" in data and name == data["pseudo"]
+            ),
+            None,
+        )
 
     def get_camera_picture(
         self, image_id: str, key: str
@@ -389,14 +398,12 @@ class CameraData:
                 if time_ev < limit:
                     return False
 
-                if self.events[camera_id][time_ev]["type"] == "person":
-                    if (
-                        self.events[camera_id][time_ev]["person_id"]
-                        in self._known_persons()
-                    ):
-                        return True
+                if self.events[camera_id][time_ev]["type"] == "person" and (
+                    self.events[camera_id][time_ev]["person_id"]
+                    in self._known_persons()
+                ):
+                    return True
 
-        # Check in the last event if someone known has been seen
         elif self.last_event[camera_id]["type"] == "person":
 
             if self.last_event[camera_id]["person_id"] in self._known_persons():
@@ -417,15 +424,12 @@ class CameraData:
                 if time_ev < limit:
                     return False
 
-                if self.events[camera_id][time_ev]["type"] == "person":
+                if self.events[camera_id][time_ev]["type"] == "person" and (
+                    self.events[camera_id][time_ev]["person_id"]
+                    not in self._known_persons()
+                ):
+                    return True
 
-                    if (
-                        self.events[camera_id][time_ev]["person_id"]
-                        not in self._known_persons()
-                    ):
-                        return True
-
-        # Check in the last event is noone known has been seen
         elif self.last_event[camera_id]["type"] == "person":
 
             if self.last_event[camera_id]["person_id"] not in self._known_persons():
@@ -573,18 +577,18 @@ class CameraData:
 
         if floodlight:
             param, val = "floodlight", floodlight.lower()
-            if val not in ["on", "off", "auto"]:
-                LOG.error("Invalid value for floodlight")
-            else:
+            if val in {"on", "off", "auto"}:
                 module[param] = val
 
+            else:
+                LOG.error("Invalid value for floodlight")
         if monitoring:
             param, val = "monitoring", monitoring.lower()
-            if val not in ["on", "off"]:
-                LOG.error("Invalid value für monitoring")
-            else:
+            if val in {"on", "off"}:
                 module[param] = val
 
+            else:
+                LOG.error("Invalid value für monitoring")
         post_params = {
             "json": {"home": {"id": home_id, "modules": [module]}},
         }

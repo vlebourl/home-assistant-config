@@ -165,22 +165,26 @@ def setup(hass, config):
             client.start_playback(**kwargs)
         if shuffle or repeat:
             time.sleep(3)
-            if shuffle:
-                _LOGGER.debug("Turning shuffle on")
-                time.sleep(2)
-                client.shuffle(state=shuffle, device_id=spotify_device_id)
-            if repeat:
-                _LOGGER.debug("Turning repeat on")
-                time.sleep(2)
-                client.repeat(state=repeat, device_id=spotify_device_id)
+        if shuffle:
+            _LOGGER.debug("Turning shuffle on")
+            time.sleep(2)
+            client.shuffle(state=shuffle, device_id=spotify_device_id)
+        if repeat:
+            _LOGGER.debug("Turning repeat on")
+            time.sleep(2)
+            client.repeat(state=repeat, device_id=spotify_device_id)
 
 
     def getSpotifyConnectDeviceId(client, device_name):
         devices_available = client.devices()
-        for device in devices_available["devices"]:
-            if device["name"] == device_name:
-                return device["id"]
-        return None
+        return next(
+            (
+                device["id"]
+                for device in devices_available["devices"]
+                if device["name"] == device_name
+            ),
+            None,
+        )
 
     def start_casting(call):
         """service called."""
@@ -327,7 +331,7 @@ class SpotifyCastDevice:
                 _LOGGER.debug("Fallback, found cast device: %s", _cast)
                 return _cast
 
-        raise HomeAssistantError("Could not find device with name {}".format(device_name))
+        raise HomeAssistantError(f"Could not find device with name {device_name}")
 
     def startSpotifyController(self, access_token, expires):
         from pychromecast.controllers.spotify import SpotifyController
@@ -338,24 +342,27 @@ class SpotifyCastDevice:
 
         if not sp.is_launched and not sp.credential_error:
             raise HomeAssistantError("Failed to launch spotify controller due to timeout")
-        if not sp.is_launched and sp.credential_error:
+        if not sp.is_launched:
             raise HomeAssistantError("Failed to launch spotify controller due to credentials error")
 
         self.spotifyController = sp
 
     def getSpotifyDeviceId(self, client):
-        # Look for device
-        spotify_device_id = None
         devices_available = client.devices()
-        for device in devices_available["devices"]:
-            if device["id"] == self.spotifyController.device:
-                spotify_device_id = device["id"]
-                break
+        spotify_device_id = next(
+            (
+                device["id"]
+                for device in devices_available["devices"]
+                if device["id"] == self.spotifyController.device
+            ),
+            None,
+        )
 
         if not spotify_device_id:
             _LOGGER.error(
-                'No device with id "{}" known by Spotify'.format(self.spotifyController.device)
+                f'No device with id "{self.spotifyController.device}" known by Spotify'
             )
-            _LOGGER.error("Known devices: {}".format(devices_available["devices"]))
+
+            _LOGGER.error(f'Known devices: {devices_available["devices"]}')
             raise HomeAssistantError("Failed to get device id from Spotify")
         return spotify_device_id

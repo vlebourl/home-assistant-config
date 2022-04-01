@@ -9,14 +9,29 @@ from custom_components.hacs.hacsbase.exceptions import HacsException
 def info_file(repository):
     """get info filename."""
     if repository.data.render_readme:
-        for filename in ["readme", "readme.md", "README", "README.md", "README.MD"]:
-            if filename in repository.treefiles:
-                return filename
-        return ""
-    for filename in ["info", "info.md", "INFO", "INFO.md", "INFO.MD"]:
-        if filename in repository.treefiles:
-            return filename
-    return ""
+        return next(
+            (
+                filename
+                for filename in [
+                    "readme",
+                    "readme.md",
+                    "README",
+                    "README.md",
+                    "README.MD",
+                ]
+                if filename in repository.treefiles
+            ),
+            "",
+        )
+
+    return next(
+        (
+            filename
+            for filename in ["info", "info.md", "INFO", "INFO.md", "INFO.MD"]
+            if filename in repository.treefiles
+        ),
+        "",
+    )
 
 
 async def get_info_md_content(repository):
@@ -67,12 +82,14 @@ async def get_releases(repository, prerelease=False, returnlimit=5):
 def get_frontend_version():
     """get the frontend version from the manifest."""
     manifest = read_hacs_manifest()
-    frontend = 0
-    for requirement in manifest.get("requirements", []):
-        if requirement.startswith("hacs_frontend"):
-            frontend = requirement.split("==")[1]
-            break
-    return frontend
+    return next(
+        (
+            requirement.split("==")[1]
+            for requirement in manifest.get("requirements", [])
+            if requirement.startswith("hacs_frontend")
+        ),
+        0,
+    )
 
 
 def read_hacs_manifest():
@@ -92,7 +109,7 @@ async def get_integration_manifest(repository):
         manifest_path = "manifest.json"
     else:
         manifest_path = f"{repository.content.path.remote}/manifest.json"
-    if not manifest_path in [x.full_path for x in repository.tree]:
+    if manifest_path not in [x.full_path for x in repository.tree]:
         raise HacsException(f"No file found '{manifest_path}'")
     try:
         manifest = await repository.repository_object.get_contents(

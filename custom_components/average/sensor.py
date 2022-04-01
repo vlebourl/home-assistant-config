@@ -172,12 +172,11 @@ class AverageSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the state attributes."""
-        state_attr = {
+        return {
             attr: getattr(self, attr)
             for attr in ATTR_TO_PROPERTY
             if getattr(self, attr) is not None
         }
-        return state_attr
 
     async def async_added_to_hass(self):
         """Register callbacks."""

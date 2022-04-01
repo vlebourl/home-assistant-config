@@ -4,7 +4,7 @@ from .auth import NetatmoOAuth2
 from .exceptions import NoDevice
 from .helpers import _BASE_URL, to_time_string
 
-_GETPUBLIC_DATA = _BASE_URL + "api/getpublicdata"
+_GETPUBLIC_DATA = f'{_BASE_URL}api/getpublicdata'
 
 _STATION_TEMPERATURE_TYPE = "temperature"
 _STATION_PRESSURE_TYPE = "pressure"
@@ -131,10 +131,10 @@ class PublicData:
         return self.get_accessory_data(_ACCESSORY_GUST_ANGLE_TYPE)
 
     def get_locations(self) -> Dict:
-        locations: Dict = {}
-        for station in self.raw_data:
-            locations[station["_id"]] = station["place"]["location"]
-        return locations
+        return {
+            station["_id"]: station["place"]["location"]
+            for station in self.raw_data
+        }
 
     def get_time_for_rain_measures(self) -> Dict:
         return self.get_accessory_data(_ACCESSORY_RAIN_TIME_TYPE)
@@ -169,6 +169,4 @@ class PublicData:
 
 
 def average(data: dict) -> float:
-    if data:
-        return sum(data.values()) / len(data)
-    return 0.0
+    return sum(data.values()) / len(data) if data else 0.0

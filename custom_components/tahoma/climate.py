@@ -134,11 +134,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
             if DEVICE_CLASS_TEMPERATURE in options:
                 if device.url in options[DEVICE_CLASS_TEMPERATURE]:
                     sensor_id = options[DEVICE_CLASS_TEMPERATURE][device.url]
-                    if device.widget == W_ST:
-                        entities.append(
-                            TahomaClimate(device, controller, sensor_id, preset_temp)
-                        )
-                    else:
+                    if device.widget != W_ST:
                         for k, v in preset_temp.items():
                             if (
                                 k in options[DEVICE_CLASS_TEMPERATURE]
@@ -147,10 +143,9 @@ async def async_setup_entry(hass, entry, async_add_entities):
                                 preset_temp[k] = float(
                                     options[DEVICE_CLASS_TEMPERATURE][k]
                                 )
-                        entities.append(
-                            TahomaClimate(device, controller, sensor_id, preset_temp)
-                        )
-
+                    entities.append(
+                        TahomaClimate(device, controller, sensor_id, preset_temp)
+                    )
             else:
                 entities.append(
                     TahomaClimate(device, controller, preset_temp=preset_temp)
@@ -239,9 +234,7 @@ class TahomaClimate(TahomaDevice, ClimateEntity):
             ]
             self._target_temp = 19
             self._preset_modes = [PRESET_NONE]
-            for k, v in self._preset_temperatures.items():
-                if v:
-                    self._preset_modes.append(k)
+            self._preset_modes.extend(k for k, v in self._preset_temperatures.items() if v)
         self._stored_target_temp = self._target_temp
 
     async def async_added_to_hass(self):
@@ -330,7 +323,7 @@ class TahomaClimate(TahomaDevice, ClimateEntity):
     def available(self) -> bool:
         """If the device hasn't been able to connect, mark as unavailable."""
         return (
-            bool(self._current_temperature != 0)
+            self._current_temperature != 0
             and self.hass.states.get(self._temp_sensor_entity_id) is not None
         )
 
@@ -395,9 +388,7 @@ class TahomaClimate(TahomaDevice, ClimateEntity):
         """Set the preset temperatures if supported."""
         self._preset_temperatures = preset_temp
         self._preset_modes = [PRESET_NONE]
-        for k, v in self._preset_temperatures.items():
-            if v:
-                self._preset_modes.append(k)
+        self._preset_modes.extend(k for k, v in self._preset_temperatures.items() if v)
 
     @property
     def temperature_unit(self) -> str:
@@ -426,8 +417,7 @@ class TahomaClimate(TahomaDevice, ClimateEntity):
                     STATE_PRESET_FREEZE,
                     STATE_DEROGATION_FURTHER_NOTICE,
                 )
-            if temperature > 26:
-                temperature = 26
+            temperature = min(temperature, 26)
             self._target_temp = temperature
             self.apply_action(
                 COMMAND_SET_DEROGATION, temperature, STATE_DEROGATION_FURTHER_NOTICE
@@ -484,9 +474,7 @@ class TahomaClimate(TahomaDevice, ClimateEntity):
     def set_preset_mode(self, preset_mode: str) -> None:
         """Set new preset mode."""
         if preset_mode not in self.preset_modes:
-            _LOGGER.error(
-                "Preset " + preset_mode + " is not available for " + self._name
-            )
+            _LOGGER.error(f"Preset {preset_mode} is not available for {self._name}")
             return
         if self._preset_mode == preset_mode:
             return

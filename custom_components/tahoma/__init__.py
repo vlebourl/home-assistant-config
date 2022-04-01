@@ -90,10 +90,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             _LOGGER.debug(
                 "Unsupported Tahoma device (%s). Create an issue on Github with the following information. \n\n %s \n %s \n %s",
                 _device.type,
-                _device.type + " - " + _device.uiclass + " - " + _device.widget,
-                json.dumps(_device.command_def) + ",",
+                f'{_device.type} - {_device.uiclass} - {_device.widget}',
+                f'{json.dumps(_device.command_def)},',
                 json.dumps(_device.states_def),
             )
+
 
     for component in PLATFORMS:
         hass.async_create_task(

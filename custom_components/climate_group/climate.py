@@ -104,10 +104,7 @@ class ClimateGroup(ClimateEntity):
         """Initialize a climate group."""
         self._name = name  # type: str
         self._entity_ids = entity_ids  # type: List[str]
-        if "c" in unit.lower():
-            self._unit = TEMP_CELSIUS
-        else:
-            self._unit = TEMP_FAHRENHEIT
+        self._unit = TEMP_CELSIUS if "c" in unit.lower() else TEMP_FAHRENHEIT
         self._min_temp = 0
         self._max_temp = 0
         self._current_temp = 0
@@ -216,7 +213,6 @@ class ClimateGroup(ClimateEntity):
         if ATTR_HVAC_MODE in kwargs:
             hvac_mode = kwargs.get(ATTR_HVAC_MODE)
             await self.async_set_hvac_mode(hvac_mode)
-        # start add
         elif (
             ATTR_TEMPERATURE in kwargs
             or ATTR_TARGET_TEMP_LOW in kwargs
@@ -225,7 +221,7 @@ class ClimateGroup(ClimateEntity):
             if ATTR_TEMPERATURE in kwargs:
                 temperature = kwargs.get(ATTR_TEMPERATURE)
                 data[ATTR_TEMPERATURE] = temperature
-            elif ATTR_TARGET_TEMP_LOW in kwargs or ATTR_TARGET_TEMP_HIGH in kwargs:
+            else:
                 temperature_low = kwargs.get(ATTR_TARGET_TEMP_LOW)
                 temperature_high = kwargs.get(ATTR_TARGET_TEMP_HIGH)
                 data[climate.ATTR_TARGET_TEMP_LOW] = temperature_low
@@ -288,7 +284,7 @@ class ClimateGroup(ClimateEntity):
         # iterate through all hvac modes (skip first, as its off)
         for hvac_mode in HVAC_MODES[1:] + [HVAC_MODE_OFF]:
             # if any thermostat is in the given mode return it
-            if any([mode == hvac_mode for mode in all_modes]):
+            if hvac_mode in all_modes:
                 self._mode = hvac_mode
                 break
 
@@ -297,7 +293,7 @@ class ClimateGroup(ClimateEntity):
         ]
         for hvac_action in HVAC_ACTIONS:
             # if any thermostat is in the given action return it
-            if any([action == hvac_action for action in all_actions]):
+            if hvac_action in all_actions:
                 self._action = hvac_action
                 break
 
@@ -331,8 +327,7 @@ class ClimateGroup(ClimateEntity):
 
         # Supported HVAC modes
         self._mode_list = None
-        all_mode_lists = list(_find_state_attributes(states, ATTR_HVAC_MODES))
-        if all_mode_lists:
+        if all_mode_lists := list(_find_state_attributes(states, ATTR_HVAC_MODES)):
             # Merge all effects from all effect_lists with a union merge.
             self._mode_list = list(set().union(*all_mode_lists))
 

@@ -132,12 +132,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
             _LOGGER.debug(
                 "Adding module %s %s", module.get("module_name"), module.get("_id"),
             )
-            for condition in data_handler.data[data_class].get_monitored_conditions(
-                module_id=module["_id"]
-            ):
-                entities.append(
-                    NetatmoSensor(data_handler, data_class, module, condition.lower())
-                )
+            entities.extend(
+                NetatmoSensor(data_handler, data_class, module, condition.lower())
+                for condition in data_handler.data[
+                    data_class
+                ].get_monitored_conditions(module_id=module["_id"])
+            )
 
         await data_handler.unregister_data_class(data_class)
         return entities

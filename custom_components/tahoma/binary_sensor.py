@@ -24,13 +24,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the TaHoma sensors from a config entry."""
 
     data = hass.data[DOMAIN][entry.entry_id]
-
-    entities = []
     controller = data.get("controller")
 
-    for device in data.get("devices"):
-        if TAHOMA_TYPES[device.uiclass] == "binary_sensor":
-            entities.append(TahomaBinarySensor(device, controller))
+    entities = [
+        TahomaBinarySensor(device, controller)
+        for device in data.get("devices")
+        if TAHOMA_TYPES[device.uiclass] == "binary_sensor"
+    ]
 
     async_add_entities(entities)
 
@@ -47,7 +47,7 @@ class TahomaBinarySensor(TahomaDevice, BinarySensorEntity):
     @property
     def is_on(self):
         """Return the state of the sensor."""
-        return bool(self._state == STATE_ON)
+        return self._state == STATE_ON
 
     @property
     def device_class(self):
@@ -78,7 +78,4 @@ class TahomaBinarySensor(TahomaDevice, BinarySensorEntity):
                 self.tahoma_device.active_states.get(CORE_SMOKE_STATE) == "detected"
             )
 
-        if self.current_value:
-            self._state = STATE_ON
-        else:
-            self._state = STATE_OFF
+        self._state = STATE_ON if self.current_value else STATE_OFF

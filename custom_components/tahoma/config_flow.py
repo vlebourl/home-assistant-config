@@ -154,13 +154,15 @@ class ThermoOptionsFlowHandler(config_entries.OptionsFlow):
                 errors["base"] = "unknown"
 
         if TAHOMA_TYPE_HEATING_SYSTEM in self.config_entry.data:
-            available_sensors = []
-            for k, v in self.hass.data["entity_registry"].entities.items():
+            available_sensors = [
+                k
+                for k, v in self.hass.data["entity_registry"].entities.items()
                 if (
                     str.startswith(k, "sensor")
                     and v.device_class == DEVICE_CLASS_TEMPERATURE
-                ):
-                    available_sensors.append(k)
+                )
+            ]
+
             options = dict(self.config_entry.options)
             schema = {}
             for k, v in self.config_entry.data[TAHOMA_TYPE_HEATING_SYSTEM].items():
@@ -170,9 +172,7 @@ class ThermoOptionsFlowHandler(config_entries.OptionsFlow):
                     default = options.get(DEVICE_CLASS_TEMPERATURE).get(k)
                 if default is None:
                     default = v
-                key = vol.Required(
-                    k, default=default, msg="temperature sensor for " + v
-                )
+                key = vol.Required(k, default=default, msg=f"temperature sensor for {v}")
                 value = vol.In([v] + available_sensors)
                 schema[key] = value
             default = {

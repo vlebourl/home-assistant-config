@@ -80,9 +80,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         try:
             all_cameras = []
             for home in data_handler.data[data_class].cameras.values():
-                for camera in home.values():
-                    all_cameras.append(camera)
-
+                all_cameras.extend(iter(home.values()))
             for camera in all_cameras:
                 _LOGGER.debug("Adding camera %s %s", camera["id"], camera["name"])
                 entities.append(
@@ -241,7 +239,7 @@ class NetatmoCamera(Camera, NetatmoBase):
     @property
     def available(self):
         """Return True if entity is available."""
-        return bool(self._alim_status == "on")
+        return self._alim_status == "on"
 
     @property
     def supported_features(self):
@@ -256,7 +254,7 @@ class NetatmoCamera(Camera, NetatmoBase):
     @property
     def motion_detection_enabled(self):
         """Return the camera motion detection status."""
-        return bool(self._status == "on")
+        return self._status == "on"
 
     @property
     def is_on(self):
@@ -301,16 +299,18 @@ class NetatmoCamera(Camera, NetatmoBase):
         self._sd_status = camera.get("sd_status")
         self._alim_status = camera.get("alim_status")
         self._is_local = camera.get("is_local")
-        self.is_streaming = bool(self._status == "on")
+        self.is_streaming = self._status == "on"
 
     def _service_setpersonshome(self, **kwargs):
         """Service to change current home schedule."""
         persons = kwargs.get(ATTR_PERSONS)
         person_ids = []
         for person in persons:
-            for pid, data in self._data.persons.items():
-                if data.get("pseudo") == person:
-                    person_ids.append(pid)
+            person_ids.extend(
+                pid
+                for pid, data in self._data.persons.items()
+                if data.get("pseudo") == person
+            )
 
         self._data.set_persons_home(person_ids=person_ids, home_id=self._home_id)
         _LOGGER.info("Set %s as at home", persons)

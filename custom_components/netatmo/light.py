@@ -33,9 +33,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         try:
             all_cameras = []
             for home in data_handler.data[data_class].cameras.values():
-                for camera in home.values():
-                    all_cameras.append(camera)
-
+                all_cameras.extend(iter(home.values()))
             for camera in all_cameras:
                 if camera["type"] == "NOC":
                     if not data_handler.webhook:
@@ -158,7 +156,4 @@ class NetatmoLight(LightEntity, NetatmoBase):
     @callback
     def async_update_callback(self):
         """Update the entity's state."""
-        if self._data.get_light_state(self._camera_id) == "on":
-            self._is_on = True
-        else:
-            self._is_on = False
+        self._is_on = self._data.get_light_state(self._camera_id) == "on"

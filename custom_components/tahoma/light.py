@@ -32,13 +32,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the TaHoma lights from a config entry."""
 
     data = hass.data[DOMAIN][entry.entry_id]
-
-    entities = []
     controller = data.get("controller")
 
-    for device in data.get("devices"):
-        if TAHOMA_TYPES[device.uiclass] == "light":
-            entities.append(TahomaLight(device, controller))
+    entities = [
+        TahomaLight(device, controller)
+        for device in data.get("devices")
+        if TAHOMA_TYPES[device.uiclass] == "light"
+    ]
 
     async_add_entities(entities)
 
@@ -68,9 +68,7 @@ class TahomaLight(TahomaDevice, LightEntity):
     @property
     def hs_color(self):
         """Return the hue and saturation color value [float, float]."""
-        if self._hs_color:
-            return self._hs_color
-        return None
+        return self._hs_color or None
 
     @property
     def supported_features(self) -> int:
@@ -142,11 +140,7 @@ class TahomaLight(TahomaDevice, LightEntity):
                 "core:LightIntensityState"
             )
 
-        if self.tahoma_device.active_states.get("core:OnOffState") == "on":
-            self._state = True
-        else:
-            self._state = False
-
+        self._state = self.tahoma_device.active_states.get("core:OnOffState") == "on"
         if CORE_RED_COLOR_INTENSITY_STATE in self.tahoma_device.active_states:
             self._hs_color = color_util.color_RGB_to_hs(
                 [

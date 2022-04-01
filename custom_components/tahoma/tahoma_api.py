@@ -46,8 +46,9 @@ class TahomaApi:
         login = {"userId": self.__username, "userPassword": self.__password}
         header = BASE_HEADERS.copy()
         request = requests.post(
-            BASE_URL + "login", data=login, headers=header, timeout=10
+            f'{BASE_URL}login', data=login, headers=header, timeout=10
         )
+
 
         try:
             result = request.json()
@@ -147,11 +148,9 @@ class TahomaApi:
         header = BASE_HEADERS.copy()
         header["Cookie"] = self.__cookie
 
-        result = self.send_request(
-            requests.get, BASE_URL + "enduser/mainAccount", headers=header
+        return self.send_request(
+            requests.get, f'{BASE_URL}enduser/mainAccount', headers=header
         )
-
-        return result
 
     def get_setup(self):
         """Load the setup from the server.
@@ -174,7 +173,7 @@ class TahomaApi:
         header = BASE_HEADERS.copy()
         header["Cookie"] = self.__cookie
 
-        result = self.send_request(requests.get, BASE_URL + "setup", headers=header)
+        result = self.send_request(requests.get, f'{BASE_URL}setup', headers=header)
 
         self.__setup = result
         self._get_setup(result)
@@ -325,17 +324,15 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
         header["Content-Type"] = "application/json"
 
-        actions_serialized = []
-
-        for action in actions:
-            actions_serialized.append(action.serialize())
+        actions_serialized = [action.serialize() for action in actions]
 
         data = {"label": name_of_action, "actions": actions_serialized}
         json_data = json.dumps(data, indent=None, sort_keys=True)
 
         result = self.send_request(
-            requests.post, BASE_URL + "exec/apply", header, json_data
+            requests.post, f'{BASE_URL}exec/apply', header, json_data
         )
+
 
         if "execId" not in result.keys():
             raise Exception("Could not run actions, missing execId.")
@@ -373,16 +370,18 @@ class TahomaApi:
 
         if self.__events_registration is None:
             register_response = self.send_request(
-                requests.post, BASE_URL + "events/register", header
+                requests.post, f'{BASE_URL}events/register', header
             )
+
 
             self.__events_registration = register_response["id"]
 
         result = self.send_request(
             requests.post,
-            BASE_URL + "events/" + self.__events_registration + "/fetch",
+            f'{BASE_URL}events/{self.__events_registration}/fetch',
             headers=header,
         )
+
 
         return self._get_events(result)
 
@@ -428,8 +427,9 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
 
         result = self.send_request(
-            requests.get, BASE_URL + "exec/current", headers=header
+            requests.get, f'{BASE_URL}exec/current', headers=header
         )
+
 
         executions = {}
 
@@ -444,9 +444,7 @@ class TahomaApi:
         header = BASE_HEADERS.copy()
         header["Cookie"] = self.__cookie
 
-        result = self.send_request(requests.get, BASE_URL + "history", headers=header)
-
-        return result
+        return self.send_request(requests.get, f'{BASE_URL}history', headers=header)
 
     def cancel_all_executions(self):
         """Cancel all running executions.
@@ -457,7 +455,7 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
 
         self.send_request(
-            requests.delete, BASE_URL + "exec/current/setup", headers=header
+            requests.delete, f'{BASE_URL}exec/current/setup', headers=header
         )
 
     def get_action_groups(self):
@@ -468,7 +466,7 @@ class TahomaApi:
         header = BASE_HEADERS.copy()
         header["Cookie"] = self.__cookie
 
-        request = requests.get(BASE_URL + "actionGroups", headers=header, timeout=10)
+        request = requests.get(f'{BASE_URL}actionGroups', headers=header, timeout=10)
 
         if request.status_code != 200:
             self.__logged_in = False
@@ -495,8 +493,9 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
 
         result = self.send_request(
-            requests.post, BASE_URL + "exec/" + action_id, headers=header
+            requests.post, f'{BASE_URL}exec/{action_id}', headers=header
         )
+
 
         if "execId" not in result.keys():
             raise Exception("Could not launch action" + "group, missing execId.")
@@ -509,7 +508,7 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
 
         for device in devices:
-            path = "setup/devices/" + urllib.parse.quote_plus(device.url) + "/states"
+            path = f"setup/devices/{urllib.parse.quote_plus(device.url)}/states"
             result = self.send_request(requests.get, BASE_URL + path, headers=header)
 
             try:
@@ -523,7 +522,9 @@ class TahomaApi:
         header["Cookie"] = self.__cookie
 
         self.send_request(
-            requests.post, BASE_URL + "setup/devices/states/refresh", headers=header
+            requests.post,
+            f'{BASE_URL}setup/devices/states/refresh',
+            headers=header,
         )
 
 
@@ -539,34 +540,34 @@ class Device:
         debug_output = json.dumps(dataInput)
 
         if "label" not in dataInput.keys():
-            raise ValueError("No device name found: " + debug_output)
+            raise ValueError(f"No device name found: {debug_output}")
 
         self.__label = dataInput["label"]
 
         if "controllableName" not in dataInput.keys():
-            raise ValueError("No control label name found: " + debug_output)
+            raise ValueError(f"No control label name found: {debug_output}")
 
         self.__type = dataInput["controllableName"]
 
         if "deviceURL" not in dataInput.keys():
-            raise ValueError("No control URL: " + debug_output)
+            raise ValueError(f"No control URL: {debug_output}")
 
         self.__url = dataInput["deviceURL"]
 
         if "uiClass" not in dataInput.keys():
-            raise ValueError("No ui Class: " + debug_output)
+            raise ValueError(f"No ui Class: {debug_output}")
 
         self.__uiclass = dataInput["uiClass"]
 
         if "widget" not in dataInput.keys():
-            raise ValueError("No widget: " + debug_output)
+            raise ValueError(f"No widget: {debug_output}")
 
         self.__widget = dataInput["widget"]
 
         # Parse definitions
 
         if "definition" not in dataInput.keys():
-            raise ValueError("No device definition found: " + debug_output)
+            raise ValueError(f"No device definition found: {debug_output}")
 
         self.__definitions = {"commands": [], "states": []}
 
@@ -605,7 +606,7 @@ class Device:
         # calculate the amount of known active states
         active_states_amount = 0
         if "states" in dataInput.keys():
-            for state in dataInput["states"]:
+            for _ in dataInput["states"]:
                 active_states_amount += 1
 
         # make sure there are not more active states than definitions
@@ -619,30 +620,28 @@ class Device:
                 + debug_output
             )
 
-        if len(self.state_definitions) > 0:
-
-            if "states" in dataInput.keys():
+        if len(self.state_definitions) > 0 and "states" in dataInput.keys():
                 # raise ValueError("No active states given.")
 
-                for state in dataInput["states"]:
+            for state in dataInput["states"]:
 
-                    if state["name"] not in self.state_definitions:
-                        raise ValueError(
-                            "Active state '"
-                            + state["name"]
-                            + "' has not been defined: "
-                            + debug_output
-                        )
+                if state["name"] not in self.state_definitions:
+                    raise ValueError(
+                        "Active state '"
+                        + state["name"]
+                        + "' has not been defined: "
+                        + debug_output
+                    )
 
-                    if state["name"] in self.__active_states.keys():
-                        raise ValueError(
-                            "Active state '"
-                            + state["name"]
-                            + "' has been double defined: "
-                            + debug_output
-                        )
+                if state["name"] in self.__active_states:
+                    raise ValueError(
+                        "Active state '"
+                        + state["name"]
+                        + "' has been double defined: "
+                        + debug_output
+                    )
 
-                    self.__active_states[state["name"]] = state["value"]
+                self.__active_states[state["name"]] = state["value"]
 
     @property
     def label(self):
@@ -761,14 +760,9 @@ class Action:
 
     def serialize(self):
         """Serialize action."""
-        commands = []
+        commands = [cmd.serialize() for cmd in self.commands]
 
-        for cmd in self.commands:
-            commands.append(cmd.serialize())
-
-        out = {"commands": commands, "deviceURL": self.__device_url}
-
-        return out
+        return {"commands": commands, "deviceURL": self.__device_url}
 
     def __str__(self):
         """Format to json."""
@@ -793,9 +787,9 @@ class Command:
         if len(args):
             for arg in args[0]:
                 if (
-                    isinstance(arg, str) is False
-                    and isinstance(arg, int) is False
-                    and isinstance(arg, float) is False
+                    not isinstance(arg, str)
+                    and not isinstance(arg, int)
+                    and not isinstance(arg, float)
                 ):
                     raise ValueError("Type '" + type(arg) + "' is not Int, bool or .")
 
@@ -842,10 +836,7 @@ class ActionGroup:
         self.__name = data["label"]
         self.__oid = data["oid"]
 
-        self.__actions = []
-
-        for cmd in data["actions"]:
-            self.__actions.append(Action(cmd))
+        self.__actions = [Action(cmd) for cmd in data["actions"]]
 
     @property
     def last_update(self):
@@ -1006,7 +997,7 @@ class EventState:
             elif state is EventState.Unknown:
                 self.__state = EventState.Unknown
             else:
-                raise ValueError("Unknown state init " + str(state))
+                raise ValueError(f"Unknown state init {str(state)}")
         elif isinstance(state, str):
             # more states are missing
             if state == "NOT_TRANSMITTED":
@@ -1065,10 +1056,7 @@ class Execution:
         self.__state = EventState(data["state"])
         self.__name = data["actionGroup"]["label"]
 
-        self.__actions = []
-
-        for cmd in data["actionGroup"]["actions"]:
-            self.__actions.append(Action(cmd))
+        self.__actions = [Action(cmd) for cmd in data["actionGroup"]["actions"]]
 
     @property
     def execution_id(self):

@@ -368,20 +368,12 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
     @property
     def min_temp(self):
         """Return the minimum temperature."""
-        if self._min_temp is not None:
-            return self._min_temp
-
-        # get default temp from super class
-        return super().min_temp
+        return self._min_temp if self._min_temp is not None else super().min_temp
 
     @property
     def max_temp(self):
         """Return the maximum temperature."""
-        if self._max_temp is not None:
-            return self._max_temp
-
-        # Get default temp from super class
-        return super().max_temp
+        return self._max_temp if self._max_temp is not None else super().max_temp
 
     async def _async_sensor_changed(self, entity_id, old_state, new_state):
         """Handle temperature changes."""
@@ -422,24 +414,16 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
             if not self._active or self._hvac_mode == HVAC_MODE_OFF:
                 return
 
-            if not force and time is None:
-                # If the `force` argument is True, we
-                # ignore `min_cycle_duration`.
-                # If the `time` argument is not none, we were invoked for
-                # keep-alive purposes, and `min_cycle_duration` is irrelevant.
-                if self.min_cycle_duration:
-                    if self._is_device_active:
-                        current_state = STATE_ON
-                    else:
-                        current_state = HVAC_MODE_OFF
-                    long_enough = condition.state(
-                        self.hass,
-                        self.heater_entity_id,
-                        current_state,
-                        self.min_cycle_duration,
-                    )
-                    if not long_enough:
-                        return
+            if not force and time is None and self.min_cycle_duration:
+                current_state = STATE_ON if self._is_device_active else HVAC_MODE_OFF
+                long_enough = condition.state(
+                    self.hass,
+                    self.heater_entity_id,
+                    current_state,
+                    self.min_cycle_duration,
+                )
+                if not long_enough:
+                    return
 
             too_cold = self._target_temp >= self._cur_temp + self._cold_tolerance
             too_hot = self._cur_temp >= self._target_temp + self._hot_tolerance
@@ -454,16 +438,15 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
                         self.heater_entity_id,
                     )
                     await self._async_heater_turn_on()
-            else:
-                if (self.ac_mode and too_hot) or (not self.ac_mode and too_cold):
-                    _LOGGER.info("Turning on heater %s", self.heater_entity_id)
-                    await self._async_heater_turn_on()
-                elif time is not None:
-                    # The time argument is passed only in keep-alive case
-                    _LOGGER.info(
-                        "Keep-alive - Turning off heater %s", self.heater_entity_id
-                    )
-                    await self._async_heater_turn_off()
+            elif (self.ac_mode and too_hot) or (not self.ac_mode and too_cold):
+                _LOGGER.info("Turning on heater %s", self.heater_entity_id)
+                await self._async_heater_turn_on()
+            elif time is not None:
+                # The time argument is passed only in keep-alive case
+                _LOGGER.info(
+                    "Keep-alive - Turning off heater %s", self.heater_entity_id
+                )
+                await self._async_heater_turn_off()
 
     @property
     def _is_device_active(self):

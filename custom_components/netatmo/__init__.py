@@ -68,11 +68,12 @@ PLATFORMS = ["camera", "climate", "light", "sensor"]
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Netatmo component."""
-    hass.data[DOMAIN] = {}
-    hass.data[DOMAIN][DATA_PERSONS] = {}
-    hass.data[DOMAIN][DATA_DEVICE_IDS] = {}
-    hass.data[DOMAIN][DATA_SCHEDULES] = {}
-    hass.data[DOMAIN][DATA_HOMES] = {}
+    hass.data[DOMAIN] = {
+        DATA_PERSONS: {},
+        DATA_DEVICE_IDS: {},
+        DATA_SCHEDULES: {},
+        DATA_HOMES: {},
+    }
 
     if DOMAIN not in config:
         return True
