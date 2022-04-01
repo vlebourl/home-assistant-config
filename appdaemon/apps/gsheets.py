@@ -13,50 +13,43 @@ class GSheets(hass.Hass):
      self.run_every(self.publish_to_gs,runtime,self.args["RunEverySec"]) 
 
   def publish_to_gs(self,kwargs):
-     scope = ['https://spreadsheets.google.com/feeds',
-              'https://www.googleapis.com/auth/drive']
-     creds = ServiceAccountCredentials.from_json_keyfile_name('/config/google_credentials.json', scope)
-     client = gspread.authorize(creds)
-     fmt = '%Y-%m-%d %H:%M:%S'
-     d = datetime.datetime.now()
-     d_string = d.strftime(fmt)
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('/config/google_credentials.json', scope)
+    client = gspread.authorize(creds)
+    fmt = '%Y-%m-%d %H:%M:%S'
+    d = datetime.datetime.now()
+    d_string = d.strftime(fmt)
 
 
-     spreadSheet = client.open_by_url("https://docs.google.com/spreadsheets/d/12s5Wf-88wwiM7tnnn57qFgDjdWqnCCaN3kythySw4jM/edit?usp=sharing") #client.open(self.args["SpreadSheetName"])
-     uploadJson = self.args["upload"] #json string
-     
-     shelveDevice_db = shelve.open(self.args["shelveFile"])
-     
-     for option in uploadJson:
-          if(self.__checkSheetsCreated(spreadSheet ,option["sheetName"]) == False):
-               sheet = spreadSheet.add_worksheet(title=option["sheetName"], rows="100", cols="10")
-          else:
-               sheet = spreadSheet.worksheet(option["sheetName"])
-          entityState = self.get_state(option["entity"])
-          nameInSheet = option["nameInSheet"]
-          nameInShelve = option["sheetName"]+'_'+nameInSheet
-          
-          if nameInShelve in shelveDevice_db:
-               old_data = 0#shelveDevice_db[nameInShelve]
-          else:
-               old_data = 0
-               
-               
-          if (old_data != entityState):
-               row = [d_string,nameInSheet,entityState]
-               index = 2
-               sheet.insert_row(row, index, value_input_option='USER_ENTERED')
-               shelveDevice_db[nameInShelve] = entityState
-          
-     shelveDevice_db.close()
+    spreadSheet = client.open_by_url("https://docs.google.com/spreadsheets/d/12s5Wf-88wwiM7tnnn57qFgDjdWqnCCaN3kythySw4jM/edit?usp=sharing") #client.open(self.args["SpreadSheetName"])
+    uploadJson = self.args["upload"] #json string
+
+    shelveDevice_db = shelve.open(self.args["shelveFile"])
+
+    old_data = 0#shelveDevice_db[nameInShelve]
+    for option in uploadJson:
+      sheet = (spreadSheet.add_worksheet(
+          title=option["sheetName"], rows="100", cols="10") if
+               (self.__checkSheetsCreated(spreadSheet,
+                                          option["sheetName"]) == False) else
+               spreadSheet.worksheet(option["sheetName"]))
+      entityState = self.get_state(option["entity"])
+      nameInSheet = option["nameInSheet"]
+      nameInShelve = option["sheetName"]+'_'+nameInSheet
+
+      if (old_data != entityState):
+           row = [d_string,nameInSheet,entityState]
+           index = 2
+           sheet.insert_row(row, index, value_input_option='USER_ENTERED')
+           shelveDevice_db[nameInShelve] = entityState
+
+    shelveDevice_db.close()
 
      
 
   def __checkSheetsCreated(self,spreadSheet,sheetName):
-     #output a list of all the sheets in a document
-     listWorkSheets = spreadSheet.worksheets()
-     
-     for workSheet in listWorkSheets:
-          if(sheetName == workSheet.title):
-               return True
-     return False
+    #output a list of all the sheets in a document
+    listWorkSheets = spreadSheet.worksheets()
+
+    return any((sheetName == workSheet.title) for workSheet in listWorkSheets)

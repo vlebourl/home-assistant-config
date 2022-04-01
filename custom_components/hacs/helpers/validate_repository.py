@@ -70,8 +70,7 @@ async def common_update_data(repository, ignore_issues=False):
     if repository.data.releases:
         for release in releases:
             if release.tag_name == repository.ref:
-                assets = release.assets
-                if assets:
+                if assets := release.assets:
                     downloads = next(iter(assets)).attributes.get("download_count")
                     repository.data.downloads = downloads
 
@@ -83,9 +82,7 @@ async def common_update_data(repository, ignore_issues=False):
         repository.tree = await get_tree(repository.repository_object, repository.ref)
         if not repository.tree:
             raise HacsException("No files in tree")
-        repository.treefiles = []
-        for treefile in repository.tree:
-            repository.treefiles.append(treefile.full_path)
+        repository.treefiles = [treefile.full_path for treefile in repository.tree]
     except (AIOGitHubAPIException, HacsException) as exception:
         if not hacs.system.status.startup:
             repository.logger.error(exception)

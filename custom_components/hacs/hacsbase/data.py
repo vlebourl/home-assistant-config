@@ -42,7 +42,7 @@ class HacsData:
                 repository_manifest = repository.repository_manifest.manifest
             else:
                 repository_manifest = None
-            data = {
+            if data := {
                 "authors": repository.data.authors,
                 "category": repository.data.category,
                 "description": repository.data.description,
@@ -63,8 +63,7 @@ class HacsData:
                 "stars": repository.data.stargazers_count,
                 "topics": repository.data.topics,
                 "version_installed": repository.data.installed_version,
-            }
-            if data:
+            }:
                 if repository.data.installed and (
                     repository.data.installed_commit
                     or repository.data.installed_version
@@ -150,7 +149,7 @@ def restore_repository_data(
     repository.releases.last_release_object_downloads = repository_data.get("downloads")
     repository.data.last_updated = repository_data.get("last_updated")
     repository.data.topics = repository_data.get("topics", [])
-    repository.data.domain = repository_data.get("domain", None)
+    repository.data.domain = repository_data.get("domain")
     repository.data.stargazers_count = repository_data.get("stars", 0)
     repository.releases.last_release = repository_data.get("last_release_tag")
     repository.data.hide = repository_data.get("hide", False)

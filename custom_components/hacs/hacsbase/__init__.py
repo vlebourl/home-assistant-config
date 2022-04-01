@@ -189,13 +189,10 @@ class Hacs:
 
     async def handle_critical_repositories_startup(self):
         """Handled critical repositories during startup."""
-        alert = False
         critical = await async_load_from_store(self.hass, "critical")
         if not critical:
             return
-        for repo in critical:
-            if not repo["acknowledged"]:
-                alert = True
+        alert = any(not repo["acknowledged"] for repo in critical)
         if alert:
             self.logger.critical("URGENT!: Check the HACS panel!")
             self.hass.components.persistent_notification.create(
@@ -204,8 +201,6 @@ class Hacs:
 
     async def handle_critical_repositories(self):
         """Handled critical repositories during runtime."""
-        # Get critical repositories
-        instored = []
         critical = []
         was_installed = False
 
@@ -221,9 +216,7 @@ class Hacs:
 
         stored_critical = await async_load_from_store(self.hass, "critical")
 
-        for stored in stored_critical or []:
-            instored.append(stored["repository"])
-
+        instored = [stored["repository"] for stored in stored_critical or []]
         stored_critical = []
 
         for repository in critical:
@@ -237,16 +230,19 @@ class Hacs:
                 "link": repository["link"],
                 "acknowledged": True,
             }
-            if repository["repository"] not in instored:
-                if repo is not None and repo.installed:
-                    self.logger.critical(
-                        f"Removing repository {repository['repository']}, it is marked as critical"
-                    )
-                    was_installed = True
-                    stored["acknowledged"] = False
-                    # Uninstall from HACS
-                    repo.remove()
-                    await repo.uninstall()
+            if (
+                repository["repository"] not in instored
+                and repo is not None
+                and repo.installed
+            ):
+                self.logger.critical(
+                    f"Removing repository {repository['repository']}, it is marked as critical"
+                )
+                was_installed = True
+                stored["acknowledged"] = False
+                # Uninstall from HACS
+                repo.remove()
+                await repo.uninstall()
             stored_critical.append(stored)
             removed_repo.update_data(stored)
 
@@ -327,10 +323,15 @@ class Hacs:
             if repository is not None:
                 if repository.data.installed and removed.removal_type != "critical":
                     self.logger.warning(
-                        f"You have {repository.data.full_name} installed with HACS "
-                        + f"this repository has been removed, please consider removing it. "
-                        + f"Removal reason ({removed.removal_type})"
+                        (
+                            (
+                                f"You have {repository.data.full_name} installed with HACS "
+                                + "this repository has been removed, please consider removing it. "
+                            )
+                            + f"Removal reason ({removed.removal_type})"
+                        )
                     )
+
                 else:
                     need_to_save = True
                     repository.remove()

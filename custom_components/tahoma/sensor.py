@@ -35,13 +35,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the TaHoma sensors from a config entry."""
 
     data = hass.data[DOMAIN][entry.entry_id]
-
-    entities = []
     controller = data.get("controller")
 
-    for device in data.get("devices"):
-        if TAHOMA_TYPES[device.uiclass] == "sensor":
-            entities.append(TahomaSensor(device, controller))
+    entities = [
+        TahomaSensor(device, controller)
+        for device in data.get("devices")
+        if TAHOMA_TYPES[device.uiclass] == "sensor"
+    ]
 
     async_add_entities(entities)
 

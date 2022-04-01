@@ -75,10 +75,10 @@ class FlowSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the device state attributes."""
-        _attributs = {}
-        for key, value in self._attributs["attr"].items():
-            _attributs[key] = self.coordinator.data["dsl_status"].get(value)
-        return _attributs
+        return {
+            key: self.coordinator.data["dsl_status"].get(value)
+            for key, value in self._attributs["attr"].items()
+        }
 
     @property
     def should_poll(self):

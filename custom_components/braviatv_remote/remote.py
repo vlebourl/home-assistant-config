@@ -188,13 +188,12 @@ class HTTPTransport(object):
             'SOAPACTION': '"urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"',
             'X-Auth-PSK': self._psk,
         }
-        output = self._session.post(
+        return self._session.post(
             url='http://{0}/sony/IRCC'.format(self._ip),
             data=msg,
             headers=headers,
             timeout=5,
         ).text
-        return output
 
     def disconnect(self):
         self._session = None

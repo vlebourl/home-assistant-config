@@ -1,4 +1,5 @@
 """Backup."""
+
 import os
 import shutil
 import tempfile
@@ -6,7 +7,7 @@ from time import sleep
 
 from integrationhelper import Logger
 
-BACKUP_PATH = tempfile.gettempdir() + "/hacs_backup/"
+BACKUP_PATH = f'{tempfile.gettempdir()}/hacs_backup/'
 
 
 class Backup:
@@ -80,7 +81,8 @@ class BackupNetDaemon:
         self.repository = repository
         self.logger = Logger("hacs.backup")
         self.backup_path = (
-            tempfile.gettempdir() + "/hacs_persistent_netdaemon/" + repository.data.name
+            f'{tempfile.gettempdir()}/hacs_persistent_netdaemon/'
+            + repository.data.name
         )
 
     def create(self):

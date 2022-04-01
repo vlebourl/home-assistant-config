@@ -85,7 +85,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     _LOGGER.info("setup_platform called")
     import spotipy.oauth2
 
-    callback_url = '{}{}'.format(hass.config.api.base_url, AUTH_CALLBACK_PATH)
+    callback_url = f'{hass.config.api.base_url}{AUTH_CALLBACK_PATH}'
     cache = config.get(CONF_CACHE_PATH, hass.config.path(DEFAULT_CACHE_PATH))
     oauth = spotipy.oauth2.SpotifyOAuth(
         config.get(CONF_CLIENT_ID), config.get(CONF_CLIENT_SECRET),
@@ -158,9 +158,10 @@ class SpotifyPlaylistSensor(Entity):
         import spotipy
         token_refreshed = False
         _LOGGER.info("about to call need_token and self._oauth.is_token_expired")
-        need_token = (self._token_info is None or
-                      self._oauth.is_token_expired(self._token_info))
-        if need_token:
+        if need_token := (
+            self._token_info is None
+            or self._oauth.is_token_expired(self._token_info)
+        ):
             new_token = \
                 self._oauth.refresh_access_token(
                     self._token_info['refresh_token'])
@@ -191,7 +192,7 @@ class SpotifyPlaylistSensor(Entity):
         playlists = self._spotify.current_user_playlists(limit=self._number_of_playlists,
                                                 offset=self._offset)
         self._state = self._number_of_playlists
-        
+
         _LOGGER.info("clearing existing data in sensor")
         self.hass.data[self._name] = {}
 
@@ -204,11 +205,12 @@ class SpotifyPlaylistSensor(Entity):
                 image = ''
             uri = playlist['uri']
             id = i
-            self.hass.data[self._name][name] = {}
-            self.hass.data[self._name][name]['name'] = name
-            self.hass.data[self._name][name]['image'] = image
-            self.hass.data[self._name][name]['uri'] = uri
-            self.hass.data[self._name][name]['id'] = id
+            self.hass.data[self._name][name] = {
+                'name': name,
+                'image': image,
+                'uri': uri,
+                'id': id,
+            }
 
     @property
     def name(self):

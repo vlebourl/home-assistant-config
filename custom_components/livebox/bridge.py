@@ -40,19 +40,19 @@ class BridgeData:
         try:
             await self._hass.async_add_executor_job(self.api.connect)
         except AuthorizationError as e:
-            _LOGGER.error("Error Authorization ({}).".format(str(e)))
+            _LOGGER.error(f"Error Authorization ({str(e)}).")
             raise AuthorizationError
         except NotOpenError as e:
-            _LOGGER.error("Error Not open ({}).".format(str(e)))
+            _LOGGER.error(f"Error Not open ({str(e)}).")
             raise NotOpenError
         except LiveboxException as e:
-            _LOGGER.error("Error Unknown ({}).".format(str(e)))
+            _LOGGER.error(f"Error Unknown ({str(e)}).")
             raise LiveboxException
 
         try:
             await self._hass.async_add_executor_job(self.api.get_permissions)
         except InsufficientPermissionsError as e:
-            _LOGGER.error("Error Insufficient Permissions ({}).".format(str(e)))
+            _LOGGER.error(f"Error Insufficient Permissions ({str(e)}).")
             raise InsufficientPermissionsError
 
     async def async_make_request(self, call_api, **kwargs):
@@ -133,7 +133,7 @@ class BridgeData:
         try:
             await self._hass.async_add_executor_job(self.api.system.reboot)
         except LiveboxException as e:
-            _LOGGER.error("Error to restart ({})".format(str(e)))
+            _LOGGER.error(f"Error to restart ({str(e)})")
 
 
 class LiveboxException(exceptions.HomeAssistantError):

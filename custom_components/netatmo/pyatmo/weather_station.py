@@ -8,8 +8,8 @@ from .helpers import _BASE_URL, fix_id, today_stamps
 
 LOG = logging.getLogger(__name__)
 
-_GETMEASURE_REQ = _BASE_URL + "api/getmeasure"
-_GETSTATIONDATA_REQ = _BASE_URL + "api/getstationsdata"
+_GETMEASURE_REQ = f'{_BASE_URL}api/getmeasure'
+_GETSTATIONDATA_REQ = f'{_BASE_URL}api/getstationsdata'
 
 
 class WeatherStationData:
@@ -62,13 +62,12 @@ class WeatherStationData:
 
     def get_module_names(self, station_id: str) -> List:
         """Return a list of all module names for a given station."""
-        res = set()
         station_data = self.get_station(station_id)
 
         if not station_data:
             return []
 
-        res.add(station_data.get("module_name", station_data.get("type")))
+        res = {station_data.get("module_name", station_data.get("type"))}
         for module in station_data["modules"]:
             # Add module name, use module type if no name is available
             res.add(module.get("module_name", module.get("type")))
@@ -201,22 +200,20 @@ class WeatherStationData:
     def check_not_updated(self, station_id: str, delay: int = 3600) -> List:
         """Check if a given station has not been updated."""
         res = self.get_last_data(station_id)
-        ret = []
-        for key, value in res.items():
-            if time.time() - value["When"] > delay:
-                ret.append(key)
-
-        return ret
+        return [
+            key
+            for key, value in res.items()
+            if time.time() - value["When"] > delay
+        ]
 
     def check_updated(self, station_id: str, delay: int = 3600) -> List:
         """Check if a given station has been updated."""
         res = self.get_last_data(station_id)
-        ret = []
-        for key, value in res.items():
-            if time.time() - value["When"] < delay:
-                ret.append(key)
-
-        return ret
+        return [
+            key
+            for key, value in res.items()
+            if time.time() - value["When"] < delay
+        ]
 
     def get_data(
         self,
@@ -274,16 +271,14 @@ class WeatherStationData:
         elif frame == "day":
             start, end = today_stamps()
 
-        resp = self.get_data(
+        if resp := self.get_data(
             device_id=station_id,
             module_id=module_id,
             scale="max",
             module_type="Temperature,Humidity",
             date_begin=start,
             date_end=end,
-        )
-
-        if resp:
+        ):
             temperature = [temp[0] for temp in resp["body"].values()]
             humidity = [hum[1] for hum in resp["body"].values()]
             return min(temperature), max(temperature), min(humidity), max(humidity)

@@ -67,11 +67,10 @@ class LiveboxDeviceScannerEntity(ScannerEntity):
     def device_state_attributes(self):
         """Return the device state attributes."""
         _device = self.coordinator.data["devices"].get(self.key)
-        _attributs = {
+        return {
             "ip_address": _device.get("IPAddress"),
             "first_seen": _device.get("FirstSeen"),
         }
-        return _attributs
 
     @property
     def available(self) -> bool:

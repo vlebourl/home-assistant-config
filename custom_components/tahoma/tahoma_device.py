@@ -37,9 +37,7 @@ class TahomaDevice(Entity):
         """Return True if entity is available."""
 
         if CORE_STATUS_STATE in self.tahoma_device.active_states:
-            return bool(
-                self.tahoma_device.active_states.get(CORE_STATUS_STATE) == "available"
-            )
+            return self.tahoma_device.active_states.get(CORE_STATUS_STATE) == "available"
 
         if CORE_SENSOR_DEFECT_STATE in self.tahoma_device.active_states:
             return (
@@ -58,10 +56,7 @@ class TahomaDevice(Entity):
     @property
     def assumed_state(self):
         """Return True if unable to access real state of the entity."""
-        if self.tahoma_device.type.startswith("rts"):
-            return True
-
-        return False
+        return bool(self.tahoma_device.type.startswith("rts"))
 
     @property
     def device_state_attributes(self):

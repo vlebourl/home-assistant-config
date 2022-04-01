@@ -137,7 +137,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
         def get_room_ids(home_id):
             """Return all module available on the API as a list."""
-            return [room for room in home_data.rooms[home_id]]
+            return list(home_data.rooms[home_id])
 
         for home_id in home_ids:
             _LOGGER.debug("Setting up home %s ...", home_id)
@@ -440,13 +440,11 @@ class NetatmoThermostat(ClimateEntity, NetatmoBase):
     def async_update_callback(self):
         """Update the entity's state."""
         try:
-            roomstatus = {}
-
             self._home_status = self.data_handler.data[self._home_status_class]
             self._room_status = self._home_status.rooms[self._room_id]
             self._room_data = self._data.rooms[self._home_id][self._room_id]
 
-            roomstatus["roomID"] = self._room_status["id"]
+            roomstatus = {"roomID": self._room_status["id"]}
             if self._room_status["reachable"]:
                 roomstatus["roomname"] = self._room_data["name"]
                 roomstatus["target_temperature"] = self._room_status[
@@ -494,9 +492,10 @@ class NetatmoThermostat(ClimateEntity, NetatmoBase):
 
                 if batterylevel:
                     batterypct = interpolate(batterylevel, roomstatus["module_type"])
-                    if roomstatus.get("battery_level") is None:
-                        roomstatus["battery_level"] = batterypct
-                    elif batterypct < roomstatus["battery_level"]:
+                    if (
+                        roomstatus.get("battery_level") is None
+                        or batterypct < roomstatus["battery_level"]
+                    ):
                         roomstatus["battery_level"] = batterypct
         except KeyError as err:
             _LOGGER.error("Update of room %s failed. Error: %s", self._room_id, err)

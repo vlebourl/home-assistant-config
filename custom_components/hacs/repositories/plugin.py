@@ -67,9 +67,7 @@ class HacsPlugin(HacsRepository):
         """Get package content."""
         try:
             package = await self.repository_object.get_contents("package.json")
-            package = json.loads(package.content)
-
-            if package:
+            if package := json.loads(package.content):
                 self.data.authors = package["author"]
         except Exception:  # pylint: disable=broad-except
             pass

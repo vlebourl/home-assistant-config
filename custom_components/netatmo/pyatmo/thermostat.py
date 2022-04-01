@@ -7,12 +7,12 @@ from .helpers import _BASE_URL
 
 LOG = logging.getLogger(__name__)
 
-_GETHOMESDATA_REQ = _BASE_URL + "api/homesdata"
-_GETHOMESTATUS_REQ = _BASE_URL + "api/homestatus"
-_SETTHERMMODE_REQ = _BASE_URL + "api/setthermmode"
-_SETROOMTHERMPOINT_REQ = _BASE_URL + "api/setroomthermpoint"
-_GETROOMMEASURE_REQ = _BASE_URL + "api/getroommeasure"
-_SWITCHHOMESCHEDULE_REQ = _BASE_URL + "api/switchhomeschedule"
+_GETHOMESDATA_REQ = f'{_BASE_URL}api/homesdata'
+_GETHOMESTATUS_REQ = f'{_BASE_URL}api/homestatus'
+_SETTHERMMODE_REQ = f'{_BASE_URL}api/setthermmode'
+_SETROOMTHERMPOINT_REQ = f'{_BASE_URL}api/setroomthermpoint'
+_GETROOMMEASURE_REQ = f'{_BASE_URL}api/getroommeasure'
+_SWITCHHOMESCHEDULE_REQ = f'{_BASE_URL}api/switchhomeschedule'
 
 
 class HomeData:
@@ -96,11 +96,14 @@ class HomeData:
 
     def _get_selected_schedule(self, home_id: str) -> Dict:
         """Get the selected schedule for a given home ID."""
-        for value in self.schedules.get(home_id, {}).values():
-            if "selected" in value.keys():
-                return value
-
-        return {}
+        return next(
+            (
+                value
+                for value in self.schedules.get(home_id, {}).values()
+                if "selected" in value.keys()
+            ),
+            {},
+        )
 
     def switch_home_schedule(self, home_id: str, schedule_id: str) -> Any:
         """Switch the schedule for a give home ID."""
@@ -109,7 +112,7 @@ class HomeData:
             for s in self.schedules.get(home_id, {})
         }
         if schedule_id not in list(schedules.values()):
-            raise NoSchedule("%s is not a valid schedule id" % schedule_id)
+            raise NoSchedule(f"{schedule_id} is not a valid schedule id")
 
         post_params = {
             "home_id": home_id,
@@ -128,11 +131,14 @@ class HomeData:
 
     def get_thermostat_type(self, home_id: str, room_id: str) -> Optional[str]:
         """Return the thermostat type of the room."""
-        for module in self.modules.get(home_id, {}).values():
-            if module.get("room_id") == room_id:
-                return module.get("type")
-
-        return None
+        return next(
+            (
+                module.get("type")
+                for module in self.modules.get(home_id, {}).values()
+                if module.get("room_id") == room_id
+            ),
+            None,
+        )
 
 
 class HomeStatus:
@@ -188,7 +194,7 @@ class HomeStatus:
             if value["id"] == room_id:
                 return self.rooms[key]
 
-        raise InvalidRoom("No room with ID %s" % room_id)
+        raise InvalidRoom(f"No room with ID {room_id}")
 
     def get_thermostat(self, room_id: str) -> Dict:
         """Return thermostat data for a given room id."""
@@ -196,21 +202,21 @@ class HomeStatus:
             if value["id"] == room_id:
                 return self.thermostats[key]
 
-        raise InvalidRoom("No room with ID %s" % room_id)
+        raise InvalidRoom(f"No room with ID {room_id}")
 
     def get_relay(self, room_id: str) -> Dict:
         for key, value in self.relays.items():
             if value["id"] == room_id:
                 return self.relays[key]
 
-        raise InvalidRoom("No room with ID %s" % room_id)
+        raise InvalidRoom(f"No room with ID {room_id}")
 
     def get_valve(self, room_id: str) -> Dict:
         for key, value in self.valves.items():
             if value["id"] == room_id:
                 return self.valves[key]
 
-        raise InvalidRoom("No room with ID %s" % room_id)
+        raise InvalidRoom(f"No room with ID {room_id}")
 
     def set_point(self, room_id: str) -> Optional[float]:
         """Return the setpoint of a given room."""
@@ -234,7 +240,7 @@ class HomeStatus:
             "home_id": self.home_id,
             "mode": mode,
         }
-        if end_time is not None and mode in ("hg", "away"):
+        if end_time is not None and mode in {"hg", "away"}:
             post_params["endtime"] = str(end_time)
 
         if schedule_id is not None and mode == "schedule":
